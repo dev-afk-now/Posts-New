@@ -1,32 +1,35 @@
 //
-//  FeedViewController.swift
+//  HomeViewController.swift
 //  Posts.demo
 //
-//  Created by New Mac on 08.10.2021.
+//  Created by devmac on 08.12.2021.
 //
 
 import UIKit
 
-protocol FeedViewControllerProtocol: AnyObject {
-    func updateView()
-    func showNoInternetConnectionError()
-    func showUnreachableServiceError()
-    func setupNoResultsViewIfNeeded(isResultsEmpty: Bool)
-}
-
-class FeedViewController: UIViewController {
+class HomeViewController: UIViewController {
     
     var presenter: FeedPresenter!
     
     // MARK: - Outlets
     
-    @IBOutlet private weak var searchBar: UISearchBar! {
-        didSet {
-            searchBar.delegate = self
-        }
-    }
+    @IBOutlet private weak var searchBar: UISearchBar!
     
-    @IBOutlet private weak var tableView: UITableView!
+    private lazy var collectionView: UICollectionView = {
+        
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.itemSize = CGSize(width: view.bounds.width, height: 300)
+//        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
+//        UIScreen.main.bounds.width
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        flowLayout.minimumLineSpacing = 1
+        // TODO: - Flow layout must be configured here -
+        let collection = UICollectionView(frame: self.view.bounds,
+                                          collectionViewLayout: flowLayout)
+        // TODO: - UICollectionView must be configured here -
+        return collection
+    }()
     @IBOutlet private weak var progressView: UIActivityIndicatorView!
     @IBOutlet private weak var alertView: UIView!
     @IBOutlet private weak var failDescriptionLabel: UILabel!
@@ -36,6 +39,7 @@ class FeedViewController: UIViewController {
         presenter.viewDidLoad()
         progressView.startAnimating()
     }
+    
     private lazy var titleLabel: UILabel = {
         $0.textColor = .white
         $0.font = UIFont(name: "Helvetica Neue", size: 20)
@@ -63,12 +67,13 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+       // searchBar.delegate = self
         setupNavigationBar()
-        configureTableView()
+        configureCollectionView()
         presenter.viewDidLoad()
     }
     
-    private func setupTableViewBackground() -> UIView? {
+    private func setupCollectionViewBackground() -> UIView? {
         let noResultImageView = UIImageView()
         noResultImageView.translatesAutoresizingMaskIntoConstraints = false
         guard let image = UIImage(named: "noItemsFound") else {
@@ -78,19 +83,27 @@ class FeedViewController: UIViewController {
         noResultImageView.frame.size = CGSize(width: (view.frame.size.width)/2,
                                               height: (view.frame.size.width / aspectRatio)/2)
         noResultImageView.image = image
-        let containerNoResultView = UIView(frame: tableView.bounds)
+        let containerNoResultView = UIView(frame: collectionView.bounds)
         noResultImageView.center = containerNoResultView.center
         containerNoResultView.translatesAutoresizingMaskIntoConstraints = false
         containerNoResultView.addSubview(noResultImageView)
         return containerNoResultView
     }
     
-    private func configureTableView() {
-        tableView.backgroundColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
-        tableView.delegate = self
-        tableView.dataSource = self
-        tableView.register(UINib(nibName: "TableViewCell", bundle: .main), forCellReuseIdentifier: "TableCell")
-        tableView.keyboardDismissMode = .interactive
+    private func configureCollectionView() {
+        view.addSubview(collectionView)
+        collectionView.backgroundColor = .lightGray
+        collectionView.delegate = self
+        collectionView.dataSource = self
+        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionCell")
+        collectionView.keyboardDismissMode = .interactive
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
     }
     
     private func setupNavigationBar() {
@@ -103,41 +116,33 @@ class FeedViewController: UIViewController {
     }
 }
 
-// MARK: - TableView extensions
+// MARK: - CollectionView extensions
 
-extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         presenter.postsCount
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as? CollectionViewCell else { return UICollectionViewCell() }
         cell.delegate = self
         if let postState = presenter.getPostForCell(by: indexPath.row) {
             cell.configure(postState: postState)
         }
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UITableView.automaticDimension
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        presenter.showDetail(by: indexPath.row)
-    }
 }
 
 // MARK: - FeedViewController extensions
 
-extension FeedViewController: TableViewCellDelegate {
-    func compressDescriptionLabel(_ cell: TableViewCell) {
-        guard let indexPath = tableView.indexPath(for: cell) else { return }
+extension HomeViewController: CollectionViewCellDelegate {
+    func compressDescriptionLabel(_ cell: CollectionViewCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
         presenter.switchPreviewState(by: indexPath.row)
     }
 }
 
-extension FeedViewController: FeedViewControllerProtocol {
+extension HomeViewController: FeedViewControllerProtocol {
     func showNoInternetConnectionError() {
         setUpViewsForError(text: "No Internet Connection", alertBackground: .lightGray)
     }
@@ -157,20 +162,20 @@ extension FeedViewController: FeedViewControllerProtocol {
     
     func updateView() {
         DispatchQueue.main.async { [unowned self] in
-            self.alertView.isHidden = true
-            self.tableView.reloadData()
-            self.progressView.stopAnimating()
+            // self.alertView.isHidden = true
+            self.collectionView.reloadData()
+            //self.progressView.stopAnimating()
         }
     }
     
     func setupNoResultsViewIfNeeded(isResultsEmpty: Bool) {
         DispatchQueue.main.async { [weak self] in
-            self?.tableView.backgroundView = isResultsEmpty ? self?.setupTableViewBackground() : nil
+            self?.collectionView.backgroundView = isResultsEmpty ? self?.setupCollectionViewBackground() : nil
         }
     }
 }
 
-extension FeedViewController: UISearchBarDelegate {
+extension HomeViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         startSearching(with: searchText)
     }
@@ -182,5 +187,13 @@ extension FeedViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
           view.endEditing(true)
+    }
+}
+
+extension UICollectionView {
+    var widestCellWidth: CGFloat {
+        let layout = self.collectionViewLayout
+        let insets = contentInset.left + contentInset.right
+        return bounds.width - insets
     }
 }
