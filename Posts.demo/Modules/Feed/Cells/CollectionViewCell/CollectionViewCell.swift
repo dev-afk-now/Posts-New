@@ -11,9 +11,9 @@ protocol CollectionViewCellDelegate: AnyObject {
     func compressDescriptionLabel(_ cell: CollectionViewCell)
 }
 
-class CollectionViewCell: UICollectionViewCell {
+class CollectionViewCell: FullWidthCollectionViewCell {
     
-    private let horizontalInset: CGFloat = 32
+    private let horizontalSpacing: CGFloat = 32
     private let verticalInset: CGFloat = 16
     
     private var buttonTitleIfExpanded = "Скрыть"
@@ -95,7 +95,7 @@ class CollectionViewCell: UICollectionViewCell {
     }
     
     private func setupViews() {
-        contentView.backgroundColor = .blue
+        contentView.backgroundColor = .white
         contentView.addSubview(headlineLabel)
         contentView.addSubview(descriptionLabel)
         contentView.addSubview(showFullPreviewButton)
@@ -103,14 +103,14 @@ class CollectionViewCell: UICollectionViewCell {
     
     private func setupCellConstraints() {
         NSLayoutConstraint.activate([
-            headlineLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalInset),
-            headlineLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalInset),
+            headlineLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalSpacing),
+            headlineLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalSpacing),
             headlineLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: verticalInset),
             headlineLabel.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -verticalInset),
 
             descriptionLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor, constant: verticalInset),
-            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalInset),
-            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalInset),
+            descriptionLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: horizontalSpacing),
+            descriptionLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -horizontalSpacing),
             descriptionLabel.bottomAnchor.constraint(equalTo: showFullPreviewButton.topAnchor, constant: -verticalInset),
             
             showFullPreviewButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -121,27 +121,28 @@ class CollectionViewCell: UICollectionViewCell {
         ])
     }
     
-    override func systemLayoutSizeFitting(
-        _ targetSize: CGSize,
-        withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
-        verticalFittingPriority: UILayoutPriority) -> CGSize {
-        
-        // Replace the height in the target size to
-        // allow the cell to flexibly compute its height
-        var targetSize = targetSize
-        targetSize.height = CGFloat.greatestFiniteMagnitude
-        
-        // The .required horizontal fitting priority means
-        // the desired cell width (targetSize.width) will be
-        // preserved. However, the vertical fitting priority is
-        // .fittingSizeLevel meaning the cell will find the
-        // height that best fits the content
-        let size = super.systemLayoutSizeFitting(
-            targetSize,
-            withHorizontalFittingPriority: .required,
-            verticalFittingPriority: .fittingSizeLevel
-        )
-        
-        return size
-    }
+//    override func systemLayoutSizeFitting(
+//        _ targetSize: CGSize,
+//        withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,
+//        verticalFittingPriority: UILayoutPriority) -> CGSize {
+//
+//        // Replace the height in the target size to
+//        // allow the cell to flexibly compute its height
+//        var targetSize = targetSize
+//        targetSize.height = CGFloat.greatestFiniteMagnitude
+//
+//        // The .required horizontal fitting priority means
+//        // the desired cell width (targetSize.width) will be
+//        // preserved. However, the vertical fitting priority is
+//        // .fittingSizeLevel meaning the cell will find the
+//        // height that best fits the content
+//        let size = super.systemLayoutSizeFitting(
+//            targetSize,
+//            withHorizontalFittingPriority: .required,
+//            verticalFittingPriority: .fittingSizeLevel
+//        )
+//
+//        return size
+//    }
+    
 }

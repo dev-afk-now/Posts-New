@@ -16,18 +16,29 @@ class HomeViewController: UIViewController {
     @IBOutlet private weak var searchBar: UISearchBar!
     
     private lazy var collectionView: UICollectionView = {
-        
+        let horizontalInset: CGFloat = 16
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
-        flowLayout.itemSize = CGSize(width: view.bounds.width, height: 300)
-//        flowLayout.estimatedItemSize = UICollectionViewFlowLayout.automaticSize
-//        UIScreen.main.bounds.width
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        flowLayout.minimumLineSpacing = 1
+        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: horizontalInset, bottom: 0, right: horizontalInset)
+        let insetsSum = flowLayout.sectionInset.left + flowLayout.sectionInset.right
+        let widthForItem: CGFloat = view.bounds.width - insetsSum
+        flowLayout.estimatedItemSize = CGSize(
+            width: widthForItem,
+            // Make the height a reasonable estimate to
+            // ensure the scroll bar remains smooth
+            height: 200
+        )
+
+        flowLayout.minimumLineSpacing = 15
         // TODO: - Flow layout must be configured here -
         let collection = UICollectionView(frame: self.view.bounds,
                                           collectionViewLayout: flowLayout)
-        // TODO: - UICollectionView must be configured here -
+        collection.backgroundColor = .clear
+        collection.delegate = self
+        collection.dataSource = self
+        collection.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionCell")
+        collection.keyboardDismissMode = .interactive
+        collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
     @IBOutlet private weak var progressView: UIActivityIndicatorView!
@@ -52,13 +63,13 @@ class HomeViewController: UIViewController {
             image: UIImage(named: "component"),
             style: .plain,
             target: self,
-            action: #selector(sortAction)
+            action: #selector(sortButtonTapped)
         )
         button.tintColor = .white
         return button
     }()
     
-    @objc private func sortAction() {
+    @objc private func sortButtonTapped() {
         guard presenter.postsCount > 0 else { return }
         presenter.showFilter()
     }
@@ -67,10 +78,19 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       // searchBar.delegate = self
+        initialSetup()
+    }
+    
+    // MARK: - Private -
+    private func initialSetup() {
+        setupMainView()
         setupNavigationBar()
         configureCollectionView()
         presenter.viewDidLoad()
+    }
+    
+    private func setupMainView() {
+        self.view.backgroundColor = .gray
     }
     
     private func setupCollectionViewBackground() -> UIView? {
@@ -92,12 +112,7 @@ class HomeViewController: UIViewController {
     
     private func configureCollectionView() {
         view.addSubview(collectionView)
-        collectionView.backgroundColor = .lightGray
-        collectionView.delegate = self
-        collectionView.dataSource = self
-        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionCell")
-        collectionView.keyboardDismissMode = .interactive
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: view.topAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
@@ -143,6 +158,13 @@ extension HomeViewController: CollectionViewCellDelegate {
 }
 
 extension HomeViewController: FeedViewControllerProtocol {
+    func updateRowState(at index: Int) {
+        collectionView.performBatchUpdates({
+            collectionView.reloadItems(at: [IndexPath(item: index,
+                                                      section: .zero)])
+        }, completion: nil)
+    }
+    
     func showNoInternetConnectionError() {
         setUpViewsForError(text: "No Internet Connection", alertBackground: .lightGray)
     }
@@ -190,10 +212,3 @@ extension HomeViewController: UISearchBarDelegate {
     }
 }
 
-extension UICollectionView {
-    var widestCellWidth: CGFloat {
-        let layout = self.collectionViewLayout
-        let insets = contentInset.left + contentInset.right
-        return bounds.width - insets
-    }
-}

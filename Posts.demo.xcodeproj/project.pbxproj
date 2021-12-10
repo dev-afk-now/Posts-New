@@ -10,7 +10,7 @@
 		D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FB2760FAC10076C370 /* HomeViewController.swift */; };
 		D54BE3FE2760FAC10076C370 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D54BE3FC2760FAC10076C370 /* HomeViewController.xib */; };
 		D54BE4012760FBF50076C370 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FF2760FBF50076C370 /* CollectionViewCell.swift */; };
-		D54BE4022760FBF50076C370 /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D54BE4002760FBF50076C370 /* CollectionViewCell.xib */; };
+		D56B4B0C2763463500CEE6A8 /* SelfSizingCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B4B0B2763463500CEE6A8 /* SelfSizingCollectionCell.swift */; };
 		D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57DF0DB275E03F6001DB998 /* PostCellModel.swift */; };
 		D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */; };
 		D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D721E44D27157A45000D887E /* DetailConfigurator.swift */; };
@@ -43,7 +43,7 @@
 		D54BE3FB2760FAC10076C370 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D54BE3FC2760FAC10076C370 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		D54BE3FF2760FBF50076C370 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
-		D54BE4002760FBF50076C370 /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		D56B4B0B2763463500CEE6A8 /* SelfSizingCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizingCollectionCell.swift; sourceTree = "<group>"; };
 		D57DF0DB275E03F6001DB998 /* PostCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellModel.swift; sourceTree = "<group>"; };
 		D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterConfigurator.swift; sourceTree = "<group>"; };
 		D721E44D27157A45000D887E /* DetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailConfigurator.swift; sourceTree = "<group>"; };
@@ -96,7 +96,6 @@
 			isa = PBXGroup;
 			children = (
 				D54BE3FF2760FBF50076C370 /* CollectionViewCell.swift */,
-				D54BE4002760FBF50076C370 /* CollectionViewCell.xib */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -119,6 +118,14 @@
 			path = "Alternative Feed";
 			sourceTree = "<group>";
 		};
+		D56B4B0A2763460900CEE6A8 /* SelfSizingCollectionCell */ = {
+			isa = PBXGroup;
+			children = (
+				D56B4B0B2763463500CEE6A8 /* SelfSizingCollectionCell.swift */,
+			);
+			path = SelfSizingCollectionCell;
+			sourceTree = "<group>";
+		};
 		D57DF0DA275E03D1001DB998 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -130,6 +137,7 @@
 		D722F22D27158E5F005D7558 /* Cells */ = {
 			isa = PBXGroup;
 			children = (
+				D56B4B0A2763460900CEE6A8 /* SelfSizingCollectionCell */,
 				D54BE4042760FC150076C370 /* TableViewCell */,
 				D54BE4032760FC040076C370 /* CollectionViewCell */,
 			);
@@ -325,7 +333,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D54BE4022760FBF50076C370 /* CollectionViewCell.xib in Resources */,
 				D7651EB227102B17007374FE /* LaunchScreen.storyboard in Resources */,
 				D72A1F8B271456F10016FB27 /* DetailViewController.xib in Resources */,
 				D72A1F8327141D3A0016FB27 /* FilterViewController.xib in Resources */,
@@ -362,6 +369,7 @@
 				D54BE4012760FBF50076C370 /* CollectionViewCell.swift in Sources */,
 				D72A1F8A271456F10016FB27 /* DetailViewController.swift in Sources */,
 				D783D1E32720001700E09F06 /* ImageService.swift in Sources */,
+				D56B4B0C2763463500CEE6A8 /* SelfSizingCollectionCell.swift in Sources */,
 				D721E45127157A81000D887E /* DetailPresenter.swift in Sources */,
 				D783D1C9271D9BE100E09F06 /* FilterPresenter.swift in Sources */,
 				D7651ECC271043F5007374FE /* NetworkRequest.swift in Sources */,

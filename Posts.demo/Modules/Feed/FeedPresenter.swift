@@ -115,7 +115,8 @@ extension FeedPresenterImplementation: FeedPresenter {
     
     func switchPreviewState(by index: Int) {
         dataSource[index].isShowingFullPreview.toggle()
-        view?.updateView()
+//        view?.updateView()
+        view?.updateRowState(at: index)
     }
     
     func viewDidLoad() {

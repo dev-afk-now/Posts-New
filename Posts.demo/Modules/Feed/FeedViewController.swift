@@ -12,6 +12,7 @@ protocol FeedViewControllerProtocol: AnyObject {
     func showNoInternetConnectionError()
     func showUnreachableServiceError()
     func setupNoResultsViewIfNeeded(isResultsEmpty: Bool)
+    func updateRowState(at index: Int)
 }
 
 class FeedViewController: UIViewController {
@@ -48,13 +49,13 @@ class FeedViewController: UIViewController {
             image: UIImage(named: "component"),
             style: .plain,
             target: self,
-            action: #selector(sortAction)
+            action: #selector(sortButtonTapped)
         )
         button.tintColor = .white
         return button
     }()
     
-    @objc private func sortAction() {
+    @objc private func sortButtonTapped() {
         guard presenter.postsCount > 0 else { return }
         presenter.showFilter()
     }
@@ -138,6 +139,14 @@ extension FeedViewController: TableViewCellDelegate {
 }
 
 extension FeedViewController: FeedViewControllerProtocol {
+    func updateRowState(at index: Int) {
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [IndexPath(row: index,
+                                            section: .zero)],
+                             with: .automatic)
+        tableView.endUpdates()
+    }
+    
     func showNoInternetConnectionError() {
         setUpViewsForError(text: "No Internet Connection", alertBackground: .lightGray)
     }
@@ -157,9 +166,9 @@ extension FeedViewController: FeedViewControllerProtocol {
     
     func updateView() {
         DispatchQueue.main.async { [unowned self] in
+            self.progressView.stopAnimating()
             self.alertView.isHidden = true
             self.tableView.reloadData()
-            self.progressView.stopAnimating()
         }
     }
     
