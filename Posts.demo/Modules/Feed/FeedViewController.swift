@@ -12,6 +12,7 @@ protocol FeedViewControllerProtocol: AnyObject {
     func showNoInternetConnectionError()
     func showUnreachableServiceError()
     func setupNoResultsViewIfNeeded(isResultsEmpty: Bool)
+    func updateRowState(at index: Int)
 }
 
 class FeedViewController: UIViewController {
@@ -48,13 +49,13 @@ class FeedViewController: UIViewController {
             image: UIImage(named: "component"),
             style: .plain,
             target: self,
-            action: #selector(sortAction)
+            action: #selector(sortButtonTapped)
         )
         button.tintColor = .white
         return button
     }()
     
-    @objc private func sortAction() {
+    @objc private func sortButtonTapped() {
         guard presenter.postsCount > 0 else { return }
         presenter.showFilter()
     }
@@ -89,8 +90,7 @@ class FeedViewController: UIViewController {
         tableView.backgroundColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "TableViewCell", bundle: .main), forCellReuseIdentifier: "Cell")
-        tableView.contentSize = UIScreen.main.bounds.size
+        tableView.register(UINib(nibName: "TableViewCell", bundle: .main), forCellReuseIdentifier: "TableCell")
         tableView.keyboardDismissMode = .interactive
     }
     
@@ -112,12 +112,12 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as? TableViewCell
-        cell?.delegate = self
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
+        cell.delegate = self
         if let postState = presenter.getPostForCell(by: indexPath.row) {
-            cell?.configure(postState: postState)
+            cell.configure(postState: postState)
         }
-        return cell!
+        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -131,14 +131,22 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - FeedViewController extensions
 
-extension FeedViewController: TableViewCellProtocol {
+extension FeedViewController: TableViewCellDelegate {
     func compressDescriptionLabel(_ cell: TableViewCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        presenter.toggle(by: indexPath.row)
+        presenter.switchPreviewState(by: indexPath.row)
     }
 }
 
 extension FeedViewController: FeedViewControllerProtocol {
+    func updateRowState(at index: Int) {
+        tableView.beginUpdates()
+        tableView.reloadRows(at: [IndexPath(row: index,
+                                            section: .zero)],
+                             with: .automatic)
+        tableView.endUpdates()
+    }
+    
     func showNoInternetConnectionError() {
         setUpViewsForError(text: "No Internet Connection", alertBackground: .lightGray)
     }
@@ -158,9 +166,9 @@ extension FeedViewController: FeedViewControllerProtocol {
     
     func updateView() {
         DispatchQueue.main.async { [unowned self] in
+            self.progressView.stopAnimating()
             self.alertView.isHidden = true
             self.tableView.reloadData()
-            self.progressView.stopAnimating()
         }
     }
     

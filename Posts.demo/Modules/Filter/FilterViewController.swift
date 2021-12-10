@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol FilterViewControllerDelegate: class {
+protocol FilterViewControllerDelegate: AnyObject {
     func onSortOptionChanged(_ option: FilterViewController.SortOption)
 }
 

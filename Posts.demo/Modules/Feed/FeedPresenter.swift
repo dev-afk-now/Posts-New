@@ -10,7 +10,7 @@ import Foundation
 protocol FeedPresenter {
     var postsCount: Int { get }
     func getPostForCell(by index: Int) -> PostCellModel?
-    func toggle(by index: Int)
+    func switchPreviewState(by index: Int)
     func viewDidLoad()
     func showDetail(by index: Int)
     func showFilter()
@@ -53,8 +53,6 @@ final class FeedPresenterImplementation {
     }
     private var postsDefaultOrder: [Int] = []
     private var selectedSortOption: FilterViewController.SortOption = .none
-    
-    
     
     // MARK: - Lifecycle -
     
@@ -115,9 +113,10 @@ extension FeedPresenterImplementation: FeedPresenter {
         return dataSource[index]
     }
     
-    func toggle(by index: Int) {
+    func switchPreviewState(by index: Int) {
         dataSource[index].isShowingFullPreview.toggle()
-        view?.updateView()
+//        view?.updateView()
+        view?.updateRowState(at: index)
     }
     
     func viewDidLoad() {
