@@ -85,13 +85,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		D54BE3FA2760FA0F0076C370 /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = "New Group";
-			sourceTree = "<group>";
-		};
 		D54BE4032760FC040076C370 /* CollectionViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -236,7 +229,6 @@
 		D7651EC227102B7B007374FE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
-				D54BE3FA2760FA0F0076C370 /* New Group */,
 				D72A1F9227147AC40016FB27 /* Filter */,
 				D72A1F9127147AB10016FB27 /* Detail */,
 				D7651EC327102B84007374FE /* Feed */,

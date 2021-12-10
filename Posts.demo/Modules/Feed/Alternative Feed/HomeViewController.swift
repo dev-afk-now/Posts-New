@@ -11,26 +11,25 @@ class HomeViewController: UIViewController {
     
     var presenter: FeedPresenter!
     
-    // MARK: - Outlets
-    
-    @IBOutlet private weak var searchBar: UISearchBar!
+    // MARK: - Private variables -
     
     private lazy var collectionView: UICollectionView = {
         let horizontalInset: CGFloat = 16
+        let verticalInset: CGFloat = 16
         let flowLayout = UICollectionViewFlowLayout()
         flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = UIEdgeInsets(top: 0, left: horizontalInset, bottom: 0, right: horizontalInset)
+        flowLayout.sectionInset = UIEdgeInsets(top: verticalInset,
+                                               left: horizontalInset,
+                                               bottom: verticalInset,
+                                               right: horizontalInset)
         let insetsSum = flowLayout.sectionInset.left + flowLayout.sectionInset.right
         let widthForItem: CGFloat = view.bounds.width - insetsSum
         flowLayout.estimatedItemSize = CGSize(
             width: widthForItem,
-            // Make the height a reasonable estimate to
-            // ensure the scroll bar remains smooth
             height: 200
         )
-
+        
         flowLayout.minimumLineSpacing = 15
-        // TODO: - Flow layout must be configured here -
         let collection = UICollectionView(frame: self.view.bounds,
                                           collectionViewLayout: flowLayout)
         collection.backgroundColor = .clear
@@ -41,15 +40,27 @@ class HomeViewController: UIViewController {
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
     }()
+    
+    private lazy var bottomGradientView: UIView = {
+        let view = UIView(frame: CGRect(x: .zero, y: .zero, width: view.bounds.width, height: 100))
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        view.makeGradient(colors: [UIColor.clear,
+                                   UIColor.black.withAlphaComponent(0.016),
+                                   UIColor.black.withAlphaComponent(0.03125),
+                                   UIColor.black.withAlphaComponent(0.0625),
+                                   UIColor.black.withAlphaComponent(0.125),
+                                   UIColor.black.withAlphaComponent(0.25),
+                                   UIColor.black.withAlphaComponent(0.45)
+                                  ])
+        return view
+    }()
+    
+    // TODO: Make Error condition views
+    
     @IBOutlet private weak var progressView: UIActivityIndicatorView!
     @IBOutlet private weak var alertView: UIView!
     @IBOutlet private weak var failDescriptionLabel: UILabel!
-    
-    @IBAction private func updateContentView(_ sender: Any) {
-        alertView.isHidden = true
-        presenter.viewDidLoad()
-        progressView.startAnimating()
-    }
     
     private lazy var titleLabel: UILabel = {
         $0.textColor = .white
@@ -69,28 +80,59 @@ class HomeViewController: UIViewController {
         return button
     }()
     
+    private lazy var searchBar: UISearchBar = {
+        let searchBar = UISearchBar()
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        searchBar.delegate = self
+        searchBar.barTintColor = .clear
+        searchBar.backgroundImage = UIImage()
+        searchBar.searchTextField.backgroundColor = .white
+        searchBar.isTranslucent = true
+        searchBar.placeholder = "Enter title"
+        return searchBar
+    }()
+    
     @objc private func sortButtonTapped() {
         guard presenter.postsCount > 0 else { return }
         presenter.showFilter()
     }
     
-    // MARK: - Lifecycle
+    // MARK: - Lifecycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
     }
     
-    // MARK: - Private -
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+    }
+    
+    // MARK: - Private functions -
+    
     private func initialSetup() {
         setupMainView()
         setupNavigationBar()
+        setupSearchBarConstraints()
         configureCollectionView()
+        layoutGradientView()
         presenter.viewDidLoad()
     }
     
     private func setupMainView() {
         self.view.backgroundColor = .gray
+    }
+    
+    private func layoutGradientView() {
+        view.addSubview(bottomGradientView)
+        
+        NSLayoutConstraint.activate([
+            bottomGradientView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            bottomGradientView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            bottomGradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            bottomGradientView.heightAnchor.constraint(equalToConstant: 100)
+        ])
     }
     
     private func setupCollectionViewBackground() -> UIView? {
@@ -100,8 +142,8 @@ class HomeViewController: UIViewController {
             return nil
         }
         let aspectRatio = image.size.width / image.size.height
-        noResultImageView.frame.size = CGSize(width: (view.frame.size.width)/2,
-                                              height: (view.frame.size.width / aspectRatio)/2)
+        noResultImageView.frame.size = CGSize(width: (view.frame.size.width) / 2,
+                                              height: (view.frame.size.width / aspectRatio) / 2)
         noResultImageView.image = image
         let containerNoResultView = UIView(frame: collectionView.bounds)
         noResultImageView.center = containerNoResultView.center
@@ -114,10 +156,21 @@ class HomeViewController: UIViewController {
         view.addSubview(collectionView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
+        ])
+    }
+    
+    private func setupSearchBarConstraints() {
+        view.addSubview(searchBar)
+        
+        NSLayoutConstraint.activate([
+            searchBar.topAnchor.constraint(equalTo: view.topAnchor),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            searchBar.heightAnchor.constraint(equalToConstant: 50)
         ])
     }
     
@@ -129,9 +182,18 @@ class HomeViewController: UIViewController {
     private func startSearching(with searchText: String) {
         presenter.searchPostForTitle(searchText)
     }
+    
+    private func setUpViewsForError(text: String = "Something went wrong", alertBackground: UIColor = .red) {
+        DispatchQueue.main.async { [unowned self] in
+            progressView.stopAnimating()
+            alertView.backgroundColor = alertBackground
+            failDescriptionLabel.text = text
+            alertView.isHidden = false
+        }
+    }
 }
 
-// MARK: - CollectionView extensions
+// MARK: - CollectionView extensions -
 
 extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -146,9 +208,13 @@ extension HomeViewController: UICollectionViewDelegate, UICollectionViewDataSour
         }
         return cell
     }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        presenter.showDetail(by: indexPath.row)
+    }
 }
 
-// MARK: - FeedViewController extensions
+// MARK: - HomeViewController extensions -
 
 extension HomeViewController: CollectionViewCellDelegate {
     func compressDescriptionLabel(_ cell: CollectionViewCell) {
@@ -173,20 +239,9 @@ extension HomeViewController: FeedViewControllerProtocol {
         setUpViewsForError()
     }
     
-    private func setUpViewsForError(text: String = "Something went wrong", alertBackground: UIColor = .red) {
-        DispatchQueue.main.async { [unowned self] in
-            progressView.stopAnimating()
-            alertView.backgroundColor = alertBackground
-            failDescriptionLabel.text = text
-            alertView.isHidden = false
-        }
-    }
-    
     func updateView() {
         DispatchQueue.main.async { [unowned self] in
-            // self.alertView.isHidden = true
             self.collectionView.reloadData()
-            //self.progressView.stopAnimating()
         }
     }
     
@@ -212,3 +267,15 @@ extension HomeViewController: UISearchBarDelegate {
     }
 }
 
+extension UIView {
+    func makeGradient(colors: [UIColor]) {
+        let gradient = CAGradientLayer()
+        
+        gradient.frame = self.bounds
+        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
+        gradient.endPoint = CGPoint(x: 0.0, y: 1.0)
+        gradient.colors = colors.map {$0.cgColor}
+        self.isUserInteractionEnabled = false
+        self.layer.insertSublayer(gradient, at: 0)
+    }
+}
