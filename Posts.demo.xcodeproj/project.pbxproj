@@ -10,6 +10,9 @@
 		D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FB2760FAC10076C370 /* HomeViewController.swift */; };
 		D54BE3FE2760FAC10076C370 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D54BE3FC2760FAC10076C370 /* HomeViewController.xib */; };
 		D54BE4012760FBF50076C370 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FF2760FBF50076C370 /* CollectionViewCell.swift */; };
+		D54EBBD827673FB600148E48 /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54EBBD727673FB600148E48 /* AuthViewController.swift */; };
+		D54EBBDA276740AA00148E48 /* AuthPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54EBBD9276740AA00148E48 /* AuthPresenter.swift */; };
+		D54EBBDC276740B800148E48 /* AuthConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54EBBDB276740B800148E48 /* AuthConfigurator.swift */; };
 		D56B4B0C2763463500CEE6A8 /* SelfSizingCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56B4B0B2763463500CEE6A8 /* SelfSizingCollectionCell.swift */; };
 		D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57DF0DB275E03F6001DB998 /* PostCellModel.swift */; };
 		D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */; };
@@ -43,6 +46,9 @@
 		D54BE3FB2760FAC10076C370 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D54BE3FC2760FAC10076C370 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		D54BE3FF2760FBF50076C370 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		D54EBBD727673FB600148E48 /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		D54EBBD9276740AA00148E48 /* AuthPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPresenter.swift; sourceTree = "<group>"; };
+		D54EBBDB276740B800148E48 /* AuthConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthConfigurator.swift; sourceTree = "<group>"; };
 		D56B4B0B2763463500CEE6A8 /* SelfSizingCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfSizingCollectionCell.swift; sourceTree = "<group>"; };
 		D57DF0DB275E03F6001DB998 /* PostCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellModel.swift; sourceTree = "<group>"; };
 		D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterConfigurator.swift; sourceTree = "<group>"; };
@@ -109,6 +115,16 @@
 				D54BE3FC2760FAC10076C370 /* HomeViewController.xib */,
 			);
 			path = "Alternative Feed";
+			sourceTree = "<group>";
+		};
+		D54EBBD627673F5800148E48 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				D54EBBD727673FB600148E48 /* AuthViewController.swift */,
+				D54EBBD9276740AA00148E48 /* AuthPresenter.swift */,
+				D54EBBDB276740B800148E48 /* AuthConfigurator.swift */,
+			);
+			path = Auth;
 			sourceTree = "<group>";
 		};
 		D56B4B0A2763460900CEE6A8 /* SelfSizingCollectionCell */ = {
@@ -229,6 +245,7 @@
 		D7651EC227102B7B007374FE /* Modules */ = {
 			isa = PBXGroup;
 			children = (
+				D54EBBD627673F5800148E48 /* Auth */,
 				D72A1F9227147AC40016FB27 /* Filter */,
 				D72A1F9127147AB10016FB27 /* Detail */,
 				D7651EC327102B84007374FE /* Feed */,
@@ -346,12 +363,15 @@
 				D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */,
 				D7651EBF27102B6E007374FE /* FeedViewController.swift in Sources */,
 				D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */,
+				D54EBBD827673FB600148E48 /* AuthViewController.swift in Sources */,
+				D54EBBDA276740AA00148E48 /* AuthPresenter.swift in Sources */,
 				D7651EC527102BC1007374FE /* FeedPresenter.swift in Sources */,
 				D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */,
 				D783D1DE271F04B200E09F06 /* FilterRouter.swift in Sources */,
 				D72A1F8227141D3A0016FB27 /* FilterViewController.swift in Sources */,
 				D75D5AE0274FCC9800B71B61 /* HashService.swift in Sources */,
 				D7966AF727510AE300D82610 /* ImageRequest.swift in Sources */,
+				D54EBBDC276740B800148E48 /* AuthConfigurator.swift in Sources */,
 				D7651ECF27104A49007374FE /* FeedConfigurator.swift in Sources */,
 				D7651EC9271040EB007374FE /* NetworkService.swift in Sources */,
 				D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */,
