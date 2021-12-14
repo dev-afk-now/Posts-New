@@ -56,6 +56,7 @@ class DetailViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationItem.titleView = titleLabel
+        navigationItem.leftBarButtonItem = backButton
     }
     
     override func viewDidLoad() {
@@ -125,14 +126,5 @@ extension DetailViewController: DetailViewControllerProtocol {
         default:
             break
         }
-    }
-}
-
-
-extension Date {
-    func toStringShort() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy"
-        return formatter.string(from: self)
     }
 }

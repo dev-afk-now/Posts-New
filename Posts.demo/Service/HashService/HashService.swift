@@ -11,9 +11,13 @@ import CryptoKit
 
 final class HashService {
     
-    static private var fileManager = FileManager.default
+    static let shared = HashService()
     
-    static func save(data: Data, key: String) {
+    private let fileManager = FileManager.default
+    
+    private init() {}
+    
+    func save(data: Data, key: String) {
         
         let urls = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)
         let cachesDirectoryUrl = urls[0]
@@ -27,7 +31,7 @@ final class HashService {
         }
     }
     
-    static func get(by key: String) -> URL? {
+    func get(by key: String) -> URL? {
         let urls = fileManager.urls(for: .cachesDirectory, in: .userDomainMask)
         let cachesDirectoryUrl = urls[0]
         let fileUrl = cachesDirectoryUrl.appendingPathComponent(MD5(string: key))
@@ -39,7 +43,7 @@ final class HashService {
         }
     }
     
-    static private func MD5(string: String) -> String {
+    private func MD5(string: String) -> String {
         let digest = Insecure.MD5.hash(data: string.data(using: .utf8) ?? Data())
 
         return digest.map {

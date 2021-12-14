@@ -10,8 +10,10 @@ import UIKit
 final class AuthConfigurator {
     static func create() -> UIViewController {
         let view = AuthViewController()
-        let presenter = AuthPresenterImplementation(view: view)
+        let router = AuthRouterImplementation(context: view)
+        let presenter = AuthPresenterImplementation(view: view, router: router)
         view.presenter = presenter
-        return view
+        let navVC = BaseNavigationController(rootViewController: view)
+        return navVC
     }
 }

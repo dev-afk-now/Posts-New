@@ -13,6 +13,21 @@ class HomeViewController: UIViewController {
     
     // MARK: - Private variables -
     
+    private lazy var backButton: UIBarButtonItem = {
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(logOut)
+        )
+        button.tintColor = .white
+        return button
+    }()
+    
+    @objc private func logOut() {
+        print("LogOut")
+    }
+    
     private lazy var collectionView: UICollectionView = {
         let horizontalInset: CGFloat = 16
         let verticalInset: CGFloat = 16
@@ -175,6 +190,7 @@ class HomeViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
+        
         navigationItem.titleView = titleLabel
         navigationItem.rightBarButtonItem = sortButton
     }
@@ -264,18 +280,5 @@ extension HomeViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
           view.endEditing(true)
-    }
-}
-
-extension UIView {
-    func makeGradient(colors: [UIColor]) {
-        let gradient = CAGradientLayer()
-        
-        gradient.frame = self.bounds
-        gradient.startPoint = CGPoint(x: 0.0, y: 0.0)
-        gradient.endPoint = CGPoint(x: 0.0, y: 1.0)
-        gradient.colors = colors.map {$0.cgColor}
-        self.isUserInteractionEnabled = false
-        self.layer.insertSublayer(gradient, at: 0)
     }
 }

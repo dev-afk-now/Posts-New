@@ -22,13 +22,12 @@ class AuthViewController: UIViewController {
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
-        stack.axis = .vertical
         stack.alignment = .center
+        stack.axis = .vertical
         stack.distribution = .equalSpacing
         stack.spacing = 16
-        stack.layer.cornerRadius = 10
-        stack.layer.borderWidth = 0.5
-        stack.layer.borderColor = UIColor.lightGray.cgColor
+        stack.cornerRadius = 10
+        stack.configureBorder(width: 0.5, with: .lightGray)
         stack.clipsToBounds = true
         return stack
     }()
@@ -42,45 +41,33 @@ class AuthViewController: UIViewController {
         return label
     }()
     
-    private lazy var loginTextField: UITextField = {
-        let field = UITextField()
+    private lazy var loginTextField: FormTextField = {
+        let field = FormTextField(placeholder: "Имя пользователя", isSecured: false)
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.placeholder = "Username"
-        field.autocorrectionType = .no
-        field.borderStyle = .roundedRect
-        field.addTarget(self, action: #selector(enterPressed), for: .editingDidEndOnExit)
+        field.delegate = self
         return field
     }()
     
-    private lazy var passwordTextField: UITextField = {
-        let field = UITextField()
+    private lazy var passwordTextField: FormTextField = {
+        let field = FormTextField(placeholder: "Пароль", isSecured: true)
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.isSecureTextEntry = true
-        field.placeholder = "Password"
-        field.autocorrectionType = .no
-        field.borderStyle = .roundedRect
-        field.layer.cornerRadius = 8
-        field.addTarget(self, action: #selector(enterPressed), for: .editingDidEndOnExit)
+        field.delegate = self
         return field
     }()
     
-    private lazy var repeatPasswordTextField: UITextField = {
-        let field = UITextField()
+    private lazy var repeatPasswordTextField: FormTextField = {
+        let field = FormTextField(placeholder: "Повторите пароль", isSecured: true)
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.isSecureTextEntry = true
-        field.placeholder = "Repeat password"
-        field.autocorrectionType = .no
-        field.borderStyle = .roundedRect
-        field.layer.cornerRadius = 8
-        field.addTarget(self, action: #selector(enterPressed), for: .editingDidEndOnExit)
+        field.delegate = self
         return field
     }()
     
     private lazy var termsOfServiceLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "I agree with terms of service"
+        label.text = "Прочитал(а) Условия пользования"
         label.textColor = .lightGray
+        label.numberOfLines = 2
         label.font = UIFont(name: "Helvetica Neue", size: 16)
         return label
     }()
@@ -88,9 +75,9 @@ class AuthViewController: UIViewController {
     private lazy var termsOfServiceSwitcher: UISwitch = {
         let switcher = UISwitch()
         switcher.translatesAutoresizingMaskIntoConstraints = false
-        switcher.addAction(UIAction(handler: { [unowned self] _ in
+        switcher.addAction(UIAction { [unowned self] _ in
             self.presenter.termsOfServiceStateChanged(self.termsOfServiceSwitcher.isOn)
-        }), for: .valueChanged)
+        }, for: .valueChanged)
         return switcher
     }()
     
@@ -106,9 +93,9 @@ class AuthViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Submit", for: .normal)
-        button.addAction(UIAction(handler: { _ in
+        button.addAction(UIAction { _ in
             self.presenter.auth(username: self.loginTextField.text ?? "", password: self.passwordTextField.text ?? "", passwordConfirmation: self.repeatPasswordTextField.text ?? "")
-        }), for: .touchUpInside)
+        }, for: .touchUpInside)
         button.isEnabled = false
         button.backgroundColor = .lightGray
         return button
@@ -120,8 +107,10 @@ class AuthViewController: UIViewController {
         super.viewDidLoad()
         initialSetup()
         setupConstraints()
+        setupNavigationBar()
     }
     
+    // MARK: - Private -
     private func initialSetup() {
         view.backgroundColor = .white
         setupStackViewLayout()
@@ -133,6 +122,10 @@ class AuthViewController: UIViewController {
         termsOfServiceContainer.addArrangedSubview(termsOfServiceSwitcher)
         termsOfServiceContainer.addArrangedSubview(termsOfServiceLabel)
         stackView.addArrangedSubview(submitButton)
+    }
+    
+    private func setupNavigationBar() {
+        self.navigationController?.setNavigationBarHidden(false, animated: false)
     }
     
     private func setupStackViewLayout() {
@@ -155,27 +148,29 @@ class AuthViewController: UIViewController {
             loginTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor, constant: -horizontalInset),
             loginTextField.heightAnchor.constraint(equalToConstant: 40),
             
+            passwordTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor, constant: horizontalInset),
+            passwordTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor, constant: -horizontalInset),
+            passwordTextField.heightAnchor.constraint(equalToConstant: 40),
+            
             repeatPasswordTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor, constant: horizontalInset),
             repeatPasswordTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor, constant: -horizontalInset),
             repeatPasswordTextField.heightAnchor.constraint(equalToConstant: 40),
             
-            passwordTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor, constant: horizontalInset),
-            passwordTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor, constant: -horizontalInset),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 40),
+            termsOfServiceContainer.leftAnchor.constraint(equalTo: stackView.leftAnchor, constant: horizontalInset),
+            termsOfServiceContainer.rightAnchor.constraint(equalTo: stackView.rightAnchor, constant: -horizontalInset),
             
             submitButton.leftAnchor.constraint(equalTo: stackView.leftAnchor),
             submitButton.rightAnchor.constraint(equalTo: stackView.rightAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: 40)
         ])
     }
-    
-    @objc private func enterPressed() {
-        view.endEditing(true)
-    }
 }
 
 extension AuthViewController: AuthViewControllerProtocol {
     func showValidateFailure(with errorType: ValidationError) {
+        let alert = UIAlertController(title: "Error", message: errorType.message, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
+        self.present(alert, animated: true, completion: nil)
     }
     
     func turnViewsIntoUnabledStateIfNeed(_ value: Bool) {
@@ -200,4 +195,12 @@ extension AuthViewController: AuthViewControllerProtocol {
     }
 }
 
-extension AuthViewController: UITextFieldDelegate {}
+extension AuthViewController: UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        handleTextFieldReturning(textField)
+    }
+    
+    private func handleTextFieldReturning(_ textField: UITextField) -> Bool {
+        return view.endEditing(true)
+    }
+}

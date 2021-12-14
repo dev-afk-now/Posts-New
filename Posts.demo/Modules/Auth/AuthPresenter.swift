@@ -14,17 +14,24 @@ protocol AuthPresenter {
 
 final class AuthPresenterImplementation {
     weak var view: AuthViewControllerProtocol?
+    private let router: AuthRouter
     
     private var userData = UserForm.defaultInstance
     
     private var isAcceptedTermsOfService: Bool = false
     
-    init(view: AuthViewControllerProtocol) {
+    init(view: AuthViewControllerProtocol, router: AuthRouter) {
         self.view = view
+        self.router = router
+    }
+    
+    private func showFeed() {
+        router.showFeed()
     }
     
     private func validateUserForm() -> Bool {
         var isFormValid = true
+        
         let isUsernameAlphabetNumeric = userData.username.isAlphanumeric()
         let uppercaseLetters = CharacterSet.uppercaseLetters
         let isPasswordHaveUppercasedChar = userData.password.unicodeScalars.contains(where: { element in
@@ -33,20 +40,26 @@ final class AuthPresenterImplementation {
         if !isUsernameAlphabetNumeric {
             isFormValid = false
             self.view?.showValidateFailure(with: .invalidUsername)
+            return isFormValid
         }
         let isPasswordLongEnough = userData.password.count >= 6
         if !isPasswordLongEnough {
             isFormValid = false
             self.view?.showValidateFailure(with: .shortPassword)
+            return isFormValid
+
         }
         if !isPasswordHaveUppercasedChar {
             isFormValid = false
             self.view?.showValidateFailure(with: .missingUppercasedLetter)
+            return isFormValid
+
         }
         let isPasswordsMatch = userData.password == userData.passwordConfirmation
         if !isPasswordsMatch {
             isFormValid = false
             self.view?.showValidateFailure(with: .passwordNotConfirmed)
+            return isFormValid
         }
         
         return isFormValid
@@ -61,7 +74,9 @@ extension AuthPresenterImplementation: AuthPresenter {
     func auth(username: String, password: String, passwordConfirmation: String) {
         userData = UserForm(username: username, password: password, passwordConfirmation: passwordConfirmation)
         if validateUserForm() {
-            
+            signUp { [weak self] in
+                self?.showFeed()
+            }
         }
     }
     
@@ -70,20 +85,10 @@ extension AuthPresenterImplementation: AuthPresenter {
         view?.turnViewsIntoUnabledStateIfNeed(value)
     }
     
-    func signUp() {
-        //
-    }
-}
-
-struct UserForm {
-    var username: String
-    var password: String
-    var passwordConfirmation: String
-    
-    static var defaultInstance: UserForm {
-        return UserForm(username: "",
-                        password: "",
-                        passwordConfirmation: "")
+    private func signUp(completion: @escaping () -> Void) {
+        KeychainService.shared.set(userData.username, for: kUsername)
+        KeychainService.shared.set(userData.password, for: "password")
+        completion()
     }
 }
 
@@ -106,6 +111,8 @@ enum ValidationError {
         }
     }
 }
+
+public let kUsername = "username"
 
 extension String {
     func isAlphanumeric() -> Bool {

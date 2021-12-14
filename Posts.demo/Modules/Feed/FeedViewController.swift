@@ -64,9 +64,9 @@ class FeedViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         configureTableView()
         presenter.viewDidLoad()
+        setupNavigationBar()
     }
     
     private func setupTableViewBackground() -> UIView? {
@@ -95,6 +95,7 @@ class FeedViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
+        navigationController?.setNavigationBarHidden(false, animated: false)
         navigationItem.titleView = titleLabel
         navigationItem.rightBarButtonItem = sortButton
     }
