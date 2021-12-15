@@ -23,6 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             UserDefaults.standard.set(true, forKey: "isFirstInstall")
         }
         setStartViewController()
+
         
         return true
     }
@@ -33,7 +34,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     private func setStartViewController() {
-//         использовать кийчейн
         if KeychainService.isUserLoggedIn {
             window?.rootViewController = FeedConfigurator.create()
         } else {

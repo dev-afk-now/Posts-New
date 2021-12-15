@@ -25,16 +25,14 @@ final class AuthPresenterImplementation {
         self.router = router
     }
     
-    private func showFeed() {
-        router.showFeed()
-    }
+
     
     private func validateUserForm() -> Bool {
         var isFormValid = true
         
-        let isUsernameAlphabetNumeric = userData.username.isAlphanumeric()
+        let isUsernameAlphabetNumeric = (userData.username ?? "").isAlphanumeric()
         let uppercaseLetters = CharacterSet.uppercaseLetters
-        let isPasswordHaveUppercasedChar = userData.password.unicodeScalars.contains(where: { element in
+        let isPasswordHaveUppercasedChar = (userData.password ?? "").unicodeScalars.contains(where: { element in
             uppercaseLetters.contains(element)
         })
         if !isUsernameAlphabetNumeric {
@@ -42,7 +40,7 @@ final class AuthPresenterImplementation {
             self.view?.showValidateFailure(with: .invalidUsername)
             return isFormValid
         }
-        let isPasswordLongEnough = userData.password.count >= 6
+        let isPasswordLongEnough = (userData.password ?? "").count >= 6
         if !isPasswordLongEnough {
             isFormValid = false
             self.view?.showValidateFailure(with: .shortPassword)
@@ -72,10 +70,16 @@ extension AuthPresenterImplementation: AuthPresenter {
 
     
     func auth(username: String, password: String, passwordConfirmation: String) {
-        userData = UserForm(username: username, password: password, passwordConfirmation: passwordConfirmation)
+        userData = UserForm(username: username,
+                            password: password,
+                            passwordConfirmation: passwordConfirmation)
         if validateUserForm() {
-            signUp { [weak self] in
-                self?.showFeed()
+            signUp { [weak self] result in
+                if result {
+                    self?.router.showFeed()
+                } else {
+                    self?.view?.showValidateFailure(with: .userAlreadyExist)
+                }
             }
         }
     }
@@ -85,14 +89,14 @@ extension AuthPresenterImplementation: AuthPresenter {
         view?.turnViewsIntoUnabledStateIfNeed(value)
     }
     
-    private func signUp(completion: @escaping () -> Void) {
-        KeychainService.shared.set(userData.username, for: kUsername)
-        KeychainService.shared.set(userData.password, for: "password")
-        completion()
+    private func signUp(completion: @escaping (Bool) -> Void) {
+//        JSONService.shared.getAllUsers()
+         completion(JSONService.shared.register(user: userData))
     }
 }
 
 enum ValidationError {
+    case userAlreadyExist
     case invalidUsername
     case shortPassword
     case missingUppercasedLetter
@@ -100,10 +104,12 @@ enum ValidationError {
     
     var message: String {
         switch self {
+        case .userAlreadyExist:
+            return "Account with this username already exists."
         case .invalidUsername:
             return "Username must contain only A-Z symbols and numbers."
         case .shortPassword:
-            return "Password must be more then 6 symbols"
+            return "Password must be more then 6 symbols."
         case .missingUppercasedLetter:
             return "Password must have one or more uppercase letter"
         case .passwordNotConfirmed:
