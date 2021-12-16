@@ -36,15 +36,15 @@ class UserForm: Codable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encodeIfPresent(username,
-                             forKey: .username)
+                                      forKey: .username)
         try container.encodeIfPresent(password,
-                             forKey: .password)
+                                      forKey: .password)
     }
     
     required init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         username = try container.decodeIfPresent(String.self,
-                                            forKey: .username)
+                                                 forKey: .username)
         password = try container.decodeIfPresent(String.self,
                                                  forKey: .password)
         

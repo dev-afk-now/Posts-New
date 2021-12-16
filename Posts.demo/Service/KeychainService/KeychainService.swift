@@ -15,19 +15,20 @@ final class KeychainService {
     private let keychain = KeychainSwift()
     
     static var isUserLoggedIn: Bool {
-        return !(KeychainService.shared.get(key: "username") ?? "").isEmpty && !(KeychainService.shared.get(key: "password") ?? "").isEmpty
+        return !(KeychainService.shared.get(key: kUsername) ?? "").isEmpty
+        
     }
     
     func set(_ value: String, for key: String) {
         if keychain.set(value, forKey: key) {
-          print(" - successfully saved \(value) for \(key)")
+            print(" - successfully saved \(value) for \(key)")
         } else {
-          print(" - saving failed")
+            print(" - saving failed")
         }
     }
     
     func get(key: String) -> String? {
-        return keychain.get("my key")
+        return keychain.get(key)
     }
     
     func clear() {

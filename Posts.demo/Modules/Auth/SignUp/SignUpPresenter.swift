@@ -7,25 +7,27 @@
 
 import Foundation
 
-protocol AuthPresenter {
+protocol SignUpPresenter {
     func termsOfServiceStateChanged(_ value: Bool)
     func auth(username: String, password: String, passwordConfirmation: String)
+    func navigateToLogin()
+    func termsOfServiceButtonClicked()
 }
 
-final class AuthPresenterImplementation {
-    weak var view: AuthViewControllerProtocol?
-    private let router: AuthRouter
+final class SignUpPresenterImplementation {
+    weak var view: SignUpViewControllerProtocol?
+    private let router: SignUpRouter
     
     private var userData = UserForm.defaultInstance
     
     private var isAcceptedTermsOfService: Bool = false
     
-    init(view: AuthViewControllerProtocol, router: AuthRouter) {
+    init(view: SignUpViewControllerProtocol, router: SignUpRouter) {
         self.view = view
         self.router = router
     }
     
-
+    
     
     private func validateUserForm() -> Bool {
         var isFormValid = true
@@ -45,13 +47,13 @@ final class AuthPresenterImplementation {
             isFormValid = false
             self.view?.showValidateFailure(with: .shortPassword)
             return isFormValid
-
+            
         }
         if !isPasswordHaveUppercasedChar {
             isFormValid = false
             self.view?.showValidateFailure(with: .missingUppercasedLetter)
             return isFormValid
-
+            
         }
         let isPasswordsMatch = userData.password == userData.passwordConfirmation
         if !isPasswordsMatch {
@@ -66,8 +68,14 @@ final class AuthPresenterImplementation {
 }
 
 
-extension AuthPresenterImplementation: AuthPresenter {
-
+extension SignUpPresenterImplementation: SignUpPresenter {
+    func termsOfServiceButtonClicked() {
+        router.showTermsOfService()
+    }
+    
+    func navigateToLogin() {
+        router.showLogin()
+    }
     
     func auth(username: String, password: String, passwordConfirmation: String) {
         userData = UserForm(username: username,
@@ -90,13 +98,20 @@ extension AuthPresenterImplementation: AuthPresenter {
     }
     
     private func signUp(completion: @escaping (Bool) -> Void) {
-//        JSONService.shared.getAllUsers()
-         completion(JSONService.shared.register(user: userData))
+        var result = false
+        if JSONService.shared.register(user: userData) {
+            KeychainService.shared.clear()
+            KeychainService.shared.set(userData.username ?? "", for: kUsername)
+            result = true
+        }
+        completion(result)
     }
 }
 
-enum ValidationError {
+public enum ValidationError {
     case userAlreadyExist
+    case invalidUser
+    case incorrectPassword
     case invalidUsername
     case shortPassword
     case missingUppercasedLetter
@@ -104,8 +119,12 @@ enum ValidationError {
     
     var message: String {
         switch self {
+        case .invalidUser:
+            return "Account with this username don't exists"
         case .userAlreadyExist:
             return "Account with this username already exists."
+        case .incorrectPassword:
+            return "Incorrect password"
         case .invalidUsername:
             return "Username must contain only A-Z symbols and numbers."
         case .shortPassword:
@@ -113,12 +132,14 @@ enum ValidationError {
         case .missingUppercasedLetter:
             return "Password must have one or more uppercase letter"
         case .passwordNotConfirmed:
-            return "Passwords didn't match"
+            return "Passwords don't match"
         }
     }
 }
 
+
 public let kUsername = "username"
+public let kPassword = "password"
 
 extension String {
     func isAlphanumeric() -> Bool {

@@ -14,20 +14,22 @@ final class JSONService {
     private init() {}
     
     func register(user: UserForm) -> Bool {
+        var result = true
         do {
             var usersList = getAllUsers()
-            guard usersList.filter{ $0.username == user.username }.isEmpty else {
+            guard usersList.filter({ $0.username == user.username }).isEmpty else {
                 return false
             }
             usersList.append(user)
             
             let storage = Storage(users:usersList)
             
-            try FileManager.saveObjects(list: storage, to: "users")
+            result = try FileManager.saveObjects(list: storage, to: "users")
         } catch {
             print(error.localizedDescription)
+            return false
         }
-        return true
+        return result
     }
     
     func getUser(user: UserForm) -> UserForm? {
@@ -46,7 +48,6 @@ final class JSONService {
             users = storage?.users ?? []
         } catch let error as NSError {
             debugPrint(error)
-            print("")
         }
         return users
     }

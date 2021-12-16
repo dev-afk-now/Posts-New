@@ -38,11 +38,12 @@ class FeedViewController: UIViewController {
         progressView.startAnimating()
     }
     private lazy var titleLabel: UILabel = {
-        $0.textColor = .white
-        $0.font = UIFont(name: "Helvetica Neue", size: 20)
-        $0.text = "Главная"
-        return $0
-    }(UILabel())
+        let title = UILabel()
+        title.textColor = .white
+        title.font = UIFont(name: "Helvetica Neue", size: 20)
+        title.text = "Главная"
+        return title
+    }()
     
     private lazy var sortButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -51,7 +52,6 @@ class FeedViewController: UIViewController {
             target: self,
             action: #selector(sortButtonTapped)
         )
-        button.tintColor = .white
         return button
     }()
     
@@ -95,7 +95,6 @@ class FeedViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        navigationController?.setNavigationBarHidden(false, animated: false)
         navigationItem.titleView = titleLabel
         navigationItem.rightBarButtonItem = sortButton
     }
@@ -156,7 +155,8 @@ extension FeedViewController: FeedViewControllerProtocol {
         setUpViewsForError()
     }
     
-    private func setUpViewsForError(text: String = "Something went wrong", alertBackground: UIColor = .red) {
+    private func setUpViewsForError(text: String = "Something went wrong",
+                                    alertBackground: UIColor = .red) {
         DispatchQueue.main.async { [unowned self] in
             progressView.stopAnimating()
             alertView.backgroundColor = alertBackground

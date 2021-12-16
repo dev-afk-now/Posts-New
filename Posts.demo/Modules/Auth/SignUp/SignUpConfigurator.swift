@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class AuthConfigurator {
+final class SignUpConfigurator {
     static func create() -> UIViewController {
-        let view = AuthViewController()
-        let router = AuthRouterImplementation(context: view)
-        let presenter = AuthPresenterImplementation(view: view, router: router)
+        let view = SignUpViewController()
+        let router = SignUpRouterImplementation(context: view)
+        let presenter = SignUpPresenterImplementation(view: view, router: router)
         view.presenter = presenter
         let navVC = BaseNavigationController(rootViewController: view)
         return navVC

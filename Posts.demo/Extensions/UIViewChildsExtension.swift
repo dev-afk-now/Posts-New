@@ -36,22 +36,44 @@ extension UIView {
     }
 }
 
-class FormTextField: UITextField {
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupStyle()
+extension UIApplication {
+    var newKeyWindow: UIWindow? {
+        UIApplication
+            .shared
+            .connectedScenes
+            .flatMap { ($0 as? UIWindowScene)?.windows ?? [] }
+            .first { $0.isKeyWindow }
     }
-    
-    init(placeholder: String = "", isSecured: Bool = false) {
-        super.init(frame: .zero)
-        setupStyle(placeholder: placeholder, isSecured: isSecured)
-    }
-    
-    private func setupStyle(placeholder: String = "", isSecured: Bool = false) {
-        self.autocorrectionType = .no
-        self.borderStyle = .roundedRect
-        self.isSecureTextEntry = isSecured
-        self.cornerRadius = 8
-        self.placeholder = placeholder
+}
+
+extension UIViewController {
+    func swapCurrentViewController(with newViewController: UIViewController,
+                                   animated: Bool = true,
+                                   duration: TimeInterval = 0.75,
+                                   isReversed: Bool = false) {
+        
+        guard let window = UIApplication.shared.newKeyWindow else {
+            return
+        }
+        // Get a reference to the window's current `rootViewController` (the "old" one)
+        let oldViewController = window.rootViewController
+        
+        if animated, let oldView = oldViewController?.view {
+            
+            // Replace the window's `rootViewController` with the new one
+            window.rootViewController = newViewController
+            
+            // Add the old view controller's view on top of the new `rootViewController`
+            newViewController.view.addSubview(oldView)
+            
+            // Remove the old view controller's view in an animated fashion
+            UIView.transition(with: window,
+                              duration: duration,
+                              options: isReversed ? .transitionFlipFromLeft : .transitionFlipFromRight,
+                              animations: { oldView.removeFromSuperview() },
+                              completion: nil)
+        } else {
+            window.rootViewController = newViewController
+        }
     }
 }
