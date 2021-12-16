@@ -61,9 +61,7 @@ class FilterViewController: UIViewController {
     }
 }
 
-
 // MARK: - SortOption Definition
-
 
 extension FilterViewController {
     enum SortOption {

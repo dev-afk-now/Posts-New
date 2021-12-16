@@ -16,6 +16,7 @@ protocol FeedPresenter {
     func showFilter()
     func searchPostForTitle(_ searchWord: String)
     func breakSearch()
+    func logOut()
 }
 
 final class FeedPresenterImplementation {
@@ -28,7 +29,7 @@ final class FeedPresenterImplementation {
     private let router: FeedRouter
     
     private var searchTask: DispatchWorkItem?
-
+    
     private var searchText = ""
     
     private var isSearchingForPost: Bool {
@@ -63,7 +64,7 @@ final class FeedPresenterImplementation {
     }
     
     private func sortedItems(_ items: [PostCellModel],
-                           by option: FilterViewController.SortOption) -> [PostCellModel] {
+                             by option: FilterViewController.SortOption) -> [PostCellModel] {
         switch option {
         case .dateAscending:
             return items.sorted { $0.timestamp < $1.timestamp }
@@ -92,6 +93,11 @@ final class FeedPresenterImplementation {
 // MARK: - FeedPresenter -
 
 extension FeedPresenterImplementation: FeedPresenter {
+    func logOut() {
+        KeychainService.shared.clear()
+        router.showLoginScreen()
+    }
+    
     func showDetail(by index: Int) {
         if let post = getPostForCell(by: index) {
             router.showDetailScreen(id: post.postId)
@@ -115,7 +121,6 @@ extension FeedPresenterImplementation: FeedPresenter {
     
     func switchPreviewState(by index: Int) {
         dataSource[index].isShowingFullPreview.toggle()
-//        view?.updateView()
         view?.updateRowState(at: index)
     }
     
@@ -145,7 +150,7 @@ extension FeedPresenterImplementation: FeedPresenter {
     }
     
     private func executeSearch() {
-
+        
         if searchText.isEmpty {
             breakSearch()
         }

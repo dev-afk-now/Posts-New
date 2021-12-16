@@ -54,7 +54,7 @@ extension NetworkServiceImplementation: NetworkService {
             }
         }
     }
-
+    
     func fetchData(completion: @escaping (Result<NetworkData, NetworkServiceImplementation.Error>) -> Void) {
         requestService.GET(url: URL(string: listPath)!) { (result: Result<NetworkData, NetworkRequestImplementation.Error>) in
             switch result {

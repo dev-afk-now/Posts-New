@@ -28,10 +28,11 @@ class DetailViewController: UIViewController {
     @IBOutlet weak var imageStackView: UIStackView!
     
     private lazy var titleLabel: UILabel = {
-        $0.textColor = .white
-        $0.font = UIFont(name: "Helvetica Neue", size: 20)
-        return $0
-    } (UILabel())
+        let title = UILabel()
+        title.textColor = .white
+        title.font = UIFont(name: "Helvetica Neue", size: 20)
+        return title
+    }()
     
     private lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -56,6 +57,7 @@ class DetailViewController: UIViewController {
     
     private func setupNavigationBar() {
         navigationItem.titleView = titleLabel
+        navigationItem.leftBarButtonItem = backButton
     }
     
     override func viewDidLoad() {
@@ -125,14 +127,5 @@ extension DetailViewController: DetailViewControllerProtocol {
         default:
             break
         }
-    }
-}
-
-
-extension Date {
-    func toStringShort() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy"
-        return formatter.string(from: self)
     }
 }
