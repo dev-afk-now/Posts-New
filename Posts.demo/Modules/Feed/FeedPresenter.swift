@@ -24,8 +24,10 @@ final class FeedPresenterImplementation {
     
     // MARK: - Private properties -
     
-    private let service: NetworkService
+    private let repository: PostsRepository
     private let router: FeedRouter
+    
+    private var listPath = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/main.json"
     
     private var searchTask: DispatchWorkItem?
 
@@ -58,8 +60,8 @@ final class FeedPresenterImplementation {
     
     // MARK: - Lifecycle -
     
-    init(view: FeedViewControllerProtocol, service: NetworkService, router: FeedRouter) {
-        self.service = service
+    init(view: FeedViewControllerProtocol, repository: PostsRepository, router: FeedRouter) {
+        self.repository = repository
         self.view = view
         self.router = router
     }
@@ -121,20 +123,20 @@ extension FeedPresenterImplementation: FeedPresenter {
     }
     
     func viewDidLoad() {
-        service.fetchData { [weak self] result in
+        repository.getPosts { result in
             switch result {
-            case .success(let data):
-                self?.postList = data.posts.map(PostCellModel.init)
-                self?.postsDefaultOrder = data.posts.map { $0.postId }
-                self?.view?.updateView()
+            case .success(let posts):
+                self.postsDefaultOrder = posts.map { $0.postId }
+                self.postList = posts
+                self.view?.updateView()
             case .failure(let error):
                 switch error {
                 case .offlined:
-                    self?.view?.showNoInternetConnectionError()
+                    self.view?.showNoInternetConnectionError()
                 case .propagated:
-                    self?.view?.showUnreachableServiceError()
+                    self.view?.showUnreachableServiceError()
                 case .timeOut:
-                    self?.view?.showNoInternetConnectionError()
+                    self.view?.showNoInternetConnectionError()
                 }
             }
         }

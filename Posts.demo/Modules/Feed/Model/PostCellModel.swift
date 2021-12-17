@@ -15,7 +15,7 @@ struct PostCellModel {
     var likesCount: Int
     var isShowingFullPreview: Bool
     
-    init(_ model: Post) {
+    init(_ model: Response) {
         self.postId = model.postId
         self.title = model.title
         self.text = model.preview_text
@@ -23,10 +23,37 @@ struct PostCellModel {
         self.likesCount = model.likes_count
         self.timestamp = model.timeshamp
     }
+    
+    init(from model: PostPersistent) {
+        self.postId = Int(model.postId)
+        self.title = model.title ?? ""
+        self.text = model.text ?? ""
+        self.isShowingFullPreview = false
+        self.likesCount = Int(model.likesCount)
+        self.timestamp = Int(model.timestamp)
+    }
 }
 
 extension PostCellModel {
     var likes: String {
         String(likesCount)
+    }
+}
+
+extension PostCellModel {
+    func initPersistent() -> PostPersistent {
+        let object = PostPersistent(context: context)
+        object.postId = self.postId.int32
+        object.likesCount = self.likesCount.int32
+        object.timestamp = self.timestamp.int32
+        object.text = self.text
+        object.title = self.title
+        return object
+    }
+}
+
+extension Int {
+    var int32: Int32 {
+        Int32(self)
     }
 }

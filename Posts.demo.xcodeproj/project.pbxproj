@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D52C70AA276C933700A65202 /* PersistentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70A9276C933700A65202 /* PersistentService.swift */; };
+		D52C70AD276C93DF00A65202 /* PostPersistent.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AB276C93DF00A65202 /* PostPersistent.xcdatamodeld */; };
+		D52C70B0276C969B00A65202 /* PostPersistent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */; };
+		D52C70B1276C969B00A65202 /* PostPersistent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */; };
+		D52C70B4276CC2CC00A65202 /* PostsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70B3276CC2CC00A65202 /* PostsRepository.swift */; };
 		D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57DF0DB275E03F6001DB998 /* PostCellModel.swift */; };
 		D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */; };
 		D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D721E44D27157A45000D887E /* DetailConfigurator.swift */; };
@@ -36,6 +41,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D52C70A9276C933700A65202 /* PersistentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentService.swift; sourceTree = "<group>"; };
+		D52C70AC276C93DF00A65202 /* PostPersistent.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PostPersistent.xcdatamodel; sourceTree = "<group>"; };
+		D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostPersistent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostPersistent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D52C70B3276CC2CC00A65202 /* PostsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsRepository.swift; sourceTree = "<group>"; };
 		D57DF0DB275E03F6001DB998 /* PostCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellModel.swift; sourceTree = "<group>"; };
 		D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterConfigurator.swift; sourceTree = "<group>"; };
 		D721E44D27157A45000D887E /* DetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailConfigurator.swift; sourceTree = "<group>"; };
@@ -77,6 +87,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D52C70A8276C930800A65202 /* PersistentService */ = {
+			isa = PBXGroup;
+			children = (
+				D52C70A9276C933700A65202 /* PersistentService.swift */,
+				D52C70AB276C93DF00A65202 /* PostPersistent.xcdatamodeld */,
+			);
+			path = PersistentService;
+			sourceTree = "<group>";
+		};
+		D52C70B2276CC28C00A65202 /* PostsService */ = {
+			isa = PBXGroup;
+			children = (
+				D52C70B3276CC2CC00A65202 /* PostsRepository.swift */,
+			);
+			path = PostsService;
+			sourceTree = "<group>";
+		};
 		D57DF0DA275E03D1001DB998 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -121,6 +148,8 @@
 		D72A1F9327147ACC0016FB27 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				D52C70B2276CC28C00A65202 /* PostsService */,
+				D52C70A8276C930800A65202 /* PersistentService */,
 				D783D1E0271FFFF300E09F06 /* ImageService */,
 				D75D5ADE274FCC8600B71B61 /* HashService */,
 				D783D1E12720000600E09F06 /* ImageRequest */,
@@ -157,6 +186,8 @@
 		D7651E9927102B10007374FE = {
 			isa = PBXGroup;
 			children = (
+				D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */,
+				D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */,
 				D7651EA427102B10007374FE /* Posts.demo */,
 				D7651EA327102B10007374FE /* Products */,
 			);
@@ -297,13 +328,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D52C70B0276C969B00A65202 /* PostPersistent+CoreDataClass.swift in Sources */,
 				D783D1DB271EFF5500E09F06 /* DetailRouter.swift in Sources */,
 				D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */,
 				D7651EBF27102B6E007374FE /* FeedViewController.swift in Sources */,
+				D52C70B1276C969B00A65202 /* PostPersistent+CoreDataProperties.swift in Sources */,
 				D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */,
+				D52C70AA276C933700A65202 /* PersistentService.swift in Sources */,
 				D7651EC527102BC1007374FE /* FeedPresenter.swift in Sources */,
 				D783D1DE271F04B200E09F06 /* FilterRouter.swift in Sources */,
 				D72A1F8227141D3A0016FB27 /* FilterViewController.swift in Sources */,
+				D52C70B4276CC2CC00A65202 /* PostsRepository.swift in Sources */,
+				D52C70AD276C93DF00A65202 /* PostPersistent.xcdatamodeld in Sources */,
 				D75D5AE0274FCC9800B71B61 /* HashService.swift in Sources */,
 				D7966AF727510AE300D82610 /* ImageRequest.swift in Sources */,
 				D7651ECF27104A49007374FE /* FeedConfigurator.swift in Sources */,
@@ -514,6 +550,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		D52C70AB276C93DF00A65202 /* PostPersistent.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D52C70AC276C93DF00A65202 /* PostPersistent.xcdatamodel */,
+			);
+			currentVersion = D52C70AC276C93DF00A65202 /* PostPersistent.xcdatamodel */;
+			path = PostPersistent.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D7651E9A27102B10007374FE /* Project object */;
 }

@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol DetailViewControllerProtocol: class {
+protocol DetailViewControllerProtocol: AnyObject {
     func updateView(items: [ViewItem])
     func showNoInternetConnectionError()
     func showUnreachableServiceError()

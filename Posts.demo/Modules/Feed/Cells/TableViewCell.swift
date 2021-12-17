@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol TableViewCellProtocol: class {
+protocol TableViewCellProtocol: AnyObject {
     func compressDescriptionLabel(_ cell: TableViewCell)
 }
 

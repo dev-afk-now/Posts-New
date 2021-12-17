@@ -20,7 +20,7 @@ final class NetworkRequestImplementation {
 extension NetworkRequestImplementation: NetworkRequest {
     
     func GET<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
-        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
+        let request = URLRequest(url: url, timeoutInterval: 60)
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard error == nil else {
                 completion(.failure(Error.propagated(error!)))
@@ -41,11 +41,11 @@ extension NetworkRequestImplementation: NetworkRequest {
     }
 }
 
-struct NetworkData: Codable {
-    var posts: [Post]
+struct NetworkPostList: Codable {
+    var posts: [Response]
 }
 
-struct Post: Codable {
+struct Response: Codable {
     var postId: Int
     var title: String
     var timeshamp: Int
@@ -53,11 +53,11 @@ struct Post: Codable {
     var likes_count: Int
 }
 
-struct NetworkPost: Codable {
-    var post: ConcretePost
+struct NetworkDetail: Codable {
+    var post: Detail
 }
 
-struct ConcretePost: Codable {
+struct Detail: Codable {
     var postId: Int
     var timeshamp: Int
     var title: String
@@ -66,7 +66,7 @@ struct ConcretePost: Codable {
     var likes_count: Int
 }
 
-extension ConcretePost {
+extension Detail {
     var date: Date {
         return Date(timeIntervalSince1970: TimeInterval(timeshamp))
     }

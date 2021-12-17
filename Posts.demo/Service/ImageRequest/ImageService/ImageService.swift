@@ -8,8 +8,8 @@
 import UIKit
 
 protocol ImageService {
-    func fetchImage(_ url: URL?, completion: @escaping(URL?) -> Void)
     func fetchImages(_ urls: [URL?], completion: @escaping([URL?]) -> Void)
+    
 }
 
 final class ImageServiceImplementation {
@@ -56,7 +56,7 @@ extension ImageServiceImplementation: ImageService {
         }
     }
     
-    func fetchImage(_ url: URL?, completion: @escaping(URL?) -> Void) {
+    private func fetchImage(_ url: URL?, completion: @escaping(URL?) -> Void) {
         guard let url = url else {
             completion(nil)
             return
