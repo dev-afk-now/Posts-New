@@ -24,7 +24,7 @@ final class SignInRouterImplementation {
 extension SignInRouterImplementation: SignInRouter {
     func changeFlow() {
         let module = FeedConfigurator.create()
-        context.swapCurrentViewController(with: module)
+        UIViewController.swapCurrentViewController(with: module)
     }
     
     func showRegistration() {

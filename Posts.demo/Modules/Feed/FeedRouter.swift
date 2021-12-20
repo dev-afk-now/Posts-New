@@ -24,19 +24,22 @@ final class FeedRouterImplementation {
 extension FeedRouterImplementation: FeedRouter {
     func showLoginScreen() {
         let module = SignUpConfigurator.create()
-        context.swapCurrentViewController(with: module,
-                                          isReversed: true)
+        UIViewController.swapCurrentViewController(with: module,
+                                                   isReversed: true)
     }
     func showFilterScreen(_ delegate: FilterViewControllerDelegate) {
         let filterVC = FilterConfigurator.create(delegate: delegate)
         context.modalPresentationStyle = .fullScreen
-        context.navigationController?.present(filterVC, animated: true, completion: nil)
+        context.navigationController?.present(filterVC,
+                                              animated: true,
+                                              completion: nil)
     }
     
     func showDetailScreen(id: Int) {
         let module = DetailConfigurator.create(id: id)
         context.modalPresentationStyle = .overFullScreen
-        context.navigationController?.pushViewController(module, animated: true)
+        context.navigationController?.pushViewController(module,
+                                                         animated: true)
     }
 }
 

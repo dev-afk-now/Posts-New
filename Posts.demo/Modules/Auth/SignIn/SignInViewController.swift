@@ -34,7 +34,7 @@ class SignInViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Вход"
-        label.font = UIFont(name: "Helvetica Neue", size: 26)
+        label.font = .applicatonFont(size: 26)
         label.textColor = .black
         return label
     }()
@@ -71,14 +71,14 @@ class SignInViewController: UIViewController {
         label.textColor = .lightGray
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.font = UIFont(name: "Helvetica Neue", size: 15)
+        label.font = .applicatonFont()
         return label
     }()
     
     private lazy var registrationButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 15)
+        button.titleLabel?.font = .applicatonFont()
         button.setTitleColor(.systemBlue, for: .normal)
         button.setTitle("Зарегистрироваться", for: .normal)
         button.addAction(UIAction { [unowned self] _ in

@@ -30,7 +30,7 @@ class DetailViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.textColor = .white
-        title.font = UIFont(name: "Helvetica Neue", size: 20)
+        title.font = .applicatonFont()
         return title
     }()
     

@@ -22,7 +22,7 @@ final class JSONService {
             }
             usersList.append(user)
             
-            let storage = Storage(users:usersList)
+            let storage = LocalAccountStorage(users:usersList)
             
             result = try FileManager.saveObjects(list: storage, to: "users")
         } catch {
@@ -42,7 +42,7 @@ final class JSONService {
     
     func getAllUsers() -> [UserForm] {
         var users = [UserForm]()
-        let storage: Storage?
+        let storage: LocalAccountStorage?
         do {
             storage = try FileManager.loadObjects(from: "users")
             users = storage?.users ?? []

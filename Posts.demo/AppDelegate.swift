@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         setStartViewController()
-        window?.makeKeyAndVisible()
+        clearKeychainIfNeed()
         return true
     }
     
@@ -23,6 +23,24 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window?.rootViewController = FeedConfigurator.create()
         } else {
             window?.rootViewController = SignUpConfigurator.create()
+        }
+        window?.makeKeyAndVisible()
+    }
+    
+    private var appWasLaunched: Bool {
+        get {
+            UserDefaults.standard.bool(forKey: "appWasLaunched")
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: "appWasLaunched")
+        }
+    }
+    
+    private func clearKeychainIfNeed() {
+        if appWasLaunched {
+            KeychainService.shared.clear()
+        } else {
+            appWasLaunched = true
         }
     }
 }

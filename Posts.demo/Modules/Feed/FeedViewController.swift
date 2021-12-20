@@ -12,7 +12,7 @@ protocol FeedViewControllerProtocol: AnyObject {
     func showNoInternetConnectionError()
     func showUnreachableServiceError()
     func setupNoResultsViewIfNeeded(isResultsEmpty: Bool)
-    func updateRowState(at index: Int)
+    func updateItemState(at index: Int)
 }
 
 class FeedViewController: UIViewController {
@@ -40,7 +40,7 @@ class FeedViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.textColor = .white
-        title.font = UIFont(name: "Helvetica Neue", size: 20)
+        title.font = .applicatonFont(size: 20)
         title.text = "Главная"
         return title
     }()
@@ -114,9 +114,9 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
         cell.delegate = self
-        if let postState = presenter.getPostForCell(by: indexPath.row) {
+        let postState = presenter.getPostForCell(by: indexPath.row) 
             cell.configure(postState: postState)
-        }
+        
         return cell
     }
     
@@ -139,7 +139,7 @@ extension FeedViewController: TableViewCellDelegate {
 }
 
 extension FeedViewController: FeedViewControllerProtocol {
-    func updateRowState(at index: Int) {
+    func updateItemState(at index: Int) {
         tableView.beginUpdates()
         tableView.reloadRows(at: [IndexPath(row: index,
                                             section: .zero)],

@@ -14,3 +14,12 @@ extension Date {
         return formatter.string(from: self)
     }
 }
+
+extension Date {
+    static func dateStringFromTimestamp(_ timestamp: Int) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd/yyyy"
+        let time = Date(timeIntervalSince1970: TimeInterval(timestamp))
+        return formatter.string(from: time)
+    }
+}

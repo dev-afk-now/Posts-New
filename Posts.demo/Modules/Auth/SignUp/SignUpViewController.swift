@@ -35,7 +35,7 @@ class SignUpViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = "Регистрация"
-        label.font = UIFont(name: "Helvetica Neue", size: 26)
+        label.font = .applicatonFont(size: 26)
         label.textColor = .black
         return label
     }()
@@ -70,7 +70,7 @@ class SignUpViewController: UIViewController {
         label.text = "Прочитал(а) "
         label.textColor = .lightGray
         label.numberOfLines = 2
-        label.font = UIFont(name: "Helvetica Neue", size: 15)
+        label.font = .applicatonFont()
         return label
     }()
     
@@ -86,7 +86,7 @@ class SignUpViewController: UIViewController {
     private lazy var termsOfServiceButton: UIButton = {
         let button = UIButton()
         let yourAttributes: [NSAttributedString.Key: Any] = [
-            .font:  UIFont(name: "Helvetica Neue", size: 15),
+            .font: UIFont.applicatonFont(),
             .foregroundColor: UIColor.systemBlue,
             .underlineStyle: NSUnderlineStyle.single.rawValue
         ]
@@ -117,14 +117,14 @@ class SignUpViewController: UIViewController {
         label.textColor = .lightGray
         label.numberOfLines = 2
         label.textAlignment = .center
-        label.font = UIFont(name: "Helvetica Neue", size: 15)
+        label.font = .applicatonFont()
         return label
     }()
     
     private lazy var loginButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 15)
+        button.titleLabel?.font = .applicatonFont()
         button.setTitleColor(.systemBlue, for: .normal)
         button.setTitle("Войти в аккаунт", for: .normal)
         button.addAction(UIAction { [unowned self] _ in

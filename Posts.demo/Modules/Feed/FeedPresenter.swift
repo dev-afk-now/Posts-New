@@ -9,7 +9,7 @@ import Foundation
 
 protocol FeedPresenter {
     var postsCount: Int { get }
-    func getPostForCell(by index: Int) -> PostCellModel?
+    func getPostForCell(by index: Int) -> PostCellModel
     func switchPreviewState(by index: Int)
     func viewDidLoad()
     func showDetail(by index: Int)
@@ -99,9 +99,8 @@ extension FeedPresenterImplementation: FeedPresenter {
     }
     
     func showDetail(by index: Int) {
-        if let post = getPostForCell(by: index) {
-            router.showDetailScreen(id: post.postId)
-        }
+        let post = getPostForCell(by: index)
+        router.showDetailScreen(id: post.postId)
     }
     
     func showFilter() {
@@ -112,16 +111,13 @@ extension FeedPresenterImplementation: FeedPresenter {
         self.dataSource.count
     }
     
-    func getPostForCell(by index: Int) -> PostCellModel? {
-        guard index < dataSource.count else {
-            return nil
-        }
+    func getPostForCell(by index: Int) -> PostCellModel {
         return dataSource[index]
     }
     
     func switchPreviewState(by index: Int) {
         dataSource[index].isShowingFullPreview.toggle()
-        view?.updateRowState(at: index)
+        view?.updateItemState(at: index)
     }
     
     func viewDidLoad() {

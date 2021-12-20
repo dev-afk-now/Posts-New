@@ -50,8 +50,8 @@ class HomeViewController: UIViewController {
         collection.backgroundColor = .clear
         collection.delegate = self
         collection.dataSource = self
-        collection.register(CollectionViewCell.self,
-                            forCellWithReuseIdentifier: "CollectionCell")
+        collection.registerCell(of: CollectionViewCell.self,
+                                reuseIdentifier: "CollectionCell")
         collection.keyboardDismissMode = .interactive
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
@@ -78,7 +78,7 @@ class HomeViewController: UIViewController {
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.textColor = .white
-        title.font = UIFont(name: "Helvetica Neue", size: 20)
+        title.font = .applicatonFont(size: 20)
         title.text = "Главная"
         return title
     }()
@@ -103,25 +103,14 @@ class HomeViewController: UIViewController {
         searchBar.searchTextField.backgroundColor = .white
         searchBar.isTranslucent = true
         searchBar.placeholder = "Enter title"
-        searchBar.isHidden = presenter.postsCount == 0
         return searchBar
     }()
-    
-    @objc private func sortButtonTapped() {
-        guard presenter.postsCount > 0 else { return }
-        presenter.showFilter()
-    }
     
     // MARK: - Lifecycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
-    }
-    
-    override func viewDidLayoutSubviews() {
-        super.viewDidLayoutSubviews()
-        
     }
     
     // MARK: - Private functions -
@@ -151,18 +140,20 @@ class HomeViewController: UIViewController {
     }
     
     private func setupCollectionViewBackground() -> UIView? {
-        let noResultImageView = UIImageView()
-        noResultImageView.translatesAutoresizingMaskIntoConstraints = false
         guard let image = UIImage(named: "noItemsFound") else {
             return nil
         }
+        let noResultImageView = UIImageView()
+
         let aspectRatio = image.size.width / image.size.height
-        noResultImageView.frame.size = CGSize(width: (view.frame.size.width) / 2,
-                                              height: (view.frame.size.width / aspectRatio) / 2)
+        noResultImageView.frame.size = CGSize(
+            width: (view.frame.size.width) / 2,
+            height: (view.frame.size.width / aspectRatio) / 2
+        )
         noResultImageView.image = image
         let containerNoResultView = UIView(frame: collectionView.bounds)
         noResultImageView.center = containerNoResultView.center
-        containerNoResultView.translatesAutoresizingMaskIntoConstraints = false
+
         containerNoResultView.addSubview(noResultImageView)
         return containerNoResultView
     }
@@ -195,7 +186,12 @@ class HomeViewController: UIViewController {
         navigationItem.rightBarButtonItem = sortButton
     }
     
-    private func startSearching(with searchText: String) {
+    @objc private func sortButtonTapped() {
+        guard presenter.postsCount > 0 else { return }
+        presenter.showFilter()
+    }
+    
+    private func search(with searchText: String) {
         presenter.searchPostForTitle(searchText)
     }
 }
@@ -212,11 +208,14 @@ extension HomeViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionCell", for: indexPath) as? CollectionViewCell else { return UICollectionViewCell() }
-        cell.delegate = self
-        if let postState = presenter.getPostForCell(by: indexPath.row) {
-            cell.configure(postState: postState)
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "CollectionCell",
+            for: indexPath) as? CollectionViewCell else {
+            return UICollectionViewCell()
         }
+        cell.delegate = self
+        let postState = presenter.getPostForCell(by: indexPath.row)
+            cell.configure(postState: postState)
         return cell
     }
     
@@ -244,7 +243,7 @@ extension HomeViewController: FeedViewControllerProtocol {
         //
     }
     
-    func updateRowState(at index: Int) {
+    func updateItemState(at index: Int) {
         collectionView.performBatchUpdates({
             collectionView.reloadItems(at: [IndexPath(item: index,
                                                       section: .zero)])
@@ -267,7 +266,7 @@ extension HomeViewController: FeedViewControllerProtocol {
 extension HomeViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
-        startSearching(with: searchText)
+        search(with: searchText)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

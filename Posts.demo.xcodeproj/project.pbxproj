@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D523F2202770C3A0004DBADF /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F21F2770C3A0004DBADF /* AppFont.swift */; };
+		D523F2222770C3AF004DBADF /* CollectionViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2212770C3AF004DBADF /* CollectionViewCells.swift */; };
 		D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FB2760FAC10076C370 /* HomeViewController.swift */; };
 		D54BE3FE2760FAC10076C370 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D54BE3FC2760FAC10076C370 /* HomeViewController.xib */; };
 		D54BE4012760FBF50076C370 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FF2760FBF50076C370 /* CollectionViewCell.swift */; };
@@ -62,6 +64,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D523F21F2770C3A0004DBADF /* AppFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
+		D523F2212770C3AF004DBADF /* CollectionViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCells.swift; sourceTree = "<group>"; };
 		D54BE3FB2760FAC10076C370 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D54BE3FC2760FAC10076C370 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		D54BE3FF2760FBF50076C370 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
@@ -216,6 +220,8 @@
 				D5738C462768962B00535AE6 /* UIViewChildsExtension.swift */,
 				D5738C48276896A400535AE6 /* DateExtension.swift */,
 				D55FB0BB276A1B4100AAA6DB /* FileManagerExtension.swift */,
+				D523F21F2770C3A0004DBADF /* AppFont.swift */,
+				D523F2212770C3AF004DBADF /* CollectionViewCells.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -512,6 +518,7 @@
 				D55FB0C1276A1C1000AAA6DB /* JSONService.swift in Sources */,
 				D7651EC527102BC1007374FE /* FeedPresenter.swift in Sources */,
 				D5738C472768962B00535AE6 /* UIViewChildsExtension.swift in Sources */,
+				D523F2202770C3A0004DBADF /* AppFont.swift in Sources */,
 				D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */,
 				D783D1DE271F04B200E09F06 /* FilterRouter.swift in Sources */,
 				D72A1F8227141D3A0016FB27 /* FilterViewController.swift in Sources */,
@@ -538,6 +545,7 @@
 				D5604F852768C57A00E07C0C /* UserForm.swift in Sources */,
 				D5D20C04276B336B009EDE0F /* SignInPresenter.swift in Sources */,
 				D721E45127157A81000D887E /* DetailPresenter.swift in Sources */,
+				D523F2222770C3AF004DBADF /* CollectionViewCells.swift in Sources */,
 				D783D1C9271D9BE100E09F06 /* FilterPresenter.swift in Sources */,
 				D5604F8A2768CF0F00E07C0C /* BaseNavigationController.swift in Sources */,
 				D5D20C02276B3358009EDE0F /* SignInViewController.swift in Sources */,

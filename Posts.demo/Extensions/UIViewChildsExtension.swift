@@ -47,7 +47,7 @@ extension UIApplication {
 }
 
 extension UIViewController {
-    func swapCurrentViewController(with newViewController: UIViewController,
+    static func swapCurrentViewController(with newViewController: UIViewController,
                                    animated: Bool = true,
                                    duration: TimeInterval = 0.75,
                                    isReversed: Bool = false) {

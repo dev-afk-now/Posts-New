@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SignInPresenter {
-    func auth(username: String, password: String)
+    func auth()
     func navigateToRegistration()
 }
 
@@ -32,10 +32,10 @@ extension SignInPresenterImplementation: SignInPresenter {
         router.showRegistration()
     }
     
-    func auth(username: String, password: String) {
-        userData = UserForm.defaultInstance
-        userData.username = username
-        userData.password = password
+    func auth() {
+        
+        // TODO: Метод валидации, чтобы не гонять трафик зря
+        
         signIn { [weak self] error in
             if let error = error {
                 self?.view?.showValidateFailure(with: error)
@@ -52,6 +52,7 @@ extension SignInPresenterImplementation: SignInPresenter {
             } else {
                 KeychainService.shared.clear()
                 KeychainService.shared.set(userData.username ?? "", for: kUsername)
+                KeychainService.shared.set(userData.password ?? "", for: kPassword)
                 completion(nil)
             }
         } else {

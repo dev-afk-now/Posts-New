@@ -1,5 +1,5 @@
 //
-//  CollectionCollectionViewCell.swift
+//  CollectionViewCell.swift
 //  Posts.demo
 //
 //  Created by devmac on 08.12.2021.
@@ -16,6 +16,7 @@ class CollectionViewCell: FullWidthCollectionViewCell {
     weak var delegate: CollectionViewCellDelegate?
     
     // MARK: - Private variables -
+    
     private var buttonTitleIfExpanded = "Скрыть"
     private var buttonTitleIfNotExpanded = "Показать полностью"
     
@@ -23,7 +24,7 @@ class CollectionViewCell: FullWidthCollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
         $0.numberOfLines = 0
-        $0.font = UIFont(name: "Helvetica Neue Bold", size: 20)
+        $0.font = .applicatonFont(.bold, size: 20)
         $0.text = "Главная"
         $0.textAlignment = .left
         return $0
@@ -33,7 +34,7 @@ class CollectionViewCell: FullWidthCollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
         $0.numberOfLines = 2
-        $0.font = UIFont(name: "Helvetica Neue", size: 15)
+        $0.font = .applicatonFont()
         $0.text = "Description"
         $0.textAlignment = .left
         return $0
@@ -42,8 +43,8 @@ class CollectionViewCell: FullWidthCollectionViewCell {
     private lazy var showFullPreviewButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = UIFont(name: "Helvetica Neue", size: 14)
-        button.titleLabel?.textColor = .white
+        button.titleLabel?.font = .applicatonFont(size: 14)
+        button.setTitleColor(.white, for: .normal)
         button.backgroundColor = .black
         button.addAction(UIAction(handler: { _ in
             self.showFullDescription()
@@ -76,7 +77,7 @@ class CollectionViewCell: FullWidthCollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
         $0.numberOfLines = 1
-        $0.font = UIFont(name: "Helvetica Neue Bold", size: 12)
+        $0.font = .applicatonFont(.bold, size: 12)
         $0.text = "Description"
         $0.textAlignment = .center
         return $0
@@ -86,7 +87,7 @@ class CollectionViewCell: FullWidthCollectionViewCell {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
         $0.numberOfLines = 1
-        $0.font = UIFont(name: "Helvetica Neue", size: 12)
+        $0.font = .applicatonFont(size: 12)
         $0.text = "Description"
         $0.textAlignment = .center
         return $0
@@ -114,7 +115,7 @@ class CollectionViewCell: FullWidthCollectionViewCell {
         self.headlineLabel.text = postState.title
         self.descriptionLabel.text = postState.text
         self.likesLabel.text = postState.likes
-        self.timestampLabel.text = Date.stringFromInt(timestamp: postState.timestamp)
+        self.timestampLabel.text = Date.dateStringFromTimestamp(postState.timestamp)
         self.descriptionLabel.numberOfLines = postState.isShowingFullPreview ? 0 : 2
         self.showFullPreviewButton.setTitle(postState.isShowingFullPreview ? buttonTitleIfExpanded : buttonTitleIfNotExpanded , for: .normal)
     }

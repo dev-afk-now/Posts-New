@@ -27,8 +27,6 @@ final class SignUpPresenterImplementation {
         self.router = router
     }
     
-    
-    
     private func validateUserForm() -> Bool {
         var isFormValid = true
         
