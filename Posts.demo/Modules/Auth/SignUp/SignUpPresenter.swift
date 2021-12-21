@@ -103,7 +103,7 @@ extension SignUpPresenterImplementation: SignUpPresenter {
     
     func termsOfServiceSwitchStateChanged(_ value: Bool) {
         isAcceptedTermsOfService = value
-        view?.termsOfServiceStateChanged(value)
+        view?.isTermsOfServiceAccepted(value)
     }
     
     private func signUp(completion: @escaping (Bool) -> Void) {

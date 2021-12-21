@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		D50CD47C2771ED37008BF8AB /* DequeueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47B2771ED37008BF8AB /* DequeueCell.swift */; };
 		D50CD47E2771F662008BF8AB /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47D2771F662008BF8AB /* SortOption.swift */; };
+		D50CD48027720352008BF8AB /* ViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47F27720352008BF8AB /* ViewItem.swift */; };
 		D523F2202770C3A0004DBADF /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F21F2770C3A0004DBADF /* AppFont.swift */; };
 		D523F2222770C3AF004DBADF /* CollectionViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2212770C3AF004DBADF /* CollectionViewCells.swift */; };
 		D523F2242771D6DA004DBADF /* ValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2232771D6DA004DBADF /* ValidationError.swift */; };
@@ -21,10 +22,10 @@
 		D54EBBD827673FB600148E48 /* SignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54EBBD727673FB600148E48 /* SignUpViewController.swift */; };
 		D54EBBDA276740AA00148E48 /* SignUpPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54EBBD9276740AA00148E48 /* SignUpPresenter.swift */; };
 		D54EBBDC276740B800148E48 /* SignUpConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54EBBDB276740B800148E48 /* SignUpConfigurator.swift */; };
-		D557ACD1276B731F003EA877 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D557ACD0276B731F003EA877 /* WebViewController.swift */; };
-		D557ACD4276B7710003EA877 /* WebPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D557ACD3276B7710003EA877 /* WebPresenter.swift */; };
+		D557ACD1276B731F003EA877 /* TermsOfServiceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D557ACD0276B731F003EA877 /* TermsOfServiceViewController.swift */; };
+		D557ACD4276B7710003EA877 /* TermsOfServicePresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D557ACD3276B7710003EA877 /* TermsOfServicePresenter.swift */; };
 		D557ACD6276B7829003EA877 /* WebConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D557ACD5276B7829003EA877 /* WebConfigurator.swift */; };
-		D557ACD8276B7DD4003EA877 /* WebRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D557ACD7276B7DD4003EA877 /* WebRouter.swift */; };
+		D557ACD8276B7DD4003EA877 /* TermsOfServiceRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D557ACD7276B7DD4003EA877 /* TermsOfServiceRouter.swift */; };
 		D55FB0BC276A1B4100AAA6DB /* FileManagerExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55FB0BB276A1B4100AAA6DB /* FileManagerExtension.swift */; };
 		D55FB0C1276A1C1000AAA6DB /* JSONService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D55FB0C0276A1C1000AAA6DB /* JSONService.swift */; };
 		D5604F822768AA5000E07C0C /* KeychainSwift in Frameworks */ = {isa = PBXBuildFile; productRef = D5604F812768AA5000E07C0C /* KeychainSwift */; };
@@ -72,6 +73,7 @@
 /* Begin PBXFileReference section */
 		D50CD47B2771ED37008BF8AB /* DequeueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DequeueCell.swift; sourceTree = "<group>"; };
 		D50CD47D2771F662008BF8AB /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
+		D50CD47F27720352008BF8AB /* ViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItem.swift; sourceTree = "<group>"; };
 		D523F21F2770C3A0004DBADF /* AppFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 		D523F2212770C3AF004DBADF /* CollectionViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCells.swift; sourceTree = "<group>"; };
 		D523F2232771D6DA004DBADF /* ValidationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationError.swift; sourceTree = "<group>"; };
@@ -84,10 +86,10 @@
 		D54EBBD727673FB600148E48 /* SignUpViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewController.swift; sourceTree = "<group>"; };
 		D54EBBD9276740AA00148E48 /* SignUpPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpPresenter.swift; sourceTree = "<group>"; };
 		D54EBBDB276740B800148E48 /* SignUpConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpConfigurator.swift; sourceTree = "<group>"; };
-		D557ACD0276B731F003EA877 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		D557ACD3276B7710003EA877 /* WebPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebPresenter.swift; sourceTree = "<group>"; };
+		D557ACD0276B731F003EA877 /* TermsOfServiceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceViewController.swift; sourceTree = "<group>"; };
+		D557ACD3276B7710003EA877 /* TermsOfServicePresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServicePresenter.swift; sourceTree = "<group>"; };
 		D557ACD5276B7829003EA877 /* WebConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebConfigurator.swift; sourceTree = "<group>"; };
-		D557ACD7276B7DD4003EA877 /* WebRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebRouter.swift; sourceTree = "<group>"; };
+		D557ACD7276B7DD4003EA877 /* TermsOfServiceRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TermsOfServiceRouter.swift; sourceTree = "<group>"; };
 		D55FB0BB276A1B4100AAA6DB /* FileManagerExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileManagerExtension.swift; sourceTree = "<group>"; };
 		D55FB0C0276A1C1000AAA6DB /* JSONService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONService.swift; sourceTree = "<group>"; };
 		D5604F842768C57A00E07C0C /* UserForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserForm.swift; sourceTree = "<group>"; };
@@ -149,6 +151,7 @@
 			isa = PBXGroup;
 			children = (
 				D523F22C2771D741004DBADF /* ConcretePost.swift */,
+				D50CD47F27720352008BF8AB /* ViewItem.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -194,10 +197,10 @@
 		D557ACCF276B7306003EA877 /* TermsOfService */ = {
 			isa = PBXGroup;
 			children = (
-				D557ACD0276B731F003EA877 /* WebViewController.swift */,
-				D557ACD3276B7710003EA877 /* WebPresenter.swift */,
+				D557ACD0276B731F003EA877 /* TermsOfServiceViewController.swift */,
+				D557ACD3276B7710003EA877 /* TermsOfServicePresenter.swift */,
 				D557ACD5276B7829003EA877 /* WebConfigurator.swift */,
-				D557ACD7276B7DD4003EA877 /* WebRouter.swift */,
+				D557ACD7276B7DD4003EA877 /* TermsOfServiceRouter.swift */,
 			);
 			path = TermsOfService;
 			sourceTree = "<group>";
@@ -533,7 +536,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D557ACD1276B731F003EA877 /* WebViewController.swift in Sources */,
+				D557ACD1276B731F003EA877 /* TermsOfServiceViewController.swift in Sources */,
 				D783D1DB271EFF5500E09F06 /* DetailRouter.swift in Sources */,
 				D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */,
 				D7651EBF27102B6E007374FE /* FeedViewController.swift in Sources */,
@@ -562,13 +565,14 @@
 				D7651EC9271040EB007374FE /* NetworkService.swift in Sources */,
 				D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */,
 				D55FB0BC276A1B4100AAA6DB /* FileManagerExtension.swift in Sources */,
-				D557ACD4276B7710003EA877 /* WebPresenter.swift in Sources */,
-				D557ACD8276B7DD4003EA877 /* WebRouter.swift in Sources */,
+				D557ACD4276B7710003EA877 /* TermsOfServicePresenter.swift in Sources */,
+				D557ACD8276B7DD4003EA877 /* TermsOfServiceRouter.swift in Sources */,
 				D72A1F9727147B770016FB27 /* FeedRouter.swift in Sources */,
 				D7651EA627102B10007374FE /* AppDelegate.swift in Sources */,
 				D73EBAB527104F5600F24619 /* TableViewCell.swift in Sources */,
 				D523F2242771D6DA004DBADF /* ValidationError.swift in Sources */,
 				D54BE4012760FBF50076C370 /* CollectionViewCell.swift in Sources */,
+				D50CD48027720352008BF8AB /* ViewItem.swift in Sources */,
 				D72A1F8A271456F10016FB27 /* DetailViewController.swift in Sources */,
 				D783D1E32720001700E09F06 /* ImageService.swift in Sources */,
 				D5738C49276896A400535AE6 /* DateExtension.swift in Sources */,

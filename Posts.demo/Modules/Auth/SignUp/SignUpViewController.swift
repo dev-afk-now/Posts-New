@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SignUpViewControllerProtocol: AnyObject {
-    func termsOfServiceStateChanged(_ value: Bool)
+    func isTermsOfServiceAccepted(_ value: Bool)
     func showValidationError(with errorType: ValidationError)
 }
 
@@ -233,7 +233,7 @@ extension SignUpViewController: SignUpViewControllerProtocol {
         self.showAlert(with: errorType.message)
     }
     
-    func termsOfServiceStateChanged(_ value: Bool) {
+    func isTermsOfServiceAccepted(_ value: Bool) {
         submitButton.isEnabled = value
         submitButton.backgroundColor = value ? .black : .lightGray
         termsOfServiceLabel.textColor = value ? .black : .lightGray
@@ -248,7 +248,7 @@ extension SignUpViewController: UITextFieldDelegate {
         return view.endEditing(true)
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         if let field = textField as? FormTextField {
             presenter.updateUserForm(text: field.text ?? "", type: field.internalType)
             print(field.internalType)

@@ -178,7 +178,7 @@ extension SignInViewController: UITextFieldDelegate {
         return view.endEditing(true)
     }
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    func textFieldDidChangeSelection(_ textField: UITextField) {
         if let field = textField as? FormTextField {
             presenter.updateUserForm(text: field.text ?? "",
                                      type: field.internalType)

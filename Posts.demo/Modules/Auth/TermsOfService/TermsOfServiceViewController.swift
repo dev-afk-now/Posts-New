@@ -8,14 +8,15 @@
 import UIKit
 import WebKit
 
-protocol WebViewControllerProtocol: AnyObject {
-}
+protocol TermsOfServiceViewControllerEntity: AnyObject {}
 
-class WebViewController: UIViewController {
+class TermsOfServiceViewController: UIViewController {
     
-    var presenter: WebPresenter!
+    var presenter: TermsOfServicePresenter!
     
     // MARK: - Private variables -
+    
+    private var termsOfServiceUrl = "https://google.com"
     
     private lazy var webView: WKWebView = {
         let webConfiguration = WKWebViewConfiguration()
@@ -36,17 +37,13 @@ class WebViewController: UIViewController {
         return button
     }()
     
-    @objc private func backButtonClicked() {
-        presenter.backButtonClicked()
-    }
-    
     // MARK: - Lifecycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupConstraints()
-        loadPage(urlString: "https://www.google.com")
+        loadPage(urlString: termsOfServiceUrl)
         setupNavigationBar()
     }
     
@@ -56,6 +53,10 @@ class WebViewController: UIViewController {
         let myURL = URL(string: urlString)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
+    }
+    
+    @objc private func backButtonClicked() {
+        presenter.backButtonClicked()
     }
     
     private func setupNavigationBar() {
@@ -75,6 +76,6 @@ class WebViewController: UIViewController {
     }
 }
 
-extension WebViewController: WKUIDelegate {}
+extension TermsOfServiceViewController: WKUIDelegate {}
 
-extension WebViewController: WebViewControllerProtocol {}
+extension TermsOfServiceViewController: TermsOfServiceViewControllerEntity {}

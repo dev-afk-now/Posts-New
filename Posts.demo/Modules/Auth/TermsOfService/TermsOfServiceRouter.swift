@@ -8,7 +8,7 @@
 import Foundation
 import UIKit
 
-protocol WebRouter {
+protocol TermsOfServiceRouter {
     func navigateBackToRootViewController()
 }
 
@@ -21,7 +21,7 @@ class WebRouterImplementation {
     }
 }
 
-extension WebRouterImplementation: WebRouter {
+extension WebRouterImplementation: TermsOfServiceRouter {
     func navigateBackToRootViewController() {
         context.navigationController?.popViewController(animated: true)
     }

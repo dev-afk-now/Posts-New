@@ -7,21 +7,6 @@
 
 import UIKit
 
-protocol ViewItem {}
-struct TitleItem: ViewItem {
-    let title: String
-}
-struct TextItem: ViewItem {
-    let text: String
-}
-struct ImageItem: ViewItem {
-    let image: URL?
-}
-struct DetailItem: ViewItem {
-    let likes: Int
-    let date: Date
-}
-
 protocol DetailPresenter {
     func viewDidLoad()
     func navigateToRootViewController()

@@ -15,7 +15,11 @@ final class DetailConfigurator {
         let imageRequest = ImageRequestImplementation()
         let imageService = ImageServiceImplementation(requestService: imageRequest)
         let router = DetailRouterImplementation(context: view)
-        let presenter = DetailPresenterImpementation(id: id, view: view, networkService: networkService, router: router, imageService: imageService)
+        let presenter = DetailPresenterImpementation(id: id,
+                                                     view: view,
+                                                     networkService: networkService,
+                                                     router: router,
+                                                     imageService: imageService)
         view.presenter = presenter
         return view
     }
