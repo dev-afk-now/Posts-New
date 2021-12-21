@@ -13,27 +13,33 @@ protocol TableViewCellDelegate: AnyObject {
 
 class TableViewCell: UITableViewCell {
     
-    @IBOutlet weak var headlineLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var showFullPreviewButton: UIButton!
-    @IBOutlet weak var likesLabel: UILabel!
-    @IBOutlet weak var timestampLabel: UILabel!
+    // MARK: - Outlets -
+    @IBOutlet private weak var headlineLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
+    @IBOutlet private weak var showFullPreviewButton: UIButton!
+    @IBOutlet private weak var likesLabel: UILabel!
+    @IBOutlet private weak var timestampLabel: UILabel!
     
-    private var buttonTitleIfExpanded = "Скрыть"
-    private var buttonTitleIfNotExpanded = "Показать полностью"
+    private let buttonTitleIfExpanded = "Скрыть"
+    private let buttonTitleIfNotExpanded = "Показать полностью"
+    private let collapsedStateNumberOfLines = 2
     
     weak var delegate: TableViewCellDelegate?
-    
-    @IBAction func expandDescriptionLabel(_ sender: UIButton) {
-        delegate?.compressDescriptionLabel(self)
-    }
     
     func configure(postState: PostCellModel) {
         self.headlineLabel.text = postState.title
         self.descriptionLabel.text = postState.text
         self.likesLabel.text = postState.likes
         self.timestampLabel.text = Date.stringFromInt(timestamp: postState.timestamp)
-        self.descriptionLabel.numberOfLines = postState.isShowingFullPreview ? 0 : 2
-        self.showFullPreviewButton.setTitle(postState.isShowingFullPreview ? buttonTitleIfExpanded : buttonTitleIfNotExpanded , for: .normal)
+        self.descriptionLabel.numberOfLines = postState.isShowingFullPreview ? 0 : collapsedStateNumberOfLines
+        self.showFullPreviewButton.setTitle(
+            postState.isShowingFullPreview ? buttonTitleIfExpanded : buttonTitleIfNotExpanded,
+            for: .normal)
+    }
+    
+    // MARK: - Actions -
+    
+    @IBAction func expandDescriptionLabel(_ sender: UIButton) {
+        delegate?.compressDescriptionLabel(self)
     }
 }

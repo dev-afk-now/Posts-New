@@ -17,8 +17,10 @@ class CollectionViewCell: FullWidthCollectionViewCell {
     
     // MARK: - Private variables -
     
-    private var buttonTitleIfExpanded = "Скрыть"
-    private var buttonTitleIfNotExpanded = "Показать полностью"
+    private let buttonTitleIfExpanded = "Скрыть"
+    private let buttonTitleIfNotExpanded = "Показать полностью"
+
+    private var collapsedStateNumberOfLines = 2
     
     private lazy var headlineLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
@@ -112,27 +114,37 @@ class CollectionViewCell: FullWidthCollectionViewCell {
     }
     
     func configure(postState: PostCellModel) {
-        self.headlineLabel.text = postState.title
-        self.descriptionLabel.text = postState.text
-        self.likesLabel.text = postState.likes
-        self.timestampLabel.text = Date.dateStringFromTimestamp(postState.timestamp)
-        self.descriptionLabel.numberOfLines = postState.isShowingFullPreview ? 0 : 2
-        self.showFullPreviewButton.setTitle(postState.isShowingFullPreview ? buttonTitleIfExpanded : buttonTitleIfNotExpanded , for: .normal)
+        headlineLabel.text = postState.title
+        descriptionLabel.text = postState.text
+        likesLabel.text = postState.likes
+        timestampLabel.text = Date.dateStringFromTimestamp(postState.timestamp)
+        descriptionLabel.numberOfLines = postState.isShowingFullPreview ? 0 : collapsedStateNumberOfLines
+        showFullPreviewButton.setTitle(postState.isShowingFullPreview ?
+                                            buttonTitleIfExpanded : buttonTitleIfNotExpanded,
+                                            for: .normal)
     }
     
     // MARK: - Private functions -
     
     private func initialSetup() {
+        layoutContainerView()
+        arrangeContainerViewSubviews()
+        setupSuperViewBackground()
+        setupSubviewsConstraints()
+    }
+    
+    private func setupSuperViewBackground() {
         contentView.backgroundColor = .clear
-        setupContainerView()
+    }
+    
+    private func arrangeContainerViewSubviews() {
         containerView.addSubview(headlineLabel)
         containerView.addSubview(descriptionLabel)
         containerView.addSubview(footerContainer)
         containerView.addSubview(showFullPreviewButton)
-        setupSubviewsConstraints()
     }
     
-    private func setupContainerView() {
+    private func layoutContainerView() {
         contentView.addSubview(containerView)
         NSLayoutConstraint.activate([
         containerView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
@@ -150,9 +162,6 @@ class CollectionViewCell: FullWidthCollectionViewCell {
         footerContainer.addSubview(likesLabel)
         footerContainer.addSubview(timestampLabel)
         NSLayoutConstraint.activate([
-            
-            // TODO: Доделать высоту и ширину картинки
-            
             heartImageView.leadingAnchor.constraint(equalTo: footerContainer.leadingAnchor),
             heartImageView.topAnchor.constraint(equalTo: footerContainer.topAnchor, constant: verticalInset),
             heartImageView.bottomAnchor.constraint(equalTo: footerContainer.bottomAnchor, constant: -verticalInset),
