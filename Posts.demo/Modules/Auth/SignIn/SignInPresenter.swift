@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SignInPresenter {
-    func auth()
+    func validateAndAssign()
     func updateUserForm(text: String, type: FormTextFieldType)
     func navigateToRegistration()
 }
@@ -30,6 +30,34 @@ final class SignInPresenterImplementation {
     }
     
     // MARK: - Private funcs -
+    
+    private func validateUserForm() -> Bool {
+        var isFormValid = true
+        
+        let isUsernameAlphabetNumeric = (userData.username ?? "").isAlphanumeric()
+        let uppercaseLetters = CharacterSet.uppercaseLetters
+        let passwordIncludesCapitalization = (userData.password ?? "").unicodeScalars.contains(where: { element in
+            uppercaseLetters.contains(element)
+        })
+        if !isUsernameAlphabetNumeric {
+            isFormValid = false
+            self.view?.showValidationError(with: .invalidUsername)
+            return isFormValid
+        }
+        let isPasswordLengthValid = (userData.password ?? "").count >= 6
+        if !isPasswordLengthValid {
+            isFormValid = false
+            self.view?.showValidationError(with: .shortPassword)
+            return isFormValid
+        }
+        if !passwordIncludesCapitalization {
+            isFormValid = false
+            self.view?.showValidationError(with: .missingUppercasedLetter)
+            return isFormValid
+            
+        }
+        return isFormValid
+    }
     
     private func signIn(completion: @escaping (ValidationError?) -> Void) {
         if let remoteUser = JSONService.shared.getUser(user: userData) {
@@ -66,15 +94,14 @@ extension SignInPresenterImplementation: SignInPresenter {
         router.showRegistration()
     }
     
-    func auth() {
-        
-        // TODO: Метод валидации, чтобы не гонять трафик зря
-        
-        signIn { [weak self] error in
-            if let error = error {
-                self?.view?.showValidationError(with: error)
-            } else {
-                self?.router.changeFlow()
+    func validateAndAssign() {
+        if validateUserForm() {
+            signIn { [weak self] error in
+                if let error = error {
+                    self?.view?.showValidationError(with: error)
+                } else {
+                    self?.router.changeFlow()
+                }
             }
         }
     }

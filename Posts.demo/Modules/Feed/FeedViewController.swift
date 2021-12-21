@@ -87,7 +87,7 @@ class FeedViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tableView.backgroundColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
+        tableView.backgroundColor = .lightGray
         tableView.delegate = self
         tableView.dataSource = self
         tableView.register(UINib(nibName: "TableViewCell", bundle: .main), forCellReuseIdentifier: "TableCell")

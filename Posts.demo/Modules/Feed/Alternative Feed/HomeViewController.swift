@@ -24,10 +24,6 @@ class HomeViewController: UIViewController {
         return button
     }()
     
-    @objc private func logOutButtonTapped() {
-        presenter.logOut()
-    }
-    
     private lazy var collectionView: UICollectionView = {
         let horizontalInset: CGFloat = 16
         let verticalInset: CGFloat = 16
@@ -122,6 +118,10 @@ class HomeViewController: UIViewController {
         configureCollectionView()
         layoutGradientView()
         presenter.viewDidLoad()
+    }
+    
+    @objc private func logOutButtonTapped() {
+        presenter.logOut()
     }
     
     private func setupMainView() {

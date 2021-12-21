@@ -9,7 +9,7 @@ import Foundation
 
 protocol SignUpPresenter {
     func termsOfServiceSwitchStateChanged(_ value: Bool)
-    func auth()
+    func validateAndAssign()
     func updateUserForm(text: String, type: FormTextFieldType)
     func navigateToLogin()
     func openTermsOfService()
@@ -88,7 +88,7 @@ extension SignUpPresenterImplementation: SignUpPresenter {
         router.showLogin()
     }
     
-    func auth() {
+    func validateAndAssign() {
         if validateUserForm() {
             signUp { [weak self] result in
                 if result {
@@ -118,4 +118,3 @@ extension SignUpPresenterImplementation: SignUpPresenter {
 
 public let kUsername = "username"
 public let kPassword = "password"
-

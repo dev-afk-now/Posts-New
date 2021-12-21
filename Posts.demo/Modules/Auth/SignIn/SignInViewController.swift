@@ -58,7 +58,7 @@ class SignInViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Submit", for: .normal)
         button.addAction(UIAction { [weak self] _ in
-            self?.presenter.auth()
+            self?.presenter.validateAndAssign()
         }, for: .touchUpInside)
         button.backgroundColor = .black
         return button
@@ -165,9 +165,7 @@ class SignInViewController: UIViewController {
 
 extension SignInViewController: SignInViewControllerProtocol {
     func showValidationError(with errorType: ValidationError) {
-        let alert = UIAlertController(title: "Error", message: errorType.message, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
-        self.present(alert, animated: true, completion: nil)
+        self.showAlert(with: errorType.message)
     }
 }
 

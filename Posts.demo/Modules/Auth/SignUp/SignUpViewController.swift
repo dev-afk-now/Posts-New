@@ -135,7 +135,7 @@ class SignUpViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Submit", for: .normal)
         button.addAction(UIAction { _ in
-            self.presenter.auth()
+            self.presenter.validateAndAssign()
         }, for: .touchUpInside)
         button.isEnabled = false
         button.backgroundColor = .lightGray
@@ -158,7 +158,7 @@ class SignUpViewController: UIViewController {
     }
     
     private func initialSetup() {
-        setupSuperViewBackground()
+        setupSuperviewBackground()
         setupStackViewLayout()
         arrangeStack()
     }
@@ -230,13 +230,7 @@ class SignUpViewController: UIViewController {
 
 extension SignUpViewController: SignUpViewControllerProtocol {
     func showValidationError(with errorType: ValidationError) {
-        let alert = UIAlertController(title: "Error",
-                                      message: errorType.message,
-                                      preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: NSLocalizedString("OK",
-                                                               comment: "Default action"),
-                                      style: .default))
-        self.present(alert, animated: true, completion: nil)
+        self.showAlert(with: errorType.message)
     }
     
     func termsOfServiceStateChanged(_ value: Bool) {

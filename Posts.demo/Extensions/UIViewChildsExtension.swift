@@ -77,3 +77,15 @@ extension UIViewController {
         }
     }
 }
+
+extension UIViewController {
+    func showAlert(with errorMessage: String) {
+        let alert = UIAlertController(title: "Error",
+                                      message: errorMessage,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK",
+                                                               comment: "Default action"),
+                                      style: .default))
+        self.present(alert, animated: true, completion: nil)
+    }
+}

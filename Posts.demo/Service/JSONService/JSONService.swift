@@ -33,11 +33,8 @@ final class JSONService {
     }
     
     func getUser(user: UserForm) -> UserForm? {
-        var resultUser: UserForm?
         let users: [UserForm] = getAllUsers()
-        let result = users.filter { $0.username == user.username ?? ""}
-        resultUser = result.first
-        return resultUser
+        return users.first{ $0.username == user.username }
     }
     
     func getAllUsers() -> [UserForm] {

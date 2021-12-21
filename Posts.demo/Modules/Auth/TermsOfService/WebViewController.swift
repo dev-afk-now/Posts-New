@@ -13,6 +13,10 @@ protocol WebViewControllerProtocol: AnyObject {
 
 class WebViewController: UIViewController {
     
+    var presenter: WebPresenter!
+    
+    // MARK: - Private variables -
+    
     private lazy var webView: WKWebView = {
         let webConfiguration = WKWebViewConfiguration()
         let webView = WKWebView(frame: .zero,
@@ -23,7 +27,12 @@ class WebViewController: UIViewController {
     }()
     
     private lazy var backButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(backButtonClicked))
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonClicked)
+        )
         return button
     }()
     
@@ -31,7 +40,7 @@ class WebViewController: UIViewController {
         presenter.backButtonClicked()
     }
     
-    var presenter: WebPresenter!
+    // MARK: - Lifecycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -41,13 +50,15 @@ class WebViewController: UIViewController {
         setupNavigationBar()
     }
     
-    func loadPage(urlString: String) {
+    // MARK: - Private funcs -
+    
+    private func loadPage(urlString: String) {
         let myURL = URL(string: urlString)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
     }
     
-    func setupNavigationBar() {
+    private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = backButton
     }
     
@@ -64,8 +75,6 @@ class WebViewController: UIViewController {
     }
 }
 
-extension WebViewController: WKUIDelegate {
-}
+extension WebViewController: WKUIDelegate {}
 
-extension WebViewController: WebViewControllerProtocol {
-}
+extension WebViewController: WebViewControllerProtocol {}
