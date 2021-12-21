@@ -15,7 +15,12 @@ final class KeychainService {
     private let keychain = KeychainSwift()
     
     static var isUserLoggedIn: Bool {
-        return !(KeychainService.shared.get(key: kUsername) ?? "").isEmpty
+        if !(KeychainService.shared.get(key: kUsername) ?? "").isEmpty,
+           !(KeychainService.shared.get(key: kUsername) ?? "").isEmpty {
+            return true
+        } else {
+            return false
+        }
         
     }
     

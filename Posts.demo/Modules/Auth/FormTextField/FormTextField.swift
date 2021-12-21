@@ -8,21 +8,59 @@
 import UIKit
 
 class FormTextField: UITextField {
+    
+    var internalType: FormTextFieldType = .notDefined
+    
     required init?(coder: NSCoder) {
         super.init(coder: coder)
         setupStyle()
     }
     
-    init(placeholder: String = "", isSecured: Bool = false) {
+    init(type: FormTextFieldType) {
         super.init(frame: .zero)
-        setupStyle(placeholder: placeholder, isSecured: isSecured)
+        internalType = type
+        setupStyle()
     }
     
-    private func setupStyle(placeholder: String = "", isSecured: Bool = false) {
+    private func setupStyle() {
         self.autocorrectionType = .no
         self.borderStyle = .roundedRect
-        self.isSecureTextEntry = isSecured
+        self.placeholder = internalType.placeholder
+        self.isSecureTextEntry = internalType.isSecured
         self.cornerRadius = 8
-        self.placeholder = placeholder
     }
 }
+
+enum FormTextFieldType {
+    case notDefined
+    case username
+    case password
+    case confirmPassword
+    
+    var placeholder: String {
+        switch self {
+        case .notDefined:
+            return ""
+        case .username:
+            return "Имя пользователя"
+        case .password:
+            return "Пароль"
+        case .confirmPassword:
+            return "Подтвердите пароль"
+        }
+    }
+    
+    var isSecured: Bool {
+        switch self {
+        case .notDefined:
+            return false
+        case .username:
+            return false
+        case .password:
+            return true
+        case .confirmPassword:
+            return true
+        }
+    }
+}
+

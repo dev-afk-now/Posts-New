@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SignInViewControllerProtocol: AnyObject {
-    func showValidateFailure(with errorType: ValidationError)
+    func showValidationError(with errorType: ValidationError)
 }
 
 class SignInViewController: UIViewController {
@@ -40,14 +40,14 @@ class SignInViewController: UIViewController {
     }()
     
     private lazy var loginTextField: FormTextField = {
-        let field = FormTextField(placeholder: "Имя пользователя", isSecured: false)
+        let field = FormTextField(type: .username)
         field.translatesAutoresizingMaskIntoConstraints = false
         field.delegate = self
         return field
     }()
     
     private lazy var passwordTextField: FormTextField = {
-        let field = FormTextField(placeholder: "Пароль", isSecured: true)
+        let field = FormTextField(type: .password)
         field.translatesAutoresizingMaskIntoConstraints = false
         field.delegate = self
         return field
@@ -57,8 +57,8 @@ class SignInViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Submit", for: .normal)
-        button.addAction(UIAction { [unowned self] _ in
-            self.presenter.auth(username: self.loginTextField.text ?? "", password: self.passwordTextField.text ?? "")
+        button.addAction(UIAction { [weak self] _ in
+            self?.presenter.auth()
         }, for: .touchUpInside)
         button.backgroundColor = .black
         return button
@@ -81,8 +81,8 @@ class SignInViewController: UIViewController {
         button.titleLabel?.font = .applicatonFont()
         button.setTitleColor(.systemBlue, for: .normal)
         button.setTitle("Зарегистрироваться", for: .normal)
-        button.addAction(UIAction { [unowned self] _ in
-            self.presenter.navigateToRegistration()
+        button.addAction(UIAction { [weak self] _ in
+            self?.presenter.navigateToRegistration()
         }, for: .touchUpInside)
         return button
     }()
@@ -98,9 +98,21 @@ class SignInViewController: UIViewController {
     
     // MARK: - Private funcs -
     
-    private func initialSetup() {
+    private func setupSuperViewBackground() {
         view.backgroundColor = .white
+    }
+    
+    private func initialSetup() {
+        setupSuperViewBackground()
         setupStackViewLayout()
+        arrangeStack()
+    }
+    
+    private func setupSuperviewBackground() {
+        view.backgroundColor = .white
+    }
+    
+    private func arrangeStack() {
         stackView.addArrangedSubview(signInLabel)
         stackView.addArrangedSubview(loginTextField)
         stackView.addArrangedSubview(passwordTextField)
@@ -114,35 +126,37 @@ class SignInViewController: UIViewController {
     }
     
     private func setupStackViewLayout() {
+        let horizontalInset: CGFloat = 10
         view.addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10),
-            stackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10),
+            stackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: horizontalInset),
+            stackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -horizontalInset),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
     }
     
     private func setupConstraints() {
+        let approximateItemHeight: CGFloat = 40
         let horizontalInset: CGFloat = 32
         NSLayoutConstraint.activate([
-            signInLabel.heightAnchor.constraint(equalToConstant: 40),
+            signInLabel.heightAnchor.constraint(equalToConstant: approximateItemHeight),
             
             loginTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor,
                                                  constant: horizontalInset),
             loginTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor,
                                                   constant: -horizontalInset),
-            loginTextField.heightAnchor.constraint(equalToConstant: 40),
+            loginTextField.heightAnchor.constraint(equalToConstant: approximateItemHeight),
             
             passwordTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor,
                                                     constant: horizontalInset),
             passwordTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor, constant: -horizontalInset),
-            passwordTextField.heightAnchor.constraint(equalToConstant: 40),
-            registrationButton.heightAnchor.constraint(equalToConstant: 40),
+            passwordTextField.heightAnchor.constraint(equalToConstant: approximateItemHeight),
+            registrationButton.heightAnchor.constraint(equalToConstant: approximateItemHeight),
             
             submitButton.leftAnchor.constraint(equalTo: stackView.leftAnchor),
             submitButton.rightAnchor.constraint(equalTo: stackView.rightAnchor),
-            submitButton.heightAnchor.constraint(equalToConstant: 40)
+            submitButton.heightAnchor.constraint(equalToConstant: approximateItemHeight)
         ])
     }
 }
@@ -150,7 +164,7 @@ class SignInViewController: UIViewController {
 // MARK: - SignInViewController Extension -
 
 extension SignInViewController: SignInViewControllerProtocol {
-    func showValidateFailure(with errorType: ValidationError) {
+    func showValidationError(with errorType: ValidationError) {
         let alert = UIAlertController(title: "Error", message: errorType.message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Default action"), style: .default))
         self.present(alert, animated: true, completion: nil)
@@ -164,5 +178,12 @@ extension SignInViewController: UITextFieldDelegate {
     
     private func handleTextFieldReturning(_ textField: UITextField) -> Bool {
         return view.endEditing(true)
+    }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let field = textField as? FormTextField {
+            presenter.updateUserForm(text: field.text ?? "",
+                                     type: field.internalType)
+        }
     }
 }

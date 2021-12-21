@@ -9,11 +9,15 @@ import Foundation
 
 protocol SignInPresenter {
     func auth()
+    func updateUserForm(text: String, type: FormTextFieldType)
     func navigateToRegistration()
 }
 
 final class SignInPresenterImplementation {
     weak var view: SignInViewControllerProtocol?
+    
+    // MARK: - Private vars -
+    
     private let router: SignInRouter
     
     private var userData = UserForm.defaultInstance
@@ -24,10 +28,40 @@ final class SignInPresenterImplementation {
         self.view = view
         self.router = router
     }
+    
+    // MARK: - Private funcs -
+    
+    private func signIn(completion: @escaping (ValidationError?) -> Void) {
+        if let remoteUser = JSONService.shared.getUser(user: userData) {
+            if remoteUser.password != userData.password,
+               remoteUser.username != userData.username {
+                completion(.incorrectPasswordOrUserName)
+            } else {
+                KeychainService.shared.set(userData.username ?? "", for: kUsername)
+                KeychainService.shared.set(userData.password ?? "", for: kPassword)
+                completion(nil)
+            }
+        } else {
+            completion(.invalidUser)
+        }
+    }
 }
 
 
 extension SignInPresenterImplementation: SignInPresenter {
+    func updateUserForm(text: String, type: FormTextFieldType) {
+        switch type {
+        case .username:
+            userData.username = text
+        case .password:
+            userData.password = text
+        case .confirmPassword:
+            break
+        case .notDefined:
+            break
+        }
+    }
+    
     func navigateToRegistration() {
         router.showRegistration()
     }
@@ -38,25 +72,11 @@ extension SignInPresenterImplementation: SignInPresenter {
         
         signIn { [weak self] error in
             if let error = error {
-                self?.view?.showValidateFailure(with: error)
+                self?.view?.showValidationError(with: error)
             } else {
                 self?.router.changeFlow()
             }
         }
     }
-    
-    private func signIn(completion: @escaping (ValidationError?) -> Void) {
-        if let remoteUser = JSONService.shared.getUser(user: userData) {
-            if remoteUser.password != userData.password {
-                completion(.incorrectPassword)
-            } else {
-                KeychainService.shared.clear()
-                KeychainService.shared.set(userData.username ?? "", for: kUsername)
-                KeychainService.shared.set(userData.password ?? "", for: kPassword)
-                completion(nil)
-            }
-        } else {
-            completion(.invalidUser)
-        }
-    }
 }
+

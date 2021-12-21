@@ -8,14 +8,17 @@
 import Foundation
 
 protocol SignUpPresenter {
-    func termsOfServiceStateChanged(_ value: Bool)
-    func auth(username: String, password: String, passwordConfirmation: String)
+    func termsOfServiceSwitchStateChanged(_ value: Bool)
+    func auth()
+    func updateUserForm(text: String, type: FormTextFieldType)
     func navigateToLogin()
-    func termsOfServiceButtonClicked()
+    func openTermsOfService()
 }
 
 final class SignUpPresenterImplementation {
     weak var view: SignUpViewControllerProtocol?
+    
+    // MARK: - Private variables -
     private let router: SignUpRouter
     
     private var userData = UserForm.defaultInstance
@@ -32,42 +35,52 @@ final class SignUpPresenterImplementation {
         
         let isUsernameAlphabetNumeric = (userData.username ?? "").isAlphanumeric()
         let uppercaseLetters = CharacterSet.uppercaseLetters
-        let isPasswordHaveUppercasedChar = (userData.password ?? "").unicodeScalars.contains(where: { element in
+        let passwordIncludesCapitalization = (userData.password ?? "").unicodeScalars.contains(where: { element in
             uppercaseLetters.contains(element)
         })
         if !isUsernameAlphabetNumeric {
             isFormValid = false
-            self.view?.showValidateFailure(with: .invalidUsername)
+            self.view?.showValidationError(with: .invalidUsername)
             return isFormValid
         }
-        let isPasswordLongEnough = (userData.password ?? "").count >= 6
-        if !isPasswordLongEnough {
+        let isPasswordLengthValid = (userData.password ?? "").count >= 6
+        if !isPasswordLengthValid {
             isFormValid = false
-            self.view?.showValidateFailure(with: .shortPassword)
+            self.view?.showValidationError(with: .shortPassword)
+            return isFormValid
+        }
+        if !passwordIncludesCapitalization {
+            isFormValid = false
+            self.view?.showValidationError(with: .missingUppercasedLetter)
             return isFormValid
             
         }
-        if !isPasswordHaveUppercasedChar {
+        let passwordsMatch = userData.password == userData.passwordConfirmation
+        if !passwordsMatch {
             isFormValid = false
-            self.view?.showValidateFailure(with: .missingUppercasedLetter)
-            return isFormValid
-            
-        }
-        let isPasswordsMatch = userData.password == userData.passwordConfirmation
-        if !isPasswordsMatch {
-            isFormValid = false
-            self.view?.showValidateFailure(with: .passwordNotConfirmed)
+            self.view?.showValidationError(with: .passwordNotConfirmed)
             return isFormValid
         }
-        
         return isFormValid
     }
-    
 }
 
 
 extension SignUpPresenterImplementation: SignUpPresenter {
-    func termsOfServiceButtonClicked() {
+    func updateUserForm(text: String, type: FormTextFieldType) {
+        switch type {
+        case .username:
+            userData.username = text
+        case .password:
+            userData.password = text
+        case .confirmPassword:
+            userData.passwordConfirmation = text
+        case .notDefined:
+            break
+        }
+    }
+    
+    func openTermsOfService() {
         router.showTermsOfService()
     }
     
@@ -75,72 +88,34 @@ extension SignUpPresenterImplementation: SignUpPresenter {
         router.showLogin()
     }
     
-    func auth(username: String, password: String, passwordConfirmation: String) {
-        userData = UserForm(username: username,
-                            password: password,
-                            passwordConfirmation: passwordConfirmation)
+    func auth() {
         if validateUserForm() {
             signUp { [weak self] result in
                 if result {
                     self?.router.showFeed()
                 } else {
-                    self?.view?.showValidateFailure(with: .userAlreadyExist)
+                    self?.view?.showValidationError(with: .userAlreadyExist)
                 }
             }
         }
     }
     
-    func termsOfServiceStateChanged(_ value: Bool) {
+    func termsOfServiceSwitchStateChanged(_ value: Bool) {
         isAcceptedTermsOfService = value
-        view?.turnViewsIntoUnabledStateIfNeed(value)
+        view?.termsOfServiceStateChanged(value)
     }
     
     private func signUp(completion: @escaping (Bool) -> Void) {
         var result = false
         if JSONService.shared.register(user: userData) {
-            KeychainService.shared.clear()
             KeychainService.shared.set(userData.username ?? "", for: kUsername)
+            KeychainService.shared.set(userData.password ?? "", for: kPassword)
             result = true
         }
         completion(result)
     }
 }
 
-public enum ValidationError {
-    case userAlreadyExist
-    case invalidUser
-    case incorrectPassword
-    case invalidUsername
-    case shortPassword
-    case missingUppercasedLetter
-    case passwordNotConfirmed
-    
-    var message: String {
-        switch self {
-        case .invalidUser:
-            return "Account with this username don't exists"
-        case .userAlreadyExist:
-            return "Account with this username already exists."
-        case .incorrectPassword:
-            return "Incorrect password"
-        case .invalidUsername:
-            return "Username must contain only A-Z symbols and numbers."
-        case .shortPassword:
-            return "Password must be more then 6 symbols."
-        case .missingUppercasedLetter:
-            return "Password must have one or more uppercase letter"
-        case .passwordNotConfirmed:
-            return "Passwords don't match"
-        }
-    }
-}
-
-
 public let kUsername = "username"
 public let kPassword = "password"
 
-extension String {
-    func isAlphanumeric() -> Bool {
-        return self.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) == nil && self != ""
-    }
-}

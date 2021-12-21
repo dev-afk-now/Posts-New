@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		D523F2202770C3A0004DBADF /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F21F2770C3A0004DBADF /* AppFont.swift */; };
 		D523F2222770C3AF004DBADF /* CollectionViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2212770C3AF004DBADF /* CollectionViewCells.swift */; };
+		D523F2242771D6DA004DBADF /* ValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2232771D6DA004DBADF /* ValidationError.swift */; };
+		D523F2262771D6E8004DBADF /* String+isAlphanumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2252771D6E8004DBADF /* String+isAlphanumeric.swift */; };
+		D523F2282771D70B004DBADF /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2272771D70B004DBADF /* Post.swift */; };
+		D523F22D2771D741004DBADF /* ConcretePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F22C2771D741004DBADF /* ConcretePost.swift */; };
 		D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FB2760FAC10076C370 /* HomeViewController.swift */; };
 		D54BE3FE2760FAC10076C370 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D54BE3FC2760FAC10076C370 /* HomeViewController.xib */; };
 		D54BE4012760FBF50076C370 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FF2760FBF50076C370 /* CollectionViewCell.swift */; };
@@ -66,6 +70,10 @@
 /* Begin PBXFileReference section */
 		D523F21F2770C3A0004DBADF /* AppFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 		D523F2212770C3AF004DBADF /* CollectionViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCells.swift; sourceTree = "<group>"; };
+		D523F2232771D6DA004DBADF /* ValidationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationError.swift; sourceTree = "<group>"; };
+		D523F2252771D6E8004DBADF /* String+isAlphanumeric.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+isAlphanumeric.swift"; sourceTree = "<group>"; };
+		D523F2272771D70B004DBADF /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		D523F22C2771D741004DBADF /* ConcretePost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcretePost.swift; sourceTree = "<group>"; };
 		D54BE3FB2760FAC10076C370 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D54BE3FC2760FAC10076C370 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		D54BE3FF2760FBF50076C370 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
@@ -133,6 +141,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D523F22B2771D739004DBADF /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D523F22C2771D741004DBADF /* ConcretePost.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D54BE4032760FC040076C370 /* CollectionViewCell */ = {
 			isa = PBXGroup;
 			children = (
@@ -194,6 +210,7 @@
 			isa = PBXGroup;
 			children = (
 				D5604F842768C57A00E07C0C /* UserForm.swift */,
+				D523F2232771D6DA004DBADF /* ValidationError.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -220,6 +237,7 @@
 				D5738C462768962B00535AE6 /* UIViewChildsExtension.swift */,
 				D5738C48276896A400535AE6 /* DateExtension.swift */,
 				D55FB0BB276A1B4100AAA6DB /* FileManagerExtension.swift */,
+				D523F2252771D6E8004DBADF /* String+isAlphanumeric.swift */,
 				D523F21F2770C3A0004DBADF /* AppFont.swift */,
 				D523F2212770C3AF004DBADF /* CollectionViewCells.swift */,
 			);
@@ -230,6 +248,7 @@
 			isa = PBXGroup;
 			children = (
 				D5738C4A276896C900535AE6 /* NetworkModel.swift */,
+				D523F2272771D70B004DBADF /* Post.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -293,6 +312,7 @@
 		D72A1F9127147AB10016FB27 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				D523F22B2771D739004DBADF /* Model */,
 				D72A1F88271456F10016FB27 /* DetailViewController.swift */,
 				D721E45027157A81000D887E /* DetailPresenter.swift */,
 				D72A1F89271456F10016FB27 /* DetailViewController.xib */,
@@ -512,6 +532,7 @@
 				D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */,
 				D7651EBF27102B6E007374FE /* FeedViewController.swift in Sources */,
 				D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */,
+				D523F2282771D70B004DBADF /* Post.swift in Sources */,
 				D54EBBD827673FB600148E48 /* SignUpViewController.swift in Sources */,
 				D5D20C08276B338F009EDE0F /* SignInConfigurator.swift in Sources */,
 				D54EBBDA276740AA00148E48 /* SignUpPresenter.swift in Sources */,
@@ -520,6 +541,8 @@
 				D5738C472768962B00535AE6 /* UIViewChildsExtension.swift in Sources */,
 				D523F2202770C3A0004DBADF /* AppFont.swift in Sources */,
 				D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */,
+				D523F22D2771D741004DBADF /* ConcretePost.swift in Sources */,
+				D523F2262771D6E8004DBADF /* String+isAlphanumeric.swift in Sources */,
 				D783D1DE271F04B200E09F06 /* FilterRouter.swift in Sources */,
 				D72A1F8227141D3A0016FB27 /* FilterViewController.swift in Sources */,
 				D75D5AE0274FCC9800B71B61 /* HashService.swift in Sources */,
@@ -536,6 +559,7 @@
 				D72A1F9727147B770016FB27 /* FeedRouter.swift in Sources */,
 				D7651EA627102B10007374FE /* AppDelegate.swift in Sources */,
 				D73EBAB527104F5600F24619 /* TableViewCell.swift in Sources */,
+				D523F2242771D6DA004DBADF /* ValidationError.swift in Sources */,
 				D54BE4012760FBF50076C370 /* CollectionViewCell.swift in Sources */,
 				D72A1F8A271456F10016FB27 /* DetailViewController.swift in Sources */,
 				D783D1E32720001700E09F06 /* ImageService.swift in Sources */,
