@@ -20,9 +20,8 @@ final class SignUpPresenterImplementation {
     
     // MARK: - Private variables -
     private let router: SignUpRouter
-    
     private var userData = UserForm.defaultInstance
-    
+    private let minPasswordLength: Int = 6
     private var isAcceptedTermsOfService: Bool = false
     
     init(view: SignUpViewControllerProtocol, router: SignUpRouter) {
@@ -32,6 +31,8 @@ final class SignUpPresenterImplementation {
     
     private func validateUserForm() -> Bool {
         var isFormValid = true
+        
+        print(userData.password, userData.username, userData.passwordConfirmation)
         
         let isUsernameAlphabetNumeric = (userData.username ?? "").isAlphanumeric()
         let uppercaseLetters = CharacterSet.uppercaseLetters
@@ -43,7 +44,7 @@ final class SignUpPresenterImplementation {
             self.view?.showValidationError(with: .invalidUsername)
             return isFormValid
         }
-        let isPasswordLengthValid = (userData.password ?? "").count >= 6
+        let isPasswordLengthValid = (userData.password ?? "").count >= minPasswordLength
         if !isPasswordLengthValid {
             isFormValid = false
             self.view?.showValidationError(with: .shortPassword)

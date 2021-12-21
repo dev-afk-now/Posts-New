@@ -19,9 +19,8 @@ final class SignInPresenterImplementation {
     // MARK: - Private vars -
     
     private let router: SignInRouter
-    
     private var userData = UserForm.defaultInstance
-    
+    private let minPasswordLength: Int = 6
     private var isAcceptedTermsOfService: Bool = false
     
     init(view: SignInViewControllerProtocol, router: SignInRouter) {
@@ -44,7 +43,7 @@ final class SignInPresenterImplementation {
             self.view?.showValidationError(with: .invalidUsername)
             return isFormValid
         }
-        let isPasswordLengthValid = (userData.password ?? "").count >= 6
+        let isPasswordLengthValid = (userData.password ?? "").count >= minPasswordLength
         if !isPasswordLengthValid {
             isFormValid = false
             self.view?.showValidationError(with: .shortPassword)

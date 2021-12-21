@@ -247,4 +247,11 @@ extension SignUpViewController: UITextFieldDelegate {
     private func handleTextFieldReturning(_ textField: UITextField) -> Bool {
         return view.endEditing(true)
     }
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if let field = textField as? FormTextField {
+            presenter.updateUserForm(text: field.text ?? "", type: field.internalType)
+            print(field.internalType)
+        }
+    }
 }

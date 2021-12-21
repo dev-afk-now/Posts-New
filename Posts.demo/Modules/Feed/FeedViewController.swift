@@ -99,7 +99,7 @@ class FeedViewController: UIViewController {
         navigationItem.rightBarButtonItem = sortButton
     }
     
-    private func startSearching(with searchText: String) {
+    private func search(with searchText: String) {
         presenter.searchPostForTitle(searchText)
     }
 }
@@ -112,12 +112,14 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
-        cell.delegate = self
-        let postState = presenter.getPostForCell(by: indexPath.row) 
+        if let cell = tableView.dequeueTableViewCell("TableViewCell", for: indexPath) {
+            cell.delegate = self
+            let postState = presenter.getPostForCell(by: indexPath.row)
             cell.configure(postState: postState)
-        
-        return cell
+            return cell
+        } else {
+            return UITableViewCell()
+        }
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -182,7 +184,7 @@ extension FeedViewController: FeedViewControllerProtocol {
 
 extension FeedViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        startSearching(with: searchText)
+        search(with: searchText)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

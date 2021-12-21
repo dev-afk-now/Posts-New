@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D50CD47C2771ED37008BF8AB /* DequeueCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47B2771ED37008BF8AB /* DequeueCell.swift */; };
+		D50CD47E2771F662008BF8AB /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47D2771F662008BF8AB /* SortOption.swift */; };
 		D523F2202770C3A0004DBADF /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F21F2770C3A0004DBADF /* AppFont.swift */; };
 		D523F2222770C3AF004DBADF /* CollectionViewCells.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2212770C3AF004DBADF /* CollectionViewCells.swift */; };
 		D523F2242771D6DA004DBADF /* ValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2232771D6DA004DBADF /* ValidationError.swift */; };
@@ -68,6 +70,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D50CD47B2771ED37008BF8AB /* DequeueCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DequeueCell.swift; sourceTree = "<group>"; };
+		D50CD47D2771F662008BF8AB /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
 		D523F21F2770C3A0004DBADF /* AppFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 		D523F2212770C3AF004DBADF /* CollectionViewCells.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionViewCells.swift; sourceTree = "<group>"; };
 		D523F2232771D6DA004DBADF /* ValidationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationError.swift; sourceTree = "<group>"; };
@@ -240,6 +244,7 @@
 				D523F2252771D6E8004DBADF /* String+isAlphanumeric.swift */,
 				D523F21F2770C3A0004DBADF /* AppFont.swift */,
 				D523F2212770C3AF004DBADF /* CollectionViewCells.swift */,
+				D50CD47B2771ED37008BF8AB /* DequeueCell.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -330,6 +335,7 @@
 				D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */,
 				D783D1C8271D9BE100E09F06 /* FilterPresenter.swift */,
 				D783D1DD271F04B200E09F06 /* FilterRouter.swift */,
+				D50CD47D2771F662008BF8AB /* SortOption.swift */,
 			);
 			path = Filter;
 			sourceTree = "<group>";
@@ -539,6 +545,7 @@
 				D55FB0C1276A1C1000AAA6DB /* JSONService.swift in Sources */,
 				D7651EC527102BC1007374FE /* FeedPresenter.swift in Sources */,
 				D5738C472768962B00535AE6 /* UIViewChildsExtension.swift in Sources */,
+				D50CD47E2771F662008BF8AB /* SortOption.swift in Sources */,
 				D523F2202770C3A0004DBADF /* AppFont.swift in Sources */,
 				D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */,
 				D523F22D2771D741004DBADF /* ConcretePost.swift in Sources */,
@@ -546,6 +553,7 @@
 				D783D1DE271F04B200E09F06 /* FilterRouter.swift in Sources */,
 				D72A1F8227141D3A0016FB27 /* FilterViewController.swift in Sources */,
 				D75D5AE0274FCC9800B71B61 /* HashService.swift in Sources */,
+				D50CD47C2771ED37008BF8AB /* DequeueCell.swift in Sources */,
 				D7966AF727510AE300D82610 /* ImageRequest.swift in Sources */,
 				D5D20C06276B337D009EDE0F /* SignInRouter.swift in Sources */,
 				D557ACD6276B7829003EA877 /* WebConfigurator.swift in Sources */,

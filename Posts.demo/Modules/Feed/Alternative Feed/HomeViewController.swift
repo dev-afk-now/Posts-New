@@ -153,7 +153,6 @@ class HomeViewController: UIViewController {
         noResultImageView.image = image
         let containerNoResultView = UIView(frame: collectionView.bounds)
         noResultImageView.center = containerNoResultView.center
-
         containerNoResultView.addSubview(noResultImageView)
         return containerNoResultView
     }
@@ -199,7 +198,7 @@ class HomeViewController: UIViewController {
 // MARK: - CollectionView extensions -
 
 extension HomeViewController: UICollectionViewDelegate,
-                                UICollectionViewDataSource,
+                              UICollectionViewDataSource,
                               UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
@@ -208,15 +207,17 @@ extension HomeViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(
-            withReuseIdentifier: "CollectionCell",
-            for: indexPath) as? CollectionViewCell else {
+        if let cell = collectionView.dequeueCollectionViewCell(
+            "CollectionCell",
+            for: indexPath
+        ) {
+            cell.delegate = self
+            let postState = presenter.getPostForCell(by: indexPath.row)
+            cell.configure(postState: postState)
+            return cell
+        } else {
             return UICollectionViewCell()
         }
-        cell.delegate = self
-        let postState = presenter.getPostForCell(by: indexPath.row)
-            cell.configure(postState: postState)
-        return cell
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -235,13 +236,9 @@ extension HomeViewController: CollectionViewCellDelegate {
 }
 
 extension HomeViewController: FeedViewControllerProtocol {
-    func showNoInternetConnectionError() {
-        //
-    }
+    func showNoInternetConnectionError() {}
     
-    func showUnreachableServiceError() {
-        //
-    }
+    func showUnreachableServiceError() {}
     
     func updateItemState(at index: Int) {
         collectionView.performBatchUpdates({

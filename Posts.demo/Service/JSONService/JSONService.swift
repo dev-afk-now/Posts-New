@@ -24,7 +24,7 @@ final class JSONService {
             
             let storage = LocalAccountStorage(users:usersList)
             
-            result = try FileManager.saveObjects(list: storage, to: "users")
+            result = try FileManager.saveObjects(list: storage, to: accountStorageName)
         } catch {
             print(error.localizedDescription)
             return false
@@ -41,7 +41,7 @@ final class JSONService {
         var users = [UserForm]()
         let storage: LocalAccountStorage?
         do {
-            storage = try FileManager.loadObjects(from: "users")
+            storage = try FileManager.loadObjects(from: accountStorageName)
             users = storage?.users ?? []
         } catch let error as NSError {
             debugPrint(error)
@@ -49,3 +49,5 @@ final class JSONService {
         return users
     }
 }
+
+public let accountStorageName = "users"
