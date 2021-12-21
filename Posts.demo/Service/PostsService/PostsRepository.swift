@@ -30,21 +30,27 @@ class PostsRepositoryImplementation {
 
 extension PostsRepositoryImplementation: PostsRepository {
     func getPosts(completion: @escaping (Result<[PostCellModel], NetworkServiceImplementation.Error>) -> Void) {
-        let localPosts = PersistentService.shared.fetchObjects(entity: PostPersistent.self)
-            service.fetchData(url: listPath!) { (result: Result<NetworkPostList, NetworkServiceImplementation.Error>) in
-                switch result {
-                case .success(let success):
-                    let posts = success.posts.map(PostCellModel.init)
-                    let localPosts = posts.map{ $0.initPersistent() }
-                    PersistentService.shared.savePosts(localPosts)
-                    completion(.success(posts))
-                case .failure(let failure):
+        service.fetchData(url: listPath!) { [weak self] (result: Result<NetworkPostList,
+                                             NetworkServiceImplementation.Error>) in
+            guard let self = self else { return }
+            switch result {
+            case .success(let success):
+                let posts = success.posts.map(PostCellModel.init)
+                let localPosts = posts.map{ $0.initPersistent() }
+                PersistentService.shared.savePosts(localPosts)
+                completion(.success(posts))
+            case .failure(let failure):
+                let list = self.fetchLocalPosts()
+                if list.isEmpty {
+                    completion(.failure(failure))
+                } else {
                     completion(.failure(failure))
                 }
             }
-            return
-        
-        let postsForCell = localPosts.map{ PostCellModel.init(from: $0) }
-        completion(.success(postsForCell))
+        }
+    }
+    
+    private func fetchLocalPosts() -> [PostPersistent] {
+        return PersistentService.shared.fetchObjects(entity: PostPersistent.self)
     }
 }

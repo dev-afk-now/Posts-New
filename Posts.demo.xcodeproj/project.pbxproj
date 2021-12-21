@@ -90,6 +90,8 @@
 		D52C70A8276C930800A65202 /* PersistentService */ = {
 			isa = PBXGroup;
 			children = (
+				D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */,
+				D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */,
 				D52C70A9276C933700A65202 /* PersistentService.swift */,
 				D52C70AB276C93DF00A65202 /* PostPersistent.xcdatamodeld */,
 			);
@@ -186,8 +188,6 @@
 		D7651E9927102B10007374FE = {
 			isa = PBXGroup;
 			children = (
-				D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */,
-				D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */,
 				D7651EA427102B10007374FE /* Posts.demo */,
 				D7651EA327102B10007374FE /* Products */,
 			);
