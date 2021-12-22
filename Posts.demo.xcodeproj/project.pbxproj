@@ -43,6 +43,10 @@
 		D5D20C06276B337D009EDE0F /* SignInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D20C05276B337D009EDE0F /* SignInRouter.swift */; };
 		D5D20C08276B338F009EDE0F /* SignInConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D20C07276B338F009EDE0F /* SignInConfigurator.swift */; };
 		D5E3A8DB276B8823004EB5FB /* FormTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5E3A8DA276B8823004EB5FB /* FormTextField.swift */; };
+		D5F50EB32773651F00F8609F /* TableCellRegistrable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F50EB22773651F00F8609F /* TableCellRegistrable.swift */; };
+		D5F50EB52773733300F8609F /* TableCellReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F50EB42773733300F8609F /* TableCellReusable.swift */; };
+		D5F50EB72773739200F8609F /* CollectionCellRegistrable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F50EB62773739200F8609F /* CollectionCellRegistrable.swift */; };
+		D5F50EB92773739E00F8609F /* CollectionCellReusable.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5F50EB82773739E00F8609F /* CollectionCellReusable.swift */; };
 		D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */; };
 		D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D721E44D27157A45000D887E /* DetailConfigurator.swift */; };
 		D721E45127157A81000D887E /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D721E45027157A81000D887E /* DetailPresenter.swift */; };
@@ -106,6 +110,10 @@
 		D5D20C05276B337D009EDE0F /* SignInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRouter.swift; sourceTree = "<group>"; };
 		D5D20C07276B338F009EDE0F /* SignInConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInConfigurator.swift; sourceTree = "<group>"; };
 		D5E3A8DA276B8823004EB5FB /* FormTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTextField.swift; sourceTree = "<group>"; };
+		D5F50EB22773651F00F8609F /* TableCellRegistrable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellRegistrable.swift; sourceTree = "<group>"; };
+		D5F50EB42773733300F8609F /* TableCellReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableCellReusable.swift; sourceTree = "<group>"; };
+		D5F50EB62773739200F8609F /* CollectionCellRegistrable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCellRegistrable.swift; sourceTree = "<group>"; };
+		D5F50EB82773739E00F8609F /* CollectionCellReusable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCellReusable.swift; sourceTree = "<group>"; };
 		D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterConfigurator.swift; sourceTree = "<group>"; };
 		D721E44D27157A45000D887E /* DetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailConfigurator.swift; sourceTree = "<group>"; };
 		D721E45027157A81000D887E /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
@@ -160,6 +168,8 @@
 			isa = PBXGroup;
 			children = (
 				D54BE3FF2760FBF50076C370 /* CollectionCell.swift */,
+				D5F50EB62773739200F8609F /* CollectionCellRegistrable.swift */,
+				D5F50EB82773739E00F8609F /* CollectionCellReusable.swift */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -169,6 +179,8 @@
 			children = (
 				D73EBAB427104F5600F24619 /* PostCell.xib */,
 				D73EBAB327104F5600F24619 /* PostCell.swift */,
+				D5F50EB22773651F00F8609F /* TableCellRegistrable.swift */,
+				D5F50EB42773733300F8609F /* TableCellReusable.swift */,
 			);
 			path = TableViewCell;
 			sourceTree = "<group>";
@@ -552,6 +564,7 @@
 				D523F2202770C3A0004DBADF /* AppFont.swift in Sources */,
 				D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */,
 				D523F22D2771D741004DBADF /* ConcretePost.swift in Sources */,
+				D5F50EB32773651F00F8609F /* TableCellRegistrable.swift in Sources */,
 				D523F2262771D6E8004DBADF /* String+isAlphanumeric.swift in Sources */,
 				D783D1DE271F04B200E09F06 /* FilterRouter.swift in Sources */,
 				D72A1F8227141D3A0016FB27 /* FilterViewController.swift in Sources */,
@@ -561,13 +574,16 @@
 				D5D20C06276B337D009EDE0F /* SignInRouter.swift in Sources */,
 				D557ACD6276B7829003EA877 /* WebConfigurator.swift in Sources */,
 				D54EBBDC276740B800148E48 /* SignUpConfigurator.swift in Sources */,
+				D5F50EB72773739200F8609F /* CollectionCellRegistrable.swift in Sources */,
 				D7651ECF27104A49007374FE /* FeedConfigurator.swift in Sources */,
 				D7651EC9271040EB007374FE /* NetworkService.swift in Sources */,
 				D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */,
+				D5F50EB52773733300F8609F /* TableCellReusable.swift in Sources */,
 				D55FB0BC276A1B4100AAA6DB /* FileManagerExtension.swift in Sources */,
 				D557ACD4276B7710003EA877 /* WebPresenter.swift in Sources */,
 				D557ACD8276B7DD4003EA877 /* WebRouter.swift in Sources */,
 				D72A1F9727147B770016FB27 /* FeedRouter.swift in Sources */,
+				D5F50EB92773739E00F8609F /* CollectionCellReusable.swift in Sources */,
 				D7651EA627102B10007374FE /* AppDelegate.swift in Sources */,
 				D73EBAB527104F5600F24619 /* PostCell.swift in Sources */,
 				D523F2242771D6DA004DBADF /* ValidationError.swift in Sources */,

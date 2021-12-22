@@ -50,3 +50,11 @@ class PostCell: UITableViewCell {
         delegate?.compressDescriptionLabel(self)
     }
 }
+
+extension PostCell: CollectionCellRegistrable, TableCellReusable {
+    
+}
+
+class SomeCell: UITableViewCell, CollectionCellRegistrable {
+    
+}

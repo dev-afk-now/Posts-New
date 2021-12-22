@@ -87,8 +87,7 @@ class FeedViewController: UIViewController {
         tableView.backgroundColor = .lightGray
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "PostCell", bundle: .main),
-                           forCellReuseIdentifier: "PostCell")
+        PostCell.registerNib(in: tableView)
         tableView.keyboardDismissMode = .interactive
     }
     
@@ -123,15 +122,14 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeuePostCell(for: indexPath) {
-            cell.delegate = self
-            let postState = presenter.getPostForCell(by: indexPath.row)
-            cell.configure(postState: postState)
-            return cell
-        } else {
-            return UITableViewCell()
-        }
+        guard let cell = PostCell.cell(in: tableView, for: indexPath, PostCell.self) else {
+            return UITableViewCell() }
+        cell.delegate = self
+        let postState = presenter.getPostForCell(by: indexPath.row)
+        cell.configure(postState: postState)
+        return cell
     }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension

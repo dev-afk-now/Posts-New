@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import CryptoKit
 
 extension UICollectionView {
     func dequeueCollectionViewCell(for indexPath: IndexPath) -> CollectionCell? {
