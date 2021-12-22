@@ -10,9 +10,9 @@ import UIKit
 
 final class WebConfigurator {
     static func create() -> UIViewController {
-        let view = TermsOfServiceViewController()
+        let view = WebViewController()
         let router = WebRouterImplementation(context: view)
-        let presenter = TermsOfServicePresenterImplementation(view: view,
+        let presenter = WebPresenterImplementation(view: view,
                                                               router: router)
         view.presenter = presenter
         return view

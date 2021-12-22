@@ -28,9 +28,9 @@ extension FeedRouterImplementation: FeedRouter {
                                                    isReversed: true)
     }
     func showFilterScreen(_ delegate: FilterViewControllerDelegate) {
-        let filterVC = FilterConfigurator.create(delegate: delegate)
+        let module = FilterConfigurator.create(delegate: delegate)
         context.modalPresentationStyle = .fullScreen
-        context.navigationController?.present(filterVC,
+        context.navigationController?.present(module,
                                               animated: true,
                                               completion: nil)
     }

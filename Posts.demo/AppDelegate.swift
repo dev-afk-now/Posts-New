@@ -11,6 +11,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     var window: UIWindow?
     
+    private let appFirstLaunchedKey = "appWasLaunched"
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         window = UIWindow(frame: UIScreen.main.bounds)
         setStartViewController()
@@ -29,17 +31,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     private var appWasLaunched: Bool {
         get {
-            UserDefaults.standard.bool(forKey: "appWasLaunched")
+            UserDefaults.standard.bool(forKey: appFirstLaunchedKey)
         }
         set {
-            UserDefaults.standard.setValue(newValue, forKey: "appWasLaunched")
+            UserDefaults.standard.setValue(newValue, forKey: appFirstLaunchedKey)
         }
     }
     
     private func clearKeychainIfNeed() {
-        if appWasLaunched {
+        if !appWasLaunched {
             KeychainService.shared.clear()
-        } else {
             appWasLaunched = true
         }
     }

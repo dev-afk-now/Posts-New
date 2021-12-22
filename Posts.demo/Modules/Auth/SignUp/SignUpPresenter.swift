@@ -9,7 +9,7 @@ import Foundation
 
 protocol SignUpPresenter {
     func termsOfServiceSwitchStateChanged(_ value: Bool)
-    func validateAndAssign()
+    func validateAndSignUp()
     func updateUserForm(text: String, type: FormTextFieldType)
     func navigateToLogin()
     func openTermsOfService()
@@ -18,21 +18,24 @@ protocol SignUpPresenter {
 final class SignUpPresenterImplementation {
     weak var view: SignUpViewControllerProtocol?
     
-    // MARK: - Private variables -
+    // MARK: - Private properties -
+    
     private let router: SignUpRouter
     private var userData = UserForm.defaultInstance
     private let minPasswordLength: Int = 6
     private var isAcceptedTermsOfService: Bool = false
+    
+    // MARK: - Init -
     
     init(view: SignUpViewControllerProtocol, router: SignUpRouter) {
         self.view = view
         self.router = router
     }
     
+    // MARK: - Private methods -
+    
     private func validateUserForm() -> Bool {
         var isFormValid = true
-        
-        print(userData.password, userData.username, userData.passwordConfirmation)
         
         let isUsernameAlphabetNumeric = (userData.username ?? "").isAlphanumeric()
         let uppercaseLetters = CharacterSet.uppercaseLetters
@@ -64,8 +67,19 @@ final class SignUpPresenterImplementation {
         }
         return isFormValid
     }
+    
+    private func signUp(completion: @escaping (Bool) -> Void) {
+        var result = false
+        if JSONService.shared.register(user: userData) {
+            KeychainService.shared.set(userData.username ?? "", for: kUsername)
+            KeychainService.shared.set(userData.password ?? "", for: kPassword)
+            result = true
+        }
+        completion(result)
+    }
 }
 
+// MARK: - SignUpPresenterImplementation extensions -
 
 extension SignUpPresenterImplementation: SignUpPresenter {
     func updateUserForm(text: String, type: FormTextFieldType) {
@@ -76,7 +90,7 @@ extension SignUpPresenterImplementation: SignUpPresenter {
             userData.password = text
         case .confirmPassword:
             userData.passwordConfirmation = text
-        case .notDefined:
+        default:
             break
         }
     }
@@ -89,7 +103,7 @@ extension SignUpPresenterImplementation: SignUpPresenter {
         router.showLogin()
     }
     
-    func validateAndAssign() {
+    func validateAndSignUp() {
         if validateUserForm() {
             signUp { [weak self] result in
                 if result {
@@ -103,17 +117,7 @@ extension SignUpPresenterImplementation: SignUpPresenter {
     
     func termsOfServiceSwitchStateChanged(_ value: Bool) {
         isAcceptedTermsOfService = value
-        view?.isTermsOfServiceAccepted(value)
-    }
-    
-    private func signUp(completion: @escaping (Bool) -> Void) {
-        var result = false
-        if JSONService.shared.register(user: userData) {
-            KeychainService.shared.set(userData.username ?? "", for: kUsername)
-            KeychainService.shared.set(userData.password ?? "", for: kPassword)
-            result = true
-        }
-        completion(result)
+        view?.changeTermsOfServiceState(value)
     }
 }
 

@@ -17,9 +17,7 @@ protocol FeedViewControllerProtocol: AnyObject {
 
 class FeedViewController: UIViewController {
     
-    var presenter: FeedPresenter!
-    
-    // MARK: - Outlets
+    // MARK: - Outlets -
     
     @IBOutlet private weak var searchBar: UISearchBar! {
         didSet {
@@ -32,11 +30,12 @@ class FeedViewController: UIViewController {
     @IBOutlet private weak var alertView: UIView!
     @IBOutlet private weak var failDescriptionLabel: UILabel!
     
-    @IBAction private func updateContentView(_ sender: Any) {
-        alertView.isHidden = true
-        presenter.viewDidLoad()
-        progressView.startAnimating()
-    }
+    // MARK: - Public properties -
+    
+    var presenter: FeedPresenter!
+    
+    // MARK: - Private properties -
+    
     private lazy var titleLabel: UILabel = {
         let title = UILabel()
         title.textColor = .white
@@ -55,12 +54,8 @@ class FeedViewController: UIViewController {
         return button
     }()
     
-    @objc private func sortButtonTapped() {
-        guard presenter.postsCount > 0 else { return }
-        presenter.showFilter()
-    }
     
-    // MARK: - Lifecycle
+    // MARK: - Life Cycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -68,6 +63,8 @@ class FeedViewController: UIViewController {
         presenter.viewDidLoad()
         setupNavigationBar()
     }
+    
+    //MARK: - Private methods -
     
     private func setupTableViewBackground() -> UIView? {
         let noResultImageView = UIImageView()
@@ -90,7 +87,8 @@ class FeedViewController: UIViewController {
         tableView.backgroundColor = .lightGray
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "TableViewCell", bundle: .main), forCellReuseIdentifier: "TableCell")
+        tableView.register(UINib(nibName: "TableViewCell", bundle: .main),
+                           forCellReuseIdentifier: "TableViewCell")
         tableView.keyboardDismissMode = .interactive
     }
     
@@ -102,6 +100,19 @@ class FeedViewController: UIViewController {
     private func search(with searchText: String) {
         presenter.searchPostForTitle(searchText)
     }
+    
+    //MARK: - Actions -
+    
+    @objc private func sortButtonTapped() {
+        guard presenter.postsCount > 0 else { return }
+        presenter.showFilter()
+    }
+    
+    @IBAction private func updateContentView(_ sender: Any) {
+        alertView.isHidden = true
+        presenter.viewDidLoad()
+        progressView.startAnimating()
+    }
 }
 
 // MARK: - TableView extensions
@@ -112,7 +123,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueTableViewCell("TableViewCell", for: indexPath) {
+        if let cell = tableView.dequeueTableViewCell(for: indexPath) {
             cell.delegate = self
             let postState = presenter.getPostForCell(by: indexPath.row)
             cell.configure(postState: postState)

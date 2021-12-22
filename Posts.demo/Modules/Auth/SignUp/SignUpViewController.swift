@@ -8,7 +8,7 @@
 import UIKit
 
 protocol SignUpViewControllerProtocol: AnyObject {
-    func isTermsOfServiceAccepted(_ value: Bool)
+    func changeTermsOfServiceState(_ value: Bool)
     func showValidationError(with errorType: ValidationError)
 }
 
@@ -16,7 +16,7 @@ class SignUpViewController: UIViewController {
     
     var presenter: SignUpPresenter!
     
-    // MARK: - Private variables -
+    // MARK: - Private properties -
     
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
@@ -135,14 +135,14 @@ class SignUpViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Submit", for: .normal)
         button.addAction(UIAction { _ in
-            self.presenter.validateAndAssign()
+            self.presenter.validateAndSignUp()
         }, for: .touchUpInside)
         button.isEnabled = false
         button.backgroundColor = .lightGray
         return button
     }()
     
-    // MARK: - Lifecycle -
+    // MARK: - Life Cycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -151,7 +151,7 @@ class SignUpViewController: UIViewController {
         setupNavigationBar()
     }
     
-    // MARK: - Private -
+    // MARK: - Private methods -
     
     private func setupSuperviewBackground() {
         view.backgroundColor = .white
@@ -233,7 +233,7 @@ extension SignUpViewController: SignUpViewControllerProtocol {
         self.showAlert(with: errorType.message)
     }
     
-    func isTermsOfServiceAccepted(_ value: Bool) {
+    func changeTermsOfServiceState(_ value: Bool) {
         submitButton.isEnabled = value
         submitButton.backgroundColor = value ? .black : .lightGray
         termsOfServiceLabel.textColor = value ? .black : .lightGray

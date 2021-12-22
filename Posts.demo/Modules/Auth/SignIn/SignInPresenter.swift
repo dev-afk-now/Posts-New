@@ -8,7 +8,7 @@
 import Foundation
 
 protocol SignInPresenter {
-    func validateAndAssign()
+    func validateAndSignIn()
     func updateUserForm(text: String, type: FormTextFieldType)
     func navigateToRegistration()
 }
@@ -16,19 +16,21 @@ protocol SignInPresenter {
 final class SignInPresenterImplementation {
     weak var view: SignInViewControllerProtocol?
     
-    // MARK: - Private vars -
+    // MARK: - Private properties -
     
     private let router: SignInRouter
     private var userData = UserForm.defaultInstance
     private let minPasswordLength: Int = 6
     private var isAcceptedTermsOfService: Bool = false
     
+    // MARK: - Init -
+    
     init(view: SignInViewControllerProtocol, router: SignInRouter) {
         self.view = view
         self.router = router
     }
     
-    // MARK: - Private funcs -
+    // MARK: - Private methods -
     
     private func validateUserForm() -> Bool {
         var isFormValid = true
@@ -74,6 +76,7 @@ final class SignInPresenterImplementation {
     }
 }
 
+//MARK: - SignInPresenterImplementation extension -
 
 extension SignInPresenterImplementation: SignInPresenter {
     func updateUserForm(text: String, type: FormTextFieldType) {
@@ -82,9 +85,7 @@ extension SignInPresenterImplementation: SignInPresenter {
             userData.username = text
         case .password:
             userData.password = text
-        case .confirmPassword:
-            break
-        case .notDefined:
+        default:
             break
         }
     }
@@ -93,7 +94,7 @@ extension SignInPresenterImplementation: SignInPresenter {
         router.showRegistration()
     }
     
-    func validateAndAssign() {
+    func validateAndSignIn() {
         if validateUserForm() {
             signIn { [weak self] error in
                 if let error = error {

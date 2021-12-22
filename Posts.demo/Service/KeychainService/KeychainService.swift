@@ -16,7 +16,7 @@ final class KeychainService {
     
     static var isUserLoggedIn: Bool {
         if !(KeychainService.shared.get(key: kUsername) ?? "").isEmpty,
-           !(KeychainService.shared.get(key: kUsername) ?? "").isEmpty {
+           !(KeychainService.shared.get(key: kPassword) ?? "").isEmpty {
             return true
         } else {
             return false

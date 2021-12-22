@@ -51,16 +51,7 @@ enum FormTextFieldType {
     }
     
     var isSecured: Bool {
-        switch self {
-        case .notDefined:
-            return false
-        case .username:
-            return false
-        case .password:
-            return true
-        case .confirmPassword:
-            return true
-        }
+        (self == .password || self == .confirmPassword) ? true : false
     }
 }
 

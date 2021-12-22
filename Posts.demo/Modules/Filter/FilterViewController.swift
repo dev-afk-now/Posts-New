@@ -15,21 +15,16 @@ class FilterViewController: UIViewController {
     
     var presenter: FilterPresenter!
     
-    // MARK: - Lifecycle
+    // MARK: - Life Cycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
+    }
+    
+    // MARK: - Private methods -
+    
+    func setupNavigationBar() {
         self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    // MARK: - Init -
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
     }
     
     // MARK: - Actions -

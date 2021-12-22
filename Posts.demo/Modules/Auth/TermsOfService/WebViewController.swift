@@ -8,15 +8,15 @@
 import UIKit
 import WebKit
 
-protocol TermsOfServiceViewControllerEntity: AnyObject {}
+protocol WebViewControllerEntity: AnyObject {}
 
-class TermsOfServiceViewController: UIViewController {
+class WebViewController: UIViewController {
     
-    var presenter: TermsOfServicePresenter!
+    var presenter: WebPresenter!
     
-    // MARK: - Private variables -
+    // MARK: - Private properties -
     
-    private var termsOfServiceUrl = "https://google.com"
+    private let termsOfServiceUrl = "https://google.com"
     
     private lazy var webView: WKWebView = {
         let webConfiguration = WKWebViewConfiguration()
@@ -37,7 +37,7 @@ class TermsOfServiceViewController: UIViewController {
         return button
     }()
     
-    // MARK: - Lifecycle -
+    // MARK: - Life Cycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -47,16 +47,12 @@ class TermsOfServiceViewController: UIViewController {
         setupNavigationBar()
     }
     
-    // MARK: - Private funcs -
+    // MARK: - Private methods -
     
     private func loadPage(urlString: String) {
         let myURL = URL(string: urlString)
         let myRequest = URLRequest(url: myURL!)
         webView.load(myRequest)
-    }
-    
-    @objc private func backButtonClicked() {
-        presenter.backButtonClicked()
     }
     
     private func setupNavigationBar() {
@@ -74,8 +70,14 @@ class TermsOfServiceViewController: UIViewController {
             webView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
+    
+    // MARK: - Actions -
+    
+    @objc private func backButtonClicked() {
+        presenter.backButtonClicked()
+    }
 }
 
-extension TermsOfServiceViewController: WKUIDelegate {}
+extension WebViewController: WKUIDelegate {}
 
-extension TermsOfServiceViewController: TermsOfServiceViewControllerEntity {}
+extension WebViewController: WebViewControllerEntity {}

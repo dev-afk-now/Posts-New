@@ -15,7 +15,7 @@ class SignInViewController: UIViewController {
     
     var presenter: SignInPresenter!
     
-    // MARK: - Private variables -
+    // MARK: - Private properties -
     
     private lazy var stackView: UIStackView = {
         let stack = UIStackView()
@@ -58,7 +58,7 @@ class SignInViewController: UIViewController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Submit", for: .normal)
         button.addAction(UIAction { [weak self] _ in
-            self?.presenter.validateAndAssign()
+            self?.presenter.validateAndSignIn()
         }, for: .touchUpInside)
         button.backgroundColor = .black
         return button
@@ -87,7 +87,7 @@ class SignInViewController: UIViewController {
         return button
     }()
     
-    // MARK: - Lifecycle -
+    // MARK: - Life Cycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,7 +96,7 @@ class SignInViewController: UIViewController {
         setupNavigationBar()
     }
     
-    // MARK: - Private funcs -
+    // MARK: - Private methods -
     
     private func setupSuperViewBackground() {
         view.backgroundColor = .white
@@ -137,26 +137,26 @@ class SignInViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        let approximateItemHeight: CGFloat = 40
+        let itemHeight: CGFloat = 40
         let horizontalInset: CGFloat = 32
         NSLayoutConstraint.activate([
-            signInLabel.heightAnchor.constraint(equalToConstant: approximateItemHeight),
+            signInLabel.heightAnchor.constraint(equalToConstant: itemHeight),
             
             loginTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor,
                                                  constant: horizontalInset),
             loginTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor,
                                                   constant: -horizontalInset),
-            loginTextField.heightAnchor.constraint(equalToConstant: approximateItemHeight),
+            loginTextField.heightAnchor.constraint(equalToConstant: itemHeight),
             
             passwordTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor,
                                                     constant: horizontalInset),
             passwordTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor, constant: -horizontalInset),
-            passwordTextField.heightAnchor.constraint(equalToConstant: approximateItemHeight),
-            registrationButton.heightAnchor.constraint(equalToConstant: approximateItemHeight),
+            passwordTextField.heightAnchor.constraint(equalToConstant: itemHeight),
+            registrationButton.heightAnchor.constraint(equalToConstant: itemHeight),
             
             submitButton.leftAnchor.constraint(equalTo: stackView.leftAnchor),
             submitButton.rightAnchor.constraint(equalTo: stackView.rightAnchor),
-            submitButton.heightAnchor.constraint(equalToConstant: approximateItemHeight)
+            submitButton.heightAnchor.constraint(equalToConstant: itemHeight)
         ])
     }
 }

@@ -11,6 +11,8 @@ final class JSONService {
     
     static let shared = JSONService()
     
+    private let accountStorageName = "users"
+    
     private init() {}
     
     func register(user: UserForm) -> Bool {
@@ -49,5 +51,3 @@ final class JSONService {
         return users
     }
 }
-
-public let accountStorageName = "users"

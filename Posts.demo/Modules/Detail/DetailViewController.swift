@@ -49,16 +49,15 @@ class DetailViewController: UIViewController {
         return button
     }()
     
+    // MARK: - Life Cycle -
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         presenter.viewDidLoad()
         setupNavigationBar()
-        NSLayoutConstraint.activate([
-            titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 10)
-        ])
     }
     
-    // MARK: - Private funcs -
+    // MARK: - Private methods -
     
     @objc func goBackAction() {
         presenter.navigateToRootViewController()
@@ -73,6 +72,9 @@ class DetailViewController: UIViewController {
     private func setupNavigationBar() {
         navigationItem.titleView = titleLabel
         navigationItem.leftBarButtonItem = backButton
+        NSLayoutConstraint.activate([
+            titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 10)
+        ])
     }
 }
 

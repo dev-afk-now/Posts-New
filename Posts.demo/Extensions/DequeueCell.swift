@@ -8,19 +8,17 @@
 import UIKit
 
 extension UICollectionView {
-    func dequeueCollectionViewCell(_ identifier: String,
-                                   for indexPath: IndexPath) -> CollectionViewCell? {
+    func dequeueCollectionViewCell(for indexPath: IndexPath) -> CollectionViewCell? {
         return self.dequeueReusableCell(
-            withReuseIdentifier: identifier,
+            withReuseIdentifier: String(describing: CollectionViewCell.self),
             for: indexPath) as? CollectionViewCell
     }
 }
 
 extension UITableView {
-    func dequeueTableViewCell(_ identifier: String,
-                                   for indexPath: IndexPath) -> TableViewCell? {
+    func dequeueTableViewCell(for indexPath: IndexPath) -> TableViewCell? {
         return self.dequeueReusableCell(
-            withIdentifier: identifier,
+            withIdentifier: String(describing: TableViewCell.self),
             for: indexPath) as? TableViewCell
     }
 }

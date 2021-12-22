@@ -55,7 +55,7 @@ final class FeedPresenterImplementation {
     private var postsDefaultOrder: [Int] = []
     private var selectedSortOption: FilterViewController.SortOption = .none
     
-    // MARK: - Lifecycle -
+    // MARK: - Life Cycle -
     
     init(view: FeedViewControllerProtocol, service: NetworkService, router: FeedRouter) {
         self.service = service
@@ -90,7 +90,7 @@ final class FeedPresenterImplementation {
     
 }
 
-// MARK: - FeedPresenter -
+// MARK: - FeedPresenterImplementation -
 
 extension FeedPresenterImplementation: FeedPresenter {
     func logOut() {
@@ -173,7 +173,7 @@ extension FeedPresenterImplementation: FeedPresenter {
     }
 }
 
-// MARK: - VC delegate -
+// MARK: - FeedPresenterImplementation extension -
 
 extension FeedPresenterImplementation: FilterViewControllerDelegate {
     func onSortOptionChanged(_ option: FilterViewController.SortOption) {

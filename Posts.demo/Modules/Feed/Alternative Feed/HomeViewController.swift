@@ -11,7 +11,7 @@ class HomeViewController: UIViewController {
     
     var presenter: FeedPresenter!
     
-    // MARK: - Private variables -
+    // MARK: - Private properties -
     
     private lazy var logOutButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -46,8 +46,7 @@ class HomeViewController: UIViewController {
         collection.backgroundColor = .clear
         collection.delegate = self
         collection.dataSource = self
-        collection.registerCell(of: CollectionViewCell.self,
-                                reuseIdentifier: "CollectionCell")
+        collection.registerCell(of: CollectionViewCell.self)
         collection.keyboardDismissMode = .interactive
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
@@ -102,14 +101,14 @@ class HomeViewController: UIViewController {
         return searchBar
     }()
     
-    // MARK: - Lifecycle -
+    // MARK: - Life Cycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
         initialSetup()
     }
     
-    // MARK: - Private functions -
+    // MARK: - Private methods -
     
     private func initialSetup() {
         setupMainView()
@@ -207,10 +206,7 @@ extension HomeViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueCollectionViewCell(
-            "CollectionCell",
-            for: indexPath
-        ) {
+        if let cell = collectionView.dequeueCollectionViewCell(for: indexPath) {
             cell.delegate = self
             let postState = presenter.getPostForCell(by: indexPath.row)
             cell.configure(postState: postState)
