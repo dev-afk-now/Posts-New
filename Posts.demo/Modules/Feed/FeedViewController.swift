@@ -64,7 +64,7 @@ class FeedViewController: UIViewController {
         setupNavigationBar()
     }
     
-    //MARK: - Private methods -
+    // MARK: - Private methods -
     
     private func setupTableViewBackground() -> UIView? {
         let noResultImageView = UIImageView()
@@ -87,8 +87,8 @@ class FeedViewController: UIViewController {
         tableView.backgroundColor = .lightGray
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "TableViewCell", bundle: .main),
-                           forCellReuseIdentifier: "TableViewCell")
+        tableView.register(UINib(nibName: "PostCell", bundle: .main),
+                           forCellReuseIdentifier: "PostCell")
         tableView.keyboardDismissMode = .interactive
     }
     
@@ -101,7 +101,7 @@ class FeedViewController: UIViewController {
         presenter.searchPostForTitle(searchText)
     }
     
-    //MARK: - Actions -
+    // MARK: - Actions -
     
     @objc private func sortButtonTapped() {
         guard presenter.postsCount > 0 else { return }
@@ -123,7 +123,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if let cell = tableView.dequeueTableViewCell(for: indexPath) {
+        if let cell = tableView.dequeuePostCell(for: indexPath) {
             cell.delegate = self
             let postState = presenter.getPostForCell(by: indexPath.row)
             cell.configure(postState: postState)
@@ -144,8 +144,8 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - FeedViewController extensions
 
-extension FeedViewController: TableViewCellDelegate {
-    func compressDescriptionLabel(_ cell: TableViewCell) {
+extension FeedViewController: PostCellDelegate {
+    func compressDescriptionLabel(_ cell: PostCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         presenter.switchPreviewState(by: indexPath.row)
     }

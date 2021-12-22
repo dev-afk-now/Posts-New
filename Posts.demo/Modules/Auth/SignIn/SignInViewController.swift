@@ -57,9 +57,9 @@ class SignInViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Submit", for: .normal)
-        button.addAction(UIAction { [weak self] _ in
-            self?.presenter.validateAndSignIn()
-        }, for: .touchUpInside)
+        button.addTarget(self,
+                         action: #selector(submitButtonClicked),
+                         for: .touchUpInside)
         button.backgroundColor = .black
         return button
     }()
@@ -98,12 +98,12 @@ class SignInViewController: UIViewController {
     
     // MARK: - Private methods -
     
-    private func setupSuperViewBackground() {
+    private func setupMainViewBackground() {
         view.backgroundColor = .white
     }
     
     private func initialSetup() {
-        setupSuperViewBackground()
+        setupMainViewBackground()
         setupStackViewLayout()
         arrangeStack()
     }
@@ -122,15 +122,18 @@ class SignInViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        self.navigationController?.setNavigationBarHidden(false, animated: false)
+        self.navigationController?.setNavigationBarHidden(false,
+                                                          animated: false)
     }
     
     private func setupStackViewLayout() {
         let horizontalInset: CGFloat = 10
         view.addSubview(stackView)
         NSLayoutConstraint.activate([
-            stackView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: horizontalInset),
-            stackView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -horizontalInset),
+            stackView.leftAnchor.constraint(equalTo: view.leftAnchor,
+                                            constant: horizontalInset),
+            stackView.rightAnchor.constraint(equalTo: view.rightAnchor,
+                                             constant: -horizontalInset),
             stackView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor)
         ])
@@ -150,7 +153,8 @@ class SignInViewController: UIViewController {
             
             passwordTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor,
                                                     constant: horizontalInset),
-            passwordTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor, constant: -horizontalInset),
+            passwordTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor,
+                                                     constant: -horizontalInset),
             passwordTextField.heightAnchor.constraint(equalToConstant: itemHeight),
             registrationButton.heightAnchor.constraint(equalToConstant: itemHeight),
             
@@ -158,6 +162,13 @@ class SignInViewController: UIViewController {
             submitButton.rightAnchor.constraint(equalTo: stackView.rightAnchor),
             submitButton.heightAnchor.constraint(equalToConstant: itemHeight)
         ])
+    }
+    
+    // MARK: - Actions -
+    
+    @objc private func submitButtonClicked() {
+        view.endEditing(true)
+        presenter.validateAndSignIn()
     }
 }
 
@@ -178,7 +189,7 @@ extension SignInViewController: UITextFieldDelegate {
         return view.endEditing(true)
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if let field = textField as? FormTextField {
             presenter.updateUserForm(text: field.text ?? "",
                                      type: field.internalType)

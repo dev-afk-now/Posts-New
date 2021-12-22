@@ -25,15 +25,11 @@ final class KeychainService {
     }
     
     func set(_ value: String, for key: String) {
-        if keychain.set(value, forKey: key) {
-            print(" - successfully saved \(value) for \(key)")
-        } else {
-            print(" - saving failed")
-        }
+        keychain.set(value, forKey: key)
     }
     
     func get(key: String) -> String? {
-        return keychain.get(key)
+        keychain.get(key)
     }
     
     func clear() {

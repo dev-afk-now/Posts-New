@@ -7,13 +7,13 @@
 
 import UIKit
 
-protocol CollectionViewCellDelegate: AnyObject {
-    func compressDescriptionLabel(_ cell: CollectionViewCell)
+protocol CollectionCellDelegate: AnyObject {
+    func compressDescriptionLabel(_ cell: CollectionCell)
 }
 
-class CollectionViewCell: FullWidthCollectionViewCell {
+class CollectionCell: FullWidthCollectionViewCell {
     
-    weak var delegate: CollectionViewCellDelegate?
+    weak var delegate: CollectionCellDelegate?
     
     // MARK: - Private properties -
     

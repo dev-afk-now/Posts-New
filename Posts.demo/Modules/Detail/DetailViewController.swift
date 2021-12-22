@@ -70,11 +70,11 @@ class DetailViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.titleView = titleLabel
-        navigationItem.leftBarButtonItem = backButton
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 10)
         ])
+        navigationItem.titleView = titleLabel
+        navigationItem.leftBarButtonItem = backButton
     }
 }
 

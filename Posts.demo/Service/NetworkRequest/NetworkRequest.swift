@@ -17,8 +17,7 @@ final class NetworkRequestImplementation {
     }
 }
 
-extension NetworkRequestImplementation: NetworkRequest {
-    
+extension NetworkRequestImplementation: NetworkRequest {    
     func GET<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 60)
         URLSession.shared.dataTask(with: request) { data, _, error in

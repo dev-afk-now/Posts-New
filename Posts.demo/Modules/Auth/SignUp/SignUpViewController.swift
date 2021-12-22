@@ -134,9 +134,9 @@ class SignUpViewController: UIViewController {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setTitle("Submit", for: .normal)
-        button.addAction(UIAction { _ in
-            self.presenter.validateAndSignUp()
-        }, for: .touchUpInside)
+        button.addTarget(self,
+                         action: #selector(submitButtonClicked),
+                         for: .touchUpInside)
         button.isEnabled = false
         button.backgroundColor = .lightGray
         return button
@@ -153,12 +153,12 @@ class SignUpViewController: UIViewController {
     
     // MARK: - Private methods -
     
-    private func setupSuperviewBackground() {
+    private func setupMainViewBackground() {
         view.backgroundColor = .white
     }
     
     private func initialSetup() {
-        setupSuperviewBackground()
+        setupMainViewBackground()
         setupStackViewLayout()
         arrangeStack()
     }
@@ -193,38 +193,41 @@ class SignUpViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        let approximateItemHeight: CGFloat = 40
+        let itemHeight: CGFloat = 40
         let horizontalInset: CGFloat = 32
         NSLayoutConstraint.activate([
-            signUpLabel.heightAnchor.constraint(equalToConstant: approximateItemHeight),
-            
+            signUpLabel.heightAnchor.constraint(equalToConstant: itemHeight),
             loginTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor,
                                                  constant: horizontalInset),
             loginTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor,
                                                   constant: -horizontalInset),
-            loginTextField.heightAnchor.constraint(equalToConstant: approximateItemHeight),
-            
+            loginTextField.heightAnchor.constraint(equalToConstant: itemHeight),
             passwordTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor,
                                                     constant: horizontalInset),
             passwordTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor,
                                                      constant: -horizontalInset),
-            passwordTextField.heightAnchor.constraint(equalToConstant: approximateItemHeight),
-            
+            passwordTextField.heightAnchor.constraint(equalToConstant: itemHeight),
             repeatPasswordTextField.leftAnchor.constraint(equalTo: stackView.leftAnchor,
                                                           constant: horizontalInset),
             repeatPasswordTextField.rightAnchor.constraint(equalTo: stackView.rightAnchor,
                                                            constant: -horizontalInset),
-            repeatPasswordTextField.heightAnchor.constraint(equalToConstant: approximateItemHeight),
+            repeatPasswordTextField.heightAnchor.constraint(equalToConstant: itemHeight),
             
             termsOfServiceContainer.leftAnchor.constraint(equalTo: stackView.leftAnchor,
                                                           constant: horizontalInset),
             termsOfServiceContainer.rightAnchor.constraint(equalTo: stackView.rightAnchor,
                                                            constant: -horizontalInset),
-            
             submitButton.leftAnchor.constraint(equalTo: stackView.leftAnchor),
             submitButton.rightAnchor.constraint(equalTo: stackView.rightAnchor),
-            submitButton.heightAnchor.constraint(equalToConstant: approximateItemHeight)
+            submitButton.heightAnchor.constraint(equalToConstant: itemHeight)
         ])
+    }
+    
+    // MARK: - Actions -
+    
+    @objc private func submitButtonClicked() {
+        view.endEditing(true)
+        presenter.validateAndSignUp()
     }
 }
 

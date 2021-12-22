@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
         collection.backgroundColor = .clear
         collection.delegate = self
         collection.dataSource = self
-        collection.registerCell(of: CollectionViewCell.self)
+        collection.registerCell(of: CollectionCell.self)
         collection.keyboardDismissMode = .interactive
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
@@ -224,8 +224,8 @@ extension HomeViewController: UICollectionViewDelegate,
 
 // MARK: - HomeViewController extensions -
 
-extension HomeViewController: CollectionViewCellDelegate {
-    func compressDescriptionLabel(_ cell: CollectionViewCell) {
+extension HomeViewController: CollectionCellDelegate {
+    func compressDescriptionLabel(_ cell: CollectionCell) {
         guard let indexPath = collectionView.indexPath(for: cell) else { return }
         presenter.switchPreviewState(by: indexPath.row)
     }

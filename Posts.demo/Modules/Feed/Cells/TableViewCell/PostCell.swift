@@ -1,5 +1,5 @@
 //
-//  TableViewCell.swift
+//  PostCell.swift
 //  Posts.demo
 //
 //  Created by New Mac on 08.10.2021.
@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol TableViewCellDelegate: AnyObject {
-    func compressDescriptionLabel(_ cell: TableViewCell)
+protocol PostCellDelegate: AnyObject {
+    func compressDescriptionLabel(_ cell: PostCell)
 }
 
-class TableViewCell: UITableViewCell {
+class PostCell: UITableViewCell {
     
     // MARK: - Public properties -
     
-    weak var delegate: TableViewCellDelegate?
+    weak var delegate: PostCellDelegate?
     
     // MARK: - Outlets -
     
@@ -30,13 +30,6 @@ class TableViewCell: UITableViewCell {
     private let buttonTitleIfExpanded = "Скрыть"
     private let buttonTitleIfNotExpanded = "Показать полностью"
     private let collapsedStateNumberOfLines = 2
-    
-    
-    // MARK: - Life Cycle -
-    
-    override func prepareForReuse() {
-        super.prepareForReuse()
-    }
     
     // MARK: - Public methods -
     

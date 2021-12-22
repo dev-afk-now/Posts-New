@@ -14,10 +14,9 @@ protocol SignInPresenter {
 }
 
 final class SignInPresenterImplementation {
+    
+    // MARK: - Properties -
     weak var view: SignInViewControllerProtocol?
-    
-    // MARK: - Private properties -
-    
     private let router: SignInRouter
     private var userData = UserForm.defaultInstance
     private let minPasswordLength: Int = 6
@@ -76,7 +75,7 @@ final class SignInPresenterImplementation {
     }
 }
 
-//MARK: - SignInPresenterImplementation extension -
+// MARK: - SignInPresenterImplementation extension -
 
 extension SignInPresenterImplementation: SignInPresenter {
     func updateUserForm(text: String, type: FormTextFieldType) {
