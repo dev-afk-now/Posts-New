@@ -20,7 +20,7 @@ final class NetworkRequestImplementation {
 extension NetworkRequestImplementation: NetworkRequest {
     
     func GET<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
-        let request = URLRequest(url: url, timeoutInterval: 60)
+        let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 60)
         URLSession.shared.dataTask(with: request) { data, _, error in
             guard error == nil else {
                 completion(.failure(Error.propagated(error!)))
@@ -64,10 +64,4 @@ struct Detail: Codable {
     var text: String
     var images: [String]
     var likes_count: Int
-}
-
-extension Detail {
-    var date: Date {
-        return Date(timeIntervalSince1970: TimeInterval(timeshamp))
-    }
 }

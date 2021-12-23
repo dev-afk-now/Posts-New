@@ -29,16 +29,21 @@ protocol DetailPresenter {
 
 final class DetailPresenterImpementation {
     private var id: Int
-    private lazy var url = URL(string: "https://raw.githubusercontent.com/ aShaforostov/jsons/master/api/posts/\(id).json")
+    private lazy var url = URL(
+        string: "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/posts/\(id).json")
     weak var view: DetailViewControllerProtocol?
-    private var networkService: NetworkService
+    private var repository: DetailRepository
     private var router: DetailRouter
     private var imageService: ImageService
     
-    init(id: Int, view: DetailViewControllerProtocol, networkService: NetworkService, router: DetailRouter, imageService: ImageService) {
+    init(id: Int,
+         view: DetailViewControllerProtocol,
+         repository: DetailRepository,
+         router: DetailRouter,
+         imageService: ImageService) {
         self.id = id
         self.view = view
-        self.networkService = networkService
+        self.repository = repository
         self.router = router
         self.imageService = imageService
     }
@@ -54,10 +59,10 @@ extension DetailPresenterImpementation: DetailPresenter {
     }
     
     private func fetchPost() {
-        networkService.fetchData(url: url!) { (result: Result<NetworkDetail, NetworkServiceImplementation.Error>) in
+        repository.getDetail { result in
             switch result {
             case .success(let data):
-                self.createViewItems(from: data.post)
+                self.createViewItems(from: data)
             case .failure(let error):
                 switch error {
                 case .offlined:
@@ -70,15 +75,16 @@ extension DetailPresenterImpementation: DetailPresenter {
             }
         }
     }
-    private func createViewItems(from post: Detail){
+    
+    private func createViewItems(from post: DetailModel) {
         var items: [ViewItem] = []
         items.append(TitleItem(title: post.title))
         items.append(TextItem(text: post.text))
-        self.imageService.fetchImages(post.images.map{ URL(string: $0) }) { [unowned self] (urls) in
+        self.imageService.fetchImages(post.images.map { URL(string: $0) }) { [unowned self] (urls) in
             urls.forEach{
                 items.append(ImageItem(image: $0))
             }
-            items.append(DetailItem(likes: post.likes_count, date: post.date))
+            items.append(DetailItem(likes: post.likesCount, date: post.date))
             DispatchQueue.main.async {
                 view?.updateView(items: items)
             }
@@ -86,4 +92,19 @@ extension DetailPresenterImpementation: DetailPresenter {
     }
 }
 
-
+//repository.fetchData(url: url!) { (result: Result<NetworkDetail,
+//                                       NetworkServiceImplementation.Error>) in
+//    switch result {
+//    case .success(let data):
+//        self.createViewItems(from: data.post)
+//    case .failure(let error):
+//        switch error {
+//        case .offlined:
+//            self.view?.showNoInternetConnectionError()
+//        case .timeOut:
+//            self.view?.showTimeOutConnectionError()
+//        case .propagated:
+//            self.view?.showUnreachableServiceError()
+//        }
+//    }
+//}

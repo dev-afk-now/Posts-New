@@ -31,6 +31,7 @@ struct PostCellModel {
         self.isShowingFullPreview = false
         self.likesCount = Int(model.likesCount)
         self.timestamp = Int(model.timestamp)
+        print("readed \(model.postId)")
     }
 }
 
@@ -41,14 +42,26 @@ extension PostCellModel {
 }
 
 extension PostCellModel {
-    func initPersistent() -> PostPersistent {
+    func initPersistent() {
         let object = PostPersistent(context: context)
         object.postId = self.postId.int32
         object.likesCount = self.likesCount.int32
         object.timestamp = self.timestamp.int32
         object.text = self.text
         object.title = self.title
-        return object
+        print("created post: \(object.postId)")
+    }
+}
+
+extension DetailModel {
+    func initPersistent() {
+        let object = DetailPersistentModel(context: context)
+        object.postId = self.postId.int32
+        object.likesCount = self.likesCount.int32
+        object.timestamp = self.timestamp.int32
+        object.text = self.text
+        object.title = self.title
+        print("created detail: \(object.postId)")
     }
 }
 

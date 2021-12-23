@@ -7,12 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D51A1AFA277486A700E29EA8 /* DetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A1AF9277486A700E29EA8 /* DetailRepository.swift */; };
+		D51A1AFD2774908D00E29EA8 /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A1AFC2774908D00E29EA8 /* DetailModel.swift */; };
 		D52C70AA276C933700A65202 /* PersistentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70A9276C933700A65202 /* PersistentService.swift */; };
 		D52C70AD276C93DF00A65202 /* PostPersistent.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AB276C93DF00A65202 /* PostPersistent.xcdatamodeld */; };
-		D52C70B0276C969B00A65202 /* PostPersistent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */; };
-		D52C70B1276C969B00A65202 /* PostPersistent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */; };
 		D52C70B4276CC2CC00A65202 /* PostsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70B3276CC2CC00A65202 /* PostsRepository.swift */; };
 		D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57DF0DB275E03F6001DB998 /* PostCellModel.swift */; };
+		D582C5862774839C00C2896D /* PostPersistent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */; };
+		D582C5872774839C00C2896D /* PostPersistent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */; };
+		D582C58C2774851000C2896D /* DetailPersistentModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D582C58A2774851000C2896D /* DetailPersistentModel+CoreDataClass.swift */; };
+		D582C58D2774851000C2896D /* DetailPersistentModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D582C58B2774851000C2896D /* DetailPersistentModel+CoreDataProperties.swift */; };
 		D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */; };
 		D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */ = {isa = PBXBuildFile; fileRef = D721E44D27157A45000D887E /* DetailConfigurator.swift */; };
 		D721E45127157A81000D887E /* DetailPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D721E45027157A81000D887E /* DetailPresenter.swift */; };
@@ -41,12 +45,16 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		D51A1AF9277486A700E29EA8 /* DetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepository.swift; sourceTree = "<group>"; };
+		D51A1AFC2774908D00E29EA8 /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		D52C70A9276C933700A65202 /* PersistentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentService.swift; sourceTree = "<group>"; };
 		D52C70AC276C93DF00A65202 /* PostPersistent.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PostPersistent.xcdatamodel; sourceTree = "<group>"; };
 		D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostPersistent+CoreDataClass.swift"; sourceTree = "<group>"; };
 		D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostPersistent+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D52C70B3276CC2CC00A65202 /* PostsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsRepository.swift; sourceTree = "<group>"; };
 		D57DF0DB275E03F6001DB998 /* PostCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellModel.swift; sourceTree = "<group>"; };
+		D582C58A2774851000C2896D /* DetailPersistentModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailPersistentModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D582C58B2774851000C2896D /* DetailPersistentModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailPersistentModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		D71015AA271D9A8A00BDBADF /* FilterConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterConfigurator.swift; sourceTree = "<group>"; };
 		D721E44D27157A45000D887E /* DetailConfigurator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailConfigurator.swift; sourceTree = "<group>"; };
 		D721E45027157A81000D887E /* DetailPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPresenter.swift; sourceTree = "<group>"; };
@@ -87,23 +95,39 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D51A1AF82774865700E29EA8 /* DetailRepository */ = {
+			isa = PBXGroup;
+			children = (
+				D51A1AF9277486A700E29EA8 /* DetailRepository.swift */,
+			);
+			path = DetailRepository;
+			sourceTree = "<group>";
+		};
+		D51A1AFB2774907C00E29EA8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D51A1AFC2774908D00E29EA8 /* DetailModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D52C70A8276C930800A65202 /* PersistentService */ = {
 			isa = PBXGroup;
 			children = (
-				D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */,
-				D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */,
-				D52C70A9276C933700A65202 /* PersistentService.swift */,
+				D582C57D277481D200C2896D /* Details */,
+				D582C57C277481C800C2896D /* Service */,
+				D582C57B277481B900C2896D /* Post */,
 				D52C70AB276C93DF00A65202 /* PostPersistent.xcdatamodeld */,
 			);
 			path = PersistentService;
 			sourceTree = "<group>";
 		};
-		D52C70B2276CC28C00A65202 /* PostsService */ = {
+		D52C70B2276CC28C00A65202 /* PostsRepository */ = {
 			isa = PBXGroup;
 			children = (
 				D52C70B3276CC2CC00A65202 /* PostsRepository.swift */,
 			);
-			path = PostsService;
+			path = PostsRepository;
 			sourceTree = "<group>";
 		};
 		D57DF0DA275E03D1001DB998 /* Model */ = {
@@ -112,6 +136,32 @@
 				D57DF0DB275E03F6001DB998 /* PostCellModel.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D582C57B277481B900C2896D /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */,
+				D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		D582C57C277481C800C2896D /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				D52C70A9276C933700A65202 /* PersistentService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		D582C57D277481D200C2896D /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				D582C58A2774851000C2896D /* DetailPersistentModel+CoreDataClass.swift */,
+				D582C58B2774851000C2896D /* DetailPersistentModel+CoreDataProperties.swift */,
+			);
+			path = Details;
 			sourceTree = "<group>";
 		};
 		D722F22D27158E5F005D7558 /* Cells */ = {
@@ -126,6 +176,7 @@
 		D72A1F9127147AB10016FB27 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				D51A1AFB2774907C00E29EA8 /* Model */,
 				D72A1F89271456F10016FB27 /* DetailViewController.xib */,
 				D72A1F88271456F10016FB27 /* DetailViewController.swift */,
 				D721E45027157A81000D887E /* DetailPresenter.swift */,
@@ -150,7 +201,8 @@
 		D72A1F9327147ACC0016FB27 /* Service */ = {
 			isa = PBXGroup;
 			children = (
-				D52C70B2276CC28C00A65202 /* PostsService */,
+				D51A1AF82774865700E29EA8 /* DetailRepository */,
+				D52C70B2276CC28C00A65202 /* PostsRepository */,
 				D52C70A8276C930800A65202 /* PersistentService */,
 				D783D1E0271FFFF300E09F06 /* ImageService */,
 				D75D5ADE274FCC8600B71B61 /* HashService */,
@@ -328,12 +380,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D52C70B0276C969B00A65202 /* PostPersistent+CoreDataClass.swift in Sources */,
+				D582C5862774839C00C2896D /* PostPersistent+CoreDataProperties.swift in Sources */,
+				D582C5872774839C00C2896D /* PostPersistent+CoreDataClass.swift in Sources */,
 				D783D1DB271EFF5500E09F06 /* DetailRouter.swift in Sources */,
 				D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */,
 				D7651EBF27102B6E007374FE /* FeedViewController.swift in Sources */,
-				D52C70B1276C969B00A65202 /* PostPersistent+CoreDataProperties.swift in Sources */,
 				D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */,
+				D582C58D2774851000C2896D /* DetailPersistentModel+CoreDataProperties.swift in Sources */,
 				D52C70AA276C933700A65202 /* PersistentService.swift in Sources */,
 				D7651EC527102BC1007374FE /* FeedPresenter.swift in Sources */,
 				D783D1DE271F04B200E09F06 /* FilterRouter.swift in Sources */,
@@ -343,9 +396,12 @@
 				D75D5AE0274FCC9800B71B61 /* HashService.swift in Sources */,
 				D7966AF727510AE300D82610 /* ImageRequest.swift in Sources */,
 				D7651ECF27104A49007374FE /* FeedConfigurator.swift in Sources */,
+				D51A1AFA277486A700E29EA8 /* DetailRepository.swift in Sources */,
 				D7651EC9271040EB007374FE /* NetworkService.swift in Sources */,
 				D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */,
+				D582C58C2774851000C2896D /* DetailPersistentModel+CoreDataClass.swift in Sources */,
 				D72A1F9727147B770016FB27 /* FeedRouter.swift in Sources */,
+				D51A1AFD2774908D00E29EA8 /* DetailModel.swift in Sources */,
 				D7651EA627102B10007374FE /* AppDelegate.swift in Sources */,
 				D73EBAB527104F5600F24619 /* TableViewCell.swift in Sources */,
 				D72A1F8A271456F10016FB27 /* DetailViewController.swift in Sources */,

@@ -31,7 +31,6 @@ final class PersistentService {
         let fetchRequest = NSFetchRequest<T>.init(entityName: entityName)
         do {
             let list = try context.fetch(fetchRequest)
-            print(list)
             return list
         } catch {
             print(error.localizedDescription)
@@ -39,7 +38,7 @@ final class PersistentService {
         }
     }
     
-    func savePosts(_ list: [PostPersistent]) {
+    func save() {
         try? context.save()
     }
 }

@@ -21,7 +21,8 @@ class PostsRepositoryImplementation {
     
     private let service: NetworkService
     
-    private var listPath = URL(string: "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/main.json")
+    private let listPath = URL(
+        string: "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/main.json")
     
     init(service: NetworkService) {
         self.service = service
@@ -31,20 +32,21 @@ class PostsRepositoryImplementation {
 extension PostsRepositoryImplementation: PostsRepository {
     func getPosts(completion: @escaping (Result<[PostCellModel], NetworkServiceImplementation.Error>) -> Void) {
         service.fetchData(url: listPath!) { [weak self] (result: Result<NetworkPostList,
-                                             NetworkServiceImplementation.Error>) in
+                                                         NetworkServiceImplementation.Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let success):
                 let posts = success.posts.map(PostCellModel.init)
-                let localPosts = posts.map{ $0.initPersistent() }
-                PersistentService.shared.savePosts(localPosts)
+                let _ = posts.map{ $0.initPersistent() }
+                PersistentService.shared.save()
                 completion(.success(posts))
             case .failure(let failure):
                 let list = self.fetchLocalPosts()
+                let posts: [PostCellModel] = list.map { PostCellModel(from: $0) }
                 if list.isEmpty {
                     completion(.failure(failure))
                 } else {
-                    completion(.failure(failure))
+                    completion(.success(posts))
                 }
             }
         }

@@ -1,5 +1,5 @@
 //
-//  PostDetailViewController.swift
+//  DetailViewController.swift
 //  Posts.demo
 //
 //  Created by New Mac on 11.10.2021.
@@ -21,11 +21,11 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var progressView: UIActivityIndicatorView!
     @IBOutlet private weak var alertView: UIView!
     @IBOutlet private weak var failDescriptionLabel: UILabel!
-    @IBOutlet weak var headlineLabel: UILabel!
-    @IBOutlet weak var descriptionLabel: UILabel!
-    @IBOutlet weak var likesLabel: UILabel!
-    @IBOutlet weak var dateLabel: UILabel!
-    @IBOutlet weak var imageStackView: UIStackView!
+    @IBOutlet private weak var headlineLabel: UILabel!
+    @IBOutlet private weak var descriptionLabel: UILabel!
+    @IBOutlet private weak var likesLabel: UILabel!
+    @IBOutlet private weak var dateLabel: UILabel!
+    @IBOutlet private weak var imageStackView: UIStackView!
     
     private lazy var titleLabel: UILabel = {
         $0.textColor = .white
@@ -116,7 +116,8 @@ extension DetailViewController: DetailViewControllerProtocol {
             guard let data = try? Data(contentsOf: url), let image = UIImage(data: data) else { break }
             imageView.image = image
             let aspectRatio = image.size.width / image.size.height
-            imageView.heightAnchor.constraint(equalToConstant: (self.view?.frame.size.width)! / aspectRatio).isActive = true
+            imageView.heightAnchor.constraint(
+                equalToConstant: (self.view?.frame.size.width)! / aspectRatio).isActive = true
             self.imageStackView?.addArrangedSubview(imageView)
         case is DetailItem:
             let detailItem = item as! DetailItem
@@ -127,7 +128,6 @@ extension DetailViewController: DetailViewControllerProtocol {
         }
     }
 }
-
 
 extension Date {
     func toStringShort() -> String {
