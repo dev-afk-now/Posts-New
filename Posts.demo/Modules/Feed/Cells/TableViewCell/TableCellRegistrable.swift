@@ -16,9 +16,9 @@ extension TableCellRegistrable {
                            forCellReuseIdentifier: String(describing: self))
     }
     
-    static func registerNib(in tableView: UITableView) {
-        tableView.register(UINib(nibName: String(describing: self),
+    static func registerNib<T: UITableViewCell>(in tableView: UITableView, _ : T.Type) {
+        tableView.register(UINib(nibName: String(describing: T.self),
                                  bundle: .main),
-                           forCellReuseIdentifier: String(describing: self))
+                           forCellReuseIdentifier: String(describing: T.self))
     }
 }

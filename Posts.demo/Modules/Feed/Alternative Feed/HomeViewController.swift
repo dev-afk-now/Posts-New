@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
         collection.backgroundColor = .clear
         collection.delegate = self
         collection.dataSource = self
-        collection.registerCell(of: CollectionCell.self)
+        CollectionCell.register(in: collection, CollectionCell.self)
         collection.keyboardDismissMode = .interactive
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
@@ -206,14 +206,14 @@ extension HomeViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if let cell = collectionView.dequeueCollectionViewCell(for: indexPath) {
-            cell.delegate = self
+        guard let cell = CollectionCell.cell(in: collectionView,
+                                             for: indexPath,
+                                             CollectionCell.self) else { return UICollectionViewCell() }
+        cell.delegate = self
             let postState = presenter.getPostForCell(by: indexPath.row)
             cell.configure(postState: postState)
             return cell
-        } else {
-            return UICollectionViewCell()
-        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView,

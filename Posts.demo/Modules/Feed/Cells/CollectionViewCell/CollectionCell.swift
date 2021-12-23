@@ -11,7 +11,7 @@ protocol CollectionCellDelegate: AnyObject {
     func compressDescriptionLabel(_ cell: CollectionCell)
 }
 
-class CollectionCell: FullWidthCollectionViewCell {
+class CollectionCell: FullWidthCollectionViewCell, CollectionCellRegistrable, CollectionCellReusable {
     
     weak var delegate: CollectionCellDelegate?
     

@@ -10,7 +10,7 @@ import UIKit
 
 final class FeedConfigurator {
     static func create() -> UIViewController {
-        let view = FeedViewController()
+        let view = HomeViewController()
         let networkRequest = NetworkRequestImplementation()
         let networkService = NetworkServiceImplementation(requestService: networkRequest)
         let router = FeedRouterImplementation(context: view)

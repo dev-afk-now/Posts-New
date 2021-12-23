@@ -51,10 +51,7 @@ class PostCell: UITableViewCell {
     }
 }
 
-extension PostCell: CollectionCellRegistrable, TableCellReusable {
+extension PostCell: TableCellRegistrable, TableCellReusable {
     
 }
 
-class SomeCell: UITableViewCell, CollectionCellRegistrable {
-    
-}
