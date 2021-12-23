@@ -16,22 +16,36 @@ struct DetailModel {
     var likesCount: Int
     
     init(_ model: Detail) {
-        self.postId = model.postId
-        self.title = model.title
-        self.text = model.text
-        self.likesCount = model.likes_count
-        self.timestamp = model.timeshamp
-        self.images = model.images
+        postId = model.postId
+        title = model.title
+        text = model.text
+        likesCount = model.likes_count
+        timestamp = model.timeshamp
+        images = model.images
     }
     
     init(from model: DetailPersistentModel) {
-        self.postId = Int(model.postId)
-        self.title = model.title ?? ""
-        self.text = model.text ?? ""
-        self.likesCount = Int(model.likesCount)
-        self.timestamp = Int(model.timestamp)
-        self.images = []
+        postId = Int(model.postId)
+        title = model.title ?? ""
+        text = model.text ?? ""
+        likesCount = Int(model.likesCount)
+        timestamp = Int(model.timestamp)
+        images = model.images as? [String] ?? []
+        print(model.images)
         print("readed from coreData \(model.postId)")
+    }
+}
+
+extension DetailModel {
+    func initPersistent() {
+        let object = DetailPersistentModel(context: context)
+        object.postId = self.postId.int32
+        object.likesCount = self.likesCount.int32
+        object.timestamp = self.timestamp.int32
+        object.text = self.text
+        object.title = self.title
+        object.images = self.images as? [NSString] ?? []
+        print("created detail: \(images)")
     }
 }
 

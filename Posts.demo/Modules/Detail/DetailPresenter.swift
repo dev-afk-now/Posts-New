@@ -91,20 +91,3 @@ extension DetailPresenterImpementation: DetailPresenter {
         }
     }
 }
-
-//repository.fetchData(url: url!) { (result: Result<NetworkDetail,
-//                                       NetworkServiceImplementation.Error>) in
-//    switch result {
-//    case .success(let data):
-//        self.createViewItems(from: data.post)
-//    case .failure(let error):
-//        switch error {
-//        case .offlined:
-//            self.view?.showNoInternetConnectionError()
-//        case .timeOut:
-//            self.view?.showTimeOutConnectionError()
-//        case .propagated:
-//            self.view?.showUnreachableServiceError()
-//        }
-//    }
-//}

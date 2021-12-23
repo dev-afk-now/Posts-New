@@ -53,18 +53,6 @@ extension PostCellModel {
     }
 }
 
-extension DetailModel {
-    func initPersistent() {
-        let object = DetailPersistentModel(context: context)
-        object.postId = self.postId.int32
-        object.likesCount = self.likesCount.int32
-        object.timestamp = self.timestamp.int32
-        object.text = self.text
-        object.title = self.title
-        print("created detail: \(object.postId)")
-    }
-}
-
 extension Int {
     var int32: Int32 {
         Int32(self)

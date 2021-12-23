@@ -48,7 +48,8 @@ extension ImageServiceImplementation: ImageService {
         }
     }
     
-    private func fetchImageAddToGroup(group: DispatchGroup, url: URL, completion: @escaping(URL?) -> Void) {
+    private func fetchImageAddToGroup(group: DispatchGroup,
+                                      url: URL, completion: @escaping(URL?) -> Void) {
         group.enter()
         fetchImage(url) { output in
             defer { group.leave() }

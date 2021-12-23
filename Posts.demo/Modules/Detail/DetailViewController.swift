@@ -55,13 +55,14 @@ class DetailViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
+        navigationItem.leftBarButtonItem = backButton
         navigationItem.titleView = titleLabel
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        presenter.viewDidLoad()
         setupNavigationBar()
+        presenter.viewDidLoad()
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 10)
         ])
@@ -105,9 +106,11 @@ extension DetailViewController: DetailViewControllerProtocol {
         case is TitleItem:
             let title = item as! TitleItem
             titleLabel.text = title.title
+            headlineLabel.textColor = .black
             headlineLabel.text = title.title
         case is TextItem:
             let description = item as! TextItem
+            descriptionLabel.textColor = .black
             descriptionLabel.text = description.text
         case is ImageItem:
             let imageItem = item as! ImageItem
@@ -122,6 +125,8 @@ extension DetailViewController: DetailViewControllerProtocol {
         case is DetailItem:
             let detailItem = item as! DetailItem
             likesLabel.text = String(detailItem.likes)
+            likesLabel.textColor = .black
+            dateLabel.textColor = .black
             dateLabel.text = detailItem.date.toStringShort()
         default:
             break
