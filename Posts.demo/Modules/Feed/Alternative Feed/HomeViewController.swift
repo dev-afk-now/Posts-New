@@ -206,9 +206,7 @@ extension HomeViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = CollectionCell.cell(in: collectionView,
-                                             for: indexPath,
-                                             CollectionCell.self) else { return UICollectionViewCell() }
+        let cell = CollectionCell.cell(in: collectionView, for: indexPath)
         cell.delegate = self
             let postState = presenter.getPostForCell(by: indexPath.row)
             cell.configure(postState: postState)

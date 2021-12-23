@@ -42,6 +42,8 @@ class SignInViewController: UIViewController {
     private lazy var loginTextField: FormTextField = {
         let field = FormTextField(type: .username)
         field.translatesAutoresizingMaskIntoConstraints = false
+        field.backgroundColor = .lightGray
+        field.tintColor = .black
         field.delegate = self
         return field
     }()
@@ -49,6 +51,8 @@ class SignInViewController: UIViewController {
     private lazy var passwordTextField: FormTextField = {
         let field = FormTextField(type: .password)
         field.translatesAutoresizingMaskIntoConstraints = false
+        field.backgroundColor = .lightGray
+        field.tintColor = .black
         field.delegate = self
         return field
     }()

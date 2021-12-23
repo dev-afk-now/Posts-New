@@ -15,12 +15,6 @@ class FilterViewController: UIViewController {
     
     var presenter: FilterPresenter!
     
-    // MARK: - Life Cycle -
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-    
     // MARK: - Private methods -
     
     func setupNavigationBar() {

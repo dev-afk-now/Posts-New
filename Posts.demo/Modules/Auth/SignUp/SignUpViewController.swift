@@ -43,6 +43,8 @@ class SignUpViewController: UIViewController {
     private lazy var loginTextField: FormTextField = {
         let field = FormTextField(type: .username)
         field.translatesAutoresizingMaskIntoConstraints = false
+        field.backgroundColor = .lightGray
+        field.tintColor = .black
         field.delegate = self
         return field
     }()
@@ -50,6 +52,8 @@ class SignUpViewController: UIViewController {
     private lazy var passwordTextField: FormTextField = {
         let field = FormTextField(type: .password)
         field.translatesAutoresizingMaskIntoConstraints = false
+        field.backgroundColor = .lightGray
+        field.tintColor = .black
         field.delegate = self
         return field
     }()
@@ -57,6 +61,8 @@ class SignUpViewController: UIViewController {
     private lazy var repeatPasswordTextField: FormTextField = {
         let field = FormTextField(type: .confirmPassword)
         field.translatesAutoresizingMaskIntoConstraints = false
+        field.backgroundColor = .lightGray
+        field.tintColor = .black
         field.delegate = self
         return field
     }()
@@ -251,10 +257,10 @@ extension SignUpViewController: UITextFieldDelegate {
         return view.endEditing(true)
     }
     
-    func textFieldDidChangeSelection(_ textField: UITextField) {
+    func textFieldDidEndEditing(_ textField: UITextField) {
         if let field = textField as? FormTextField {
-            presenter.updateUserForm(text: field.text ?? "", type: field.internalType)
-            print(field.internalType)
+            presenter.updateUserForm(text: field.text ?? "",
+                                     type: field.internalType)
         }
     }
 }

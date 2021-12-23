@@ -122,8 +122,7 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = PostCell.cell(in: tableView, for: indexPath, PostCell.self) else {
-            return UITableViewCell() }
+        let cell = PostCell.cell(in: tableView, for: indexPath)
         cell.delegate = self
         let postState = presenter.getPostForCell(by: indexPath.row)
         cell.configure(postState: postState)

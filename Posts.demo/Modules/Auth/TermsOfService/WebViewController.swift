@@ -50,9 +50,10 @@ class WebViewController: UIViewController {
     // MARK: - Private methods -
     
     private func loadPage(urlString: String) {
-        let myURL = URL(string: urlString)
-        let myRequest = URLRequest(url: myURL!)
-        webView.load(myRequest)
+        if let myURL = URL(string: urlString) {
+            let myRequest = URLRequest(url: myURL)
+            webView.load(myRequest)
+        }
     }
     
     private func setupNavigationBar() {

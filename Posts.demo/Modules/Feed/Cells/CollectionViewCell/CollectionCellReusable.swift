@@ -10,10 +10,9 @@ import UIKit
 protocol CollectionCellReusable: AnyObject {}
 
 extension CollectionCellReusable {
-    static func cell<T: UICollectionViewCell>(in tableView: UICollectionView,
-                                              for indexPath: IndexPath,
-                                              _ : T.Type) -> T? {
-        return tableView.dequeueReusableCell(withReuseIdentifier: String(describing: T.self),
-                                             for: indexPath) as? T
+    static func cell(in tableView: UICollectionView,
+                                              for indexPath: IndexPath) -> Self {
+        return tableView.dequeueReusableCell(withReuseIdentifier: String(describing: self),
+                                             for: indexPath) as! Self
     }
 }

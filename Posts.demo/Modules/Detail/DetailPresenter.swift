@@ -71,11 +71,10 @@ extension DetailPresenterImpementation: DetailPresenter {
     
     private func fetchImage(url: URL?, completion: @escaping(UIImage) -> Void) {
         imageService.fetchImage(url) { url in
-            if url != nil {
-                guard let data = try? Data(contentsOf: url!),
-                      let image = UIImage(data: data) else { return }
-                completion(image)
-            }
+            guard let url = url,
+                  let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data) else { return }
+            completion(image)
         }
     }
 }
