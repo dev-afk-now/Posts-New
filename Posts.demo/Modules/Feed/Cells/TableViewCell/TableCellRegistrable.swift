@@ -13,7 +13,7 @@ extension TableCellRegistrable {
     static func register<T: UITableViewCell>(in tableView: UITableView,
                                              _ : T.Type) {
         tableView.register(T.self,
-                           forCellReuseIdentifier: String(describing: self))
+                           forCellReuseIdentifier: String(describing: T.self))
     }
     
     static func registerNib<T: UITableViewCell>(in tableView: UITableView, _ : T.Type) {
