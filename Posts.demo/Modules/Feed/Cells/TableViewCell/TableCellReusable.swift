@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol TableCellReusable: AnyObject {}
+protocol TableCellReusable: UITableViewCell {}
 
 extension TableCellReusable {
     static func cell(in tableView: UITableView,

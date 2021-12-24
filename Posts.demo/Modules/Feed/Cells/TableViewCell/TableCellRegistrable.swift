@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol TableCellRegistrable: AnyObject {}
+protocol TableCellRegistrable: UITableViewCell {}
 
 extension TableCellRegistrable {
     static func register(in tableView: UITableView) {

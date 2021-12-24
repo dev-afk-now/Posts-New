@@ -7,16 +7,16 @@
 
 import UIKit
 
-protocol CollectionCellRegistrable: AnyObject {}
+protocol CollectionCellRegistrable: UICollectionViewCell {}
 
 extension CollectionCellRegistrable {
-    static func register(in tableView: UICollectionView) {
-        tableView.register(self,
+    static func register(in collection: UICollectionView) {
+        collection.register(self,
                            forCellWithReuseIdentifier: String(describing: self))
     }
     
-    static func registerNib(in tableView: UICollectionView) {
-        tableView.register(UINib(nibName: String(describing: self),
+    static func registerNib(in collection: UICollectionView) {
+        collection.register(UINib(nibName: String(describing: self),
                                  bundle: .main),
                            forCellWithReuseIdentifier: String(describing: self))
     }
