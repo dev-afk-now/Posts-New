@@ -12,14 +12,12 @@ protocol FeedViewControllerProtocol: AnyObject {
     func showNoInternetConnectionError()
     func showUnreachableServiceError()
     func setupNoResultsViewIfNeeded(isResultsEmpty: Bool)
-    func updateRowState(at index: Int)
+    func updateItemState(at index: Int)
 }
 
 class FeedViewController: UIViewController {
     
-    var presenter: FeedPresenter!
-    
-    // MARK: - Outlets
+    // MARK: - Outlets -
     
     @IBOutlet private weak var searchBar: UISearchBar! {
         didSet {
@@ -32,17 +30,19 @@ class FeedViewController: UIViewController {
     @IBOutlet private weak var alertView: UIView!
     @IBOutlet private weak var failDescriptionLabel: UILabel!
     
-    @IBAction private func updateContentView(_ sender: Any) {
-        alertView.isHidden = true
-        presenter.viewDidLoad()
-        progressView.startAnimating()
-    }
+    // MARK: - Public properties -
+    
+    var presenter: FeedPresenter!
+    
+    // MARK: - Private properties -
+    
     private lazy var titleLabel: UILabel = {
-        $0.textColor = .white
-        $0.font = UIFont(name: "Helvetica Neue", size: 20)
-        $0.text = "Главная"
-        return $0
-    }(UILabel())
+        let title = UILabel()
+        title.textColor = .white
+        title.font = .applicatonFont(size: 20)
+        title.text = "Главная"
+        return title
+    }()
     
     private lazy var sortButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -51,23 +51,20 @@ class FeedViewController: UIViewController {
             target: self,
             action: #selector(sortButtonTapped)
         )
-        button.tintColor = .white
         return button
     }()
     
-    @objc private func sortButtonTapped() {
-        guard presenter.postsCount > 0 else { return }
-        presenter.showFilter()
-    }
     
-    // MARK: - Lifecycle
+    // MARK: - Life Cycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupNavigationBar()
         configureTableView()
         presenter.viewDidLoad()
+        setupNavigationBar()
     }
+    
+    // MARK: - Private methods -
     
     private func setupTableViewBackground() -> UIView? {
         let noResultImageView = UIImageView()
@@ -87,10 +84,10 @@ class FeedViewController: UIViewController {
     }
     
     private func configureTableView() {
-        tableView.backgroundColor = #colorLiteral(red: 0.8374180198, green: 0.8374378085, blue: 0.8374271393, alpha: 1)
+        tableView.backgroundColor = .lightGray
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "TableViewCell", bundle: .main), forCellReuseIdentifier: "TableCell")
+        PostCell.registerNib(in: tableView)
         tableView.keyboardDismissMode = .interactive
     }
     
@@ -99,8 +96,21 @@ class FeedViewController: UIViewController {
         navigationItem.rightBarButtonItem = sortButton
     }
     
-    private func startSearching(with searchText: String) {
+    private func search(with searchText: String) {
         presenter.searchPostForTitle(searchText)
+    }
+    
+    // MARK: - Actions -
+    
+    @objc private func sortButtonTapped() {
+        guard presenter.postsCount > 0 else { return }
+        presenter.showFilter()
+    }
+    
+    @IBAction private func updateContentView(_ sender: Any) {
+        alertView.isHidden = true
+        presenter.viewDidLoad()
+        progressView.startAnimating()
     }
 }
 
@@ -112,13 +122,13 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableCell", for: indexPath) as? TableViewCell else { return UITableViewCell() }
+        let cell = PostCell.cell(in: tableView, for: indexPath)
         cell.delegate = self
-        if let postState = presenter.getPostForCell(by: indexPath.row) {
-            cell.configure(postState: postState)
-        }
+        let postState = presenter.getPostForCell(by: indexPath.row)
+        cell.configure(postState: postState)
         return cell
     }
+
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
@@ -131,15 +141,15 @@ extension FeedViewController: UITableViewDelegate, UITableViewDataSource {
 
 // MARK: - FeedViewController extensions
 
-extension FeedViewController: TableViewCellDelegate {
-    func compressDescriptionLabel(_ cell: TableViewCell) {
+extension FeedViewController: PostCellDelegate {
+    func compressDescriptionLabel(_ cell: PostCell) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         presenter.switchPreviewState(by: indexPath.row)
     }
 }
 
 extension FeedViewController: FeedViewControllerProtocol {
-    func updateRowState(at index: Int) {
+    func updateItemState(at index: Int) {
         tableView.beginUpdates()
         tableView.reloadRows(at: [IndexPath(row: index,
                                             section: .zero)],
@@ -155,7 +165,8 @@ extension FeedViewController: FeedViewControllerProtocol {
         setUpViewsForError()
     }
     
-    private func setUpViewsForError(text: String = "Something went wrong", alertBackground: UIColor = .red) {
+    private func setUpViewsForError(text: String = "Something went wrong",
+                                    alertBackground: UIColor = .red) {
         DispatchQueue.main.async { [unowned self] in
             progressView.stopAnimating()
             alertView.backgroundColor = alertBackground
@@ -181,7 +192,7 @@ extension FeedViewController: FeedViewControllerProtocol {
 
 extension FeedViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        startSearching(with: searchText)
+        search(with: searchText)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {

@@ -61,7 +61,7 @@ extension ImageServiceImplementation: ImageService {
             completion(nil)
             return
         }
-        guard let loadedUrl = HashService.get(by: url.absoluteString) else {
+        guard let loadedUrl = HashService.shared.get(by: url.absoluteString) else {
             requestService.GET(url: url) { result in
                 guard let localUrl = result else {
                     completion(nil)
@@ -71,9 +71,13 @@ extension ImageServiceImplementation: ImageService {
                     completion(nil)
                     return
                 }
-                HashService.save(data: data, key: url.absoluteString)
-                let result = HashService.get(by: url.absoluteString)
-                result == nil ? completion(nil) : completion(result!)
+                HashService.shared.save(data: data, key: url.absoluteString)
+                let result = HashService.shared.get(by: url.absoluteString)
+                guard let result = result else {
+                    completion(nil)
+                    return
+                }
+                completion(result)
             }
             return
         }

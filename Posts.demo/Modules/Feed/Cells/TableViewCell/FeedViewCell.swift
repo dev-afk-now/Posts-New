@@ -7,11 +7,15 @@
 
 import UIKit
 
-protocol TableViewCellDelegate: AnyObject {
-    func compressDescriptionLabel(_ cell: TableViewCell)
+protocol FeedViewCellDelegate: AnyObject {
+    func compressDescriptionLabel(_ cell: FeedViewCell)
 }
 
-class TableViewCell: UITableViewCell {
+class FeedViewCell: UITableViewCell {
+    
+    weak var delegate: FeedViewCellDelegate?
+    
+    // MARK: - Outlets -
     
     @IBOutlet weak var headlineLabel: UILabel!
     @IBOutlet weak var descriptionLabel: UILabel!
@@ -19,14 +23,12 @@ class TableViewCell: UITableViewCell {
     @IBOutlet weak var likesLabel: UILabel!
     @IBOutlet weak var timestampLabel: UILabel!
     
+    // MARK: - Private variables -
+    
     private var buttonTitleIfExpanded = "Скрыть"
     private var buttonTitleIfNotExpanded = "Показать полностью"
     
-    weak var delegate: TableViewCellDelegate?
-    
-    @IBAction func expandDescriptionLabel(_ sender: UIButton) {
-        delegate?.compressDescriptionLabel(self)
-    }
+    // MARK: - Public methods -
     
     func configure(postState: PostCellModel) {
         self.headlineLabel.text = postState.title
@@ -35,5 +37,11 @@ class TableViewCell: UITableViewCell {
         self.timestampLabel.text = Date.stringFromInt(timestamp: postState.timestamp)
         self.descriptionLabel.numberOfLines = postState.isShowingFullPreview ? 0 : 2
         self.showFullPreviewButton.setTitle(postState.isShowingFullPreview ? buttonTitleIfExpanded : buttonTitleIfNotExpanded , for: .normal)
+    }
+    
+    // MARK: - Actions -
+    
+    @IBAction func expandDescriptionLabel(_ sender: UIButton) {
+        delegate?.compressDescriptionLabel(self)
     }
 }
