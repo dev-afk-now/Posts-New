@@ -73,11 +73,11 @@ extension ImageServiceImplementation: ImageService {
                 }
                 HashService.shared.save(data: data, key: url.absoluteString)
                 let result = HashService.shared.get(by: url.absoluteString)
-                guard result != nil else {
+                guard let result = result else {
                     completion(nil)
                     return
                 }
-                completion(result!)
+                completion(result)
             }
             return
         }

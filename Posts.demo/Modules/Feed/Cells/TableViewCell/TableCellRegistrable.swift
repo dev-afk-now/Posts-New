@@ -10,15 +10,14 @@ import UIKit
 protocol TableCellRegistrable: AnyObject {}
 
 extension TableCellRegistrable {
-    static func register<T: UITableViewCell>(in tableView: UITableView,
-                                             _ : T.Type) {
-        tableView.register(T.self,
-                           forCellReuseIdentifier: String(describing: T.self))
+    static func register(in tableView: UITableView) {
+        tableView.register(self,
+                           forCellReuseIdentifier: String(describing: self))
     }
     
-    static func registerNib<T: UITableViewCell>(in tableView: UITableView, _ : T.Type) {
-        tableView.register(UINib(nibName: String(describing: T.self),
+    static func registerNib(in tableView: UITableView) {
+        tableView.register(UINib(nibName: String(describing: self),
                                  bundle: .main),
-                           forCellReuseIdentifier: String(describing: T.self))
+                           forCellReuseIdentifier: String(describing: self))
     }
 }

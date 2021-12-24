@@ -11,7 +11,7 @@ protocol PostCellDelegate: AnyObject {
     func compressDescriptionLabel(_ cell: PostCell)
 }
 
-class PostCell: UITableViewCell {
+class PostCell: UITableViewCell, TableCellRegistrable, TableCellReusable {
     
     // MARK: - Public properties -
     
@@ -49,9 +49,5 @@ class PostCell: UITableViewCell {
     @IBAction func expandDescriptionLabel(_ sender: UIButton) {
         delegate?.compressDescriptionLabel(self)
     }
-}
-
-extension PostCell: TableCellRegistrable, TableCellReusable {
-    
 }
 

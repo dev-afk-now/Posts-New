@@ -10,15 +10,14 @@ import UIKit
 protocol CollectionCellRegistrable: AnyObject {}
 
 extension CollectionCellRegistrable {
-    static func register<T: UICollectionViewCell>(in tableView: UICollectionView,
-                                             _ : T.Type) {
-        tableView.register(T.self,
-                           forCellWithReuseIdentifier: String(describing: T.self))
+    static func register(in tableView: UICollectionView) {
+        tableView.register(self,
+                           forCellWithReuseIdentifier: String(describing: self))
     }
     
-    static func registerNib<T: UICollectionViewCell>(in tableView: UICollectionView, _: T.Type) {
-        tableView.register(UINib(nibName: String(describing: T.self),
+    static func registerNib(in tableView: UICollectionView) {
+        tableView.register(UINib(nibName: String(describing: self),
                                  bundle: .main),
-                           forCellWithReuseIdentifier: String(describing: T.self))
+                           forCellWithReuseIdentifier: String(describing: self))
     }
 }

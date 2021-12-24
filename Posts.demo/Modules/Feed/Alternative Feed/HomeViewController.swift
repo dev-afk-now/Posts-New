@@ -46,7 +46,7 @@ class HomeViewController: UIViewController {
         collection.backgroundColor = .clear
         collection.delegate = self
         collection.dataSource = self
-        CollectionCell.register(in: collection, CollectionCell.self)
+        CollectionCell.register(in: collection)
         collection.keyboardDismissMode = .interactive
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection

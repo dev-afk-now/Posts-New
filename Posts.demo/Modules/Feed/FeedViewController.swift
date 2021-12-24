@@ -87,7 +87,7 @@ class FeedViewController: UIViewController {
         tableView.backgroundColor = .lightGray
         tableView.delegate = self
         tableView.dataSource = self
-        PostCell.registerNib(in: tableView, PostCell.self)
+        PostCell.registerNib(in: tableView)
         tableView.keyboardDismissMode = .interactive
     }
     
