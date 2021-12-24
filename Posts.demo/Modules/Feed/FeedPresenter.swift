@@ -17,11 +17,12 @@ protocol FeedPresenter {
     func searchPostForTitle(_ searchWord: String)
     func breakSearch()
     func logOut()
+    func changeDisplayMode(index: Int)
 }
 
 final class FeedPresenterImplementation {
     
-    weak var view: FeedViewControllerProtocol?
+    weak var view: DynamicFeedViewControllerProtocol?
     
     // MARK: - Private properties -
     
@@ -31,6 +32,7 @@ final class FeedPresenterImplementation {
     private var searchTask: DispatchWorkItem?
     
     private var searchText = ""
+    private var viewDisplayMode: FeedDisplayMode = .list
     
     private var isSearchingForPost: Bool {
         !searchText.isEmpty
@@ -57,7 +59,7 @@ final class FeedPresenterImplementation {
     
     // MARK: - Life Cycle -
     
-    init(view: FeedViewControllerProtocol, service: NetworkService, router: FeedRouter) {
+    init(view: DynamicFeedViewControllerProtocol, service: NetworkService, router: FeedRouter) {
         self.service = service
         self.view = view
         self.router = router
@@ -93,6 +95,18 @@ final class FeedPresenterImplementation {
 // MARK: - FeedPresenterImplementation -
 
 extension FeedPresenterImplementation: FeedPresenter {
+    func changeDisplayMode(index: Int) {
+        let state = FeedDisplayMode.allCases[index]
+        switch state {
+        case .list:
+            view?.setListDisplayMode()
+        case .grid:
+            view?.setGridDisplayMode()
+        case .gallery:
+            view?.setGalleryDisplayMode()
+        }
+    }
+    
     func logOut() {
         KeychainService.shared.clear()
         router.showLoginScreen()
@@ -146,7 +160,6 @@ extension FeedPresenterImplementation: FeedPresenter {
     }
     
     private func executeSearch() {
-        
         if searchText.isEmpty {
             breakSearch()
         }

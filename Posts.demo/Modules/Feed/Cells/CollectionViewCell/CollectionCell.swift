@@ -19,13 +19,15 @@ class CollectionCell: FullWidthCollectionViewCell, CollectionCellRegistrable, Co
     
     private let buttonTitleIfExpanded = "Скрыть"
     private let buttonTitleIfNotExpanded = "Показать полностью"
+    
+    private var displayMode: CellDisplayMode = .fullSize
 
     private let collapsedStateNumberOfLines = 2
     
     private lazy var headlineLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
-        $0.numberOfLines = 0
+        $0.numberOfLines = displayMode == .shortcut ? 2 : 0
         $0.font = .applicatonFont(.bold, size: 20)
         $0.text = "Главная"
         $0.textAlignment = .left
@@ -38,6 +40,7 @@ class CollectionCell: FullWidthCollectionViewCell, CollectionCellRegistrable, Co
         $0.numberOfLines = 2
         $0.font = .applicatonFont()
         $0.text = "Description"
+        $0.isHidden = displayMode == .shortcut
         $0.textAlignment = .left
         return $0
     }(UILabel())
@@ -51,6 +54,7 @@ class CollectionCell: FullWidthCollectionViewCell, CollectionCellRegistrable, Co
         button.addAction(UIAction(handler: { _ in
             self.showFullDescription()
         }), for: .touchUpInside)
+        button.isHidden = displayMode == .shortcut
         return button
     }()
     
@@ -158,8 +162,8 @@ class CollectionCell: FullWidthCollectionViewCell, CollectionCellRegistrable, Co
     }
     
     private func setupFooterContainerSubviews() {
-        let verticalInset: CGFloat = 2
-        let horizontalSpacing: CGFloat = 21
+        let verticalInset: CGFloat = displayMode == .fullSize ? 2 : 0
+        let horizontalSpacing: CGFloat = displayMode == .fullSize ? 21 : 10
         footerContainer.addSubview(heartImageView)
         footerContainer.addSubview(likesLabel)
         footerContainer.addSubview(timestampLabel)
@@ -169,7 +173,6 @@ class CollectionCell: FullWidthCollectionViewCell, CollectionCellRegistrable, Co
             heartImageView.bottomAnchor.constraint(equalTo: footerContainer.bottomAnchor, constant: -verticalInset),
             heartImageView.widthAnchor.constraint(equalToConstant: 20),
             heartImageView.heightAnchor.constraint(equalToConstant: 20),
-
             
             likesLabel.leadingAnchor.constraint(equalTo: heartImageView.trailingAnchor, constant: horizontalSpacing / 2),
             likesLabel.topAnchor.constraint(equalTo: footerContainer.topAnchor, constant: verticalInset),
@@ -179,13 +182,13 @@ class CollectionCell: FullWidthCollectionViewCell, CollectionCellRegistrable, Co
             timestampLabel.trailingAnchor.constraint(equalTo: footerContainer.trailingAnchor, constant: -horizontalSpacing),
             timestampLabel.topAnchor.constraint(equalTo: footerContainer.topAnchor, constant: verticalInset),
             timestampLabel.bottomAnchor.constraint(equalTo: footerContainer.bottomAnchor, constant: -verticalInset),
-            timestampLabel.widthAnchor.constraint(equalToConstant: 80)
+            //            timestampLabel.widthAnchor.constraint(equalToConstant: 80)
         ])
     }
     
     private func setupSubviewsConstraints() {
-        let horizontalSpacing: CGFloat = 32
-        let verticalInset: CGFloat = 16
+        let horizontalSpacing: CGFloat = displayMode == .fullSize ? 32 : 16
+        let verticalInset: CGFloat = displayMode == .fullSize ? 16 : 8
         NSLayoutConstraint.activate([
             headlineLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: horizontalSpacing),
             headlineLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -horizontalSpacing),
@@ -210,4 +213,9 @@ class CollectionCell: FullWidthCollectionViewCell, CollectionCellRegistrable, Co
         ])
         setupFooterContainerSubviews()
     }
+}
+
+enum CellDisplayMode {
+    case fullSize
+    case shortcut
 }

@@ -115,10 +115,12 @@ extension DetailViewController: DetailViewControllerProtocol {
         case is TitleItem:
             let title = item as! TitleItem
             titleLabel.text = title.title
+            headlineLabel.textColor = .black
             headlineLabel.text = title.title
         case is TextItem:
             let description = item as! TextItem
             descriptionLabel.text = description.text
+            descriptionLabel.textColor = .black
         case is ImageItem:
             let imageItem = item as! ImageItem
             let imageView = UIImageView()
@@ -131,6 +133,7 @@ extension DetailViewController: DetailViewControllerProtocol {
         case is DetailItem:
             let detailItem = item as! DetailItem
             likesLabel.text = String(detailItem.likes)
+            likesLabel.textColor = .black
             dateLabel.text = detailItem.date.toStringShort()
         default:
             break
