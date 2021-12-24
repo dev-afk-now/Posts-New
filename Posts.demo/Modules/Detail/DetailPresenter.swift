@@ -7,21 +7,6 @@
 
 import UIKit
 
-protocol ViewItem {}
-struct TitleItem: ViewItem {
-    let title: String
-}
-struct TextItem: ViewItem {
-    let text: String
-}
-struct ImageItem: ViewItem {
-    let image: URL?
-}
-struct DetailItem: ViewItem {
-    let likes: Int
-    let date: Date
-}
-
 protocol DetailPresenter {
     func viewDidLoad()
     func navigateToRootViewController()
@@ -86,11 +71,10 @@ extension DetailPresenterImpementation: DetailPresenter {
     
     private func fetchImage(url: URL?, completion: @escaping(UIImage) -> Void) {
         imageService.fetchImage(url) { url in
-            if url != nil {
-                guard let data = try? Data(contentsOf: url!),
-                      let image = UIImage(data: data) else { return }
-                completion(image)
-            }
+            guard let url = url,
+                  let data = try? Data(contentsOf: url),
+                  let image = UIImage(data: data) else { return }
+            completion(image)
         }
     }
 }

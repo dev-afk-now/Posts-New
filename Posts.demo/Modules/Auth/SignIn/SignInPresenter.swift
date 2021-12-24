@@ -8,50 +8,65 @@
 import Foundation
 
 protocol SignInPresenter {
-    func auth(username: String, password: String)
+    func validateAndSignIn()
+    func updateUserForm(text: String, type: FormTextFieldType)
     func navigateToRegistration()
 }
 
 final class SignInPresenterImplementation {
+    
+    // MARK: - Properties -
     weak var view: SignInViewControllerProtocol?
     private let router: SignInRouter
-    
     private var userData = UserForm.defaultInstance
-    
+    private let minPasswordLength: Int = 6
     private var isAcceptedTermsOfService: Bool = false
+    
+    // MARK: - Init -
     
     init(view: SignInViewControllerProtocol, router: SignInRouter) {
         self.view = view
         self.router = router
     }
-}
-
-
-extension SignInPresenterImplementation: SignInPresenter {
-    func navigateToRegistration() {
-        router.showRegistration()
-    }
     
-    func auth(username: String, password: String) {
-        userData = UserForm.defaultInstance
-        userData.username = username
-        userData.password = password
-        signIn { [weak self] error in
-            if let error = error {
-                self?.view?.showValidateFailure(with: error)
-            } else {
-                self?.router.changeFlow()
-            }
+    // MARK: - Private methods -
+    
+    private func validateUserForm() -> Bool {
+        var isFormValid = true
+        
+        let isUsernameAlphabetNumeric = (userData.username ?? "").isAlphanumeric()
+        let uppercaseLetters = CharacterSet.uppercaseLetters
+        let passwordIncludesCapitalization = (userData.password ?? "").unicodeScalars.contains(where: { element in
+            uppercaseLetters.contains(element)
+        })
+        if !isUsernameAlphabetNumeric {
+            isFormValid = false
+            self.view?.showValidationError(with: .invalidUsername)
+            return isFormValid
         }
+        let isPasswordLengthValid = (userData.password ?? "").count >= minPasswordLength
+        if !isPasswordLengthValid {
+            isFormValid = false
+            self.view?.showValidationError(with: .shortPassword)
+            return isFormValid
+        }
+        if !passwordIncludesCapitalization {
+            isFormValid = false
+            self.view?.showValidationError(with: .missingUppercasedLetter)
+            return isFormValid
+            
+        }
+        return isFormValid
     }
     
     private func signIn(completion: @escaping (ValidationError?) -> Void) {
         if let remoteUser = JSONService.shared.getUser(user: userData) {
-            if remoteUser.password != userData.password {
-                completion(.incorrectPassword)
+            if remoteUser.password != userData.password,
+               remoteUser.username != userData.username {
+                completion(.incorrectPasswordOrUserName)
             } else {
-                KeychainService.shared.clear()
                 KeychainService.shared.set(userData.username ?? "", for: kUsername)
+                KeychainService.shared.set(userData.password ?? "", for: kPassword)
                 completion(nil)
             }
         } else {
@@ -59,3 +74,35 @@ extension SignInPresenterImplementation: SignInPresenter {
         }
     }
 }
+
+// MARK: - SignInPresenterImplementation extension -
+
+extension SignInPresenterImplementation: SignInPresenter {
+    func updateUserForm(text: String, type: FormTextFieldType) {
+        switch type {
+        case .username:
+            userData.username = text
+        case .password:
+            userData.password = text
+        default:
+            break
+        }
+    }
+    
+    func navigateToRegistration() {
+        router.showRegistration()
+    }
+    
+    func validateAndSignIn() {
+        if validateUserForm() {
+            signIn { [weak self] error in
+                if let error = error {
+                    self?.view?.showValidationError(with: error)
+                } else {
+                    self?.router.changeFlow()
+                }
+            }
+        }
+    }
+}
+

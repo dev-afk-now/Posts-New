@@ -12,10 +12,10 @@ protocol WebPresenter: AnyObject {
 }
 
 class WebPresenterImplementation {
-    weak var view: WebViewControllerProtocol?
+    weak var view: WebViewControllerEntity?
     private let router: WebRouter!
     
-    init(view: WebViewControllerProtocol, router: WebRouter) {
+    init(view: WebViewControllerEntity, router: WebRouter) {
         self.view = view
         self.router = router
     }

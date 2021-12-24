@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Storage: Codable {
+struct LocalAccountStorage: Codable {
     var users: [UserForm]
 }
 

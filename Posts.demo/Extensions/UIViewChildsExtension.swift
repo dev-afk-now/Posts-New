@@ -47,7 +47,7 @@ extension UIApplication {
 }
 
 extension UIViewController {
-    func swapCurrentViewController(with newViewController: UIViewController,
+    static func swapCurrentViewController(with newViewController: UIViewController,
                                    animated: Bool = true,
                                    duration: TimeInterval = 0.75,
                                    isReversed: Bool = false) {
@@ -75,5 +75,17 @@ extension UIViewController {
         } else {
             window.rootViewController = newViewController
         }
+    }
+}
+
+extension UIViewController {
+    func showAlert(with errorMessage: String) {
+        let alert = UIAlertController(title: "Error",
+                                      message: errorMessage,
+                                      preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: NSLocalizedString("OK",
+                                                               comment: "Default action"),
+                                      style: .default))
+        self.present(alert, animated: true, completion: nil)
     }
 }

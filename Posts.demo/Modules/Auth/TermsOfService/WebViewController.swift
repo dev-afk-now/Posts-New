@@ -8,10 +8,15 @@
 import UIKit
 import WebKit
 
-protocol WebViewControllerProtocol: AnyObject {
-}
+protocol WebViewControllerEntity: AnyObject {}
 
 class WebViewController: UIViewController {
+    
+    var presenter: WebPresenter!
+    
+    // MARK: - Private properties -
+    
+    private let termsOfServiceUrl = "https://google.com"
     
     private lazy var webView: WKWebView = {
         let webConfiguration = WKWebViewConfiguration()
@@ -23,31 +28,35 @@ class WebViewController: UIViewController {
     }()
     
     private lazy var backButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "chevron.left"), style: .plain, target: self, action: #selector(backButtonClicked))
+        let button = UIBarButtonItem(
+            image: UIImage(systemName: "chevron.left"),
+            style: .plain,
+            target: self,
+            action: #selector(backButtonClicked)
+        )
         return button
     }()
     
-    @objc private func backButtonClicked() {
-        presenter.backButtonClicked()
-    }
-    
-    var presenter: WebPresenter!
+    // MARK: - Life Cycle -
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
         setupConstraints()
-        loadPage(urlString: "https://www.google.com")
+        loadPage(urlString: termsOfServiceUrl)
         setupNavigationBar()
     }
     
-    func loadPage(urlString: String) {
-        let myURL = URL(string: urlString)
-        let myRequest = URLRequest(url: myURL!)
-        webView.load(myRequest)
+    // MARK: - Private methods -
+    
+    private func loadPage(urlString: String) {
+        if let myURL = URL(string: urlString) {
+            let myRequest = URLRequest(url: myURL)
+            webView.load(myRequest)
+        }
     }
     
-    func setupNavigationBar() {
+    private func setupNavigationBar() {
         navigationItem.leftBarButtonItem = backButton
     }
     
@@ -62,10 +71,14 @@ class WebViewController: UIViewController {
             webView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
         ])
     }
+    
+    // MARK: - Actions -
+    
+    @objc private func backButtonClicked() {
+        presenter.backButtonClicked()
+    }
 }
 
-extension WebViewController: WKUIDelegate {
-}
+extension WebViewController: WKUIDelegate {}
 
-extension WebViewController: WebViewControllerProtocol {
-}
+extension WebViewController: WebViewControllerEntity {}

@@ -11,6 +11,8 @@ final class JSONService {
     
     static let shared = JSONService()
     
+    private let accountStorageName = "users"
+    
     private init() {}
     
     func register(user: UserForm) -> Bool {
@@ -22,9 +24,9 @@ final class JSONService {
             }
             usersList.append(user)
             
-            let storage = Storage(users:usersList)
+            let storage = LocalAccountStorage(users:usersList)
             
-            result = try FileManager.saveObjects(list: storage, to: "users")
+            result = try FileManager.saveObjects(list: storage, to: accountStorageName)
         } catch {
             print(error.localizedDescription)
             return false
@@ -33,18 +35,15 @@ final class JSONService {
     }
     
     func getUser(user: UserForm) -> UserForm? {
-        var resultUser: UserForm?
         let users: [UserForm] = getAllUsers()
-        let result = users.filter { $0.username == user.username ?? ""}
-        resultUser = result.first
-        return resultUser
+        return users.first{ $0.username == user.username }
     }
     
     func getAllUsers() -> [UserForm] {
         var users = [UserForm]()
-        let storage: Storage?
+        let storage: LocalAccountStorage?
         do {
-            storage = try FileManager.loadObjects(from: "users")
+            storage = try FileManager.loadObjects(from: accountStorageName)
             users = storage?.users ?? []
         } catch let error as NSError {
             debugPrint(error)

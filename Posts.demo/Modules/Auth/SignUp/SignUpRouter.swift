@@ -26,16 +26,19 @@ extension SignUpRouterImplementation: SignUpRouter {
         let module = SignInConfigurator.create()
         module.modalPresentationStyle = .overFullScreen
         module.modalTransitionStyle = .flipHorizontal
-        context.present(module, animated: true, completion: nil)
+        context.present(module,
+                        animated: true,
+                        completion: nil)
     }
     
     func showTermsOfService() {
         let module = WebConfigurator.create()
-        context.navigationController?.pushViewController(module, animated: true)
+        context.navigationController?.pushViewController(module,
+                                                         animated: true)
     }
     
     func showFeed() {
         let module = FeedConfigurator.create()
-        context.swapCurrentViewController(with: module)
+        UIViewController.swapCurrentViewController(with: module)
     }
 }

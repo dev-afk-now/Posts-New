@@ -15,7 +15,13 @@ class FilterViewController: UIViewController {
     
     var presenter: FilterPresenter!
     
-    // MARK: - Outlets
+    // MARK: - Private methods -
+    
+    func setupNavigationBar() {
+        self.navigationController?.setNavigationBarHidden(false, animated: true)
+    }
+    
+    // MARK: - Actions -
     
     @IBAction func clickedDateAscending(_ sender: UIButton) {
         presenter.onSortOptionChosen(.dateAscending)
@@ -43,32 +49,5 @@ class FilterViewController: UIViewController {
     
     @IBAction func clickedCancel(_ sender: UIButton) {
         presenter.navigateBackCliked()
-    }
-    
-    // MARK: - Lifecycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.navigationController?.setNavigationBarHidden(false, animated: true)
-    }
-    
-    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-}
-
-// MARK: - SortOption Definition
-
-extension FilterViewController {
-    enum SortOption {
-        case dateAscending
-        case dateDescending
-        case popularityAscending
-        case popularityDescending
-        case none
     }
 }
