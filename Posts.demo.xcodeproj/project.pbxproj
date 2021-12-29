@@ -3,10 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4160B8B2277CB4B800720667 /* GridFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4160B8B1277CB4B800720667 /* GridFlowLayout.swift */; };
+		4160B8B4277D002300720667 /* ShortCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4160B8B3277D002300720667 /* ShortCollectionCell.swift */; };
+		4160B8B7277D086000720667 /* GridCollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4160B8B5277D086000720667 /* GridCollectionCell.swift */; };
+		4160B8B8277D086000720667 /* GridCollectionCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4160B8B6277D086000720667 /* GridCollectionCell.xib */; };
 		D50CD47E2771F662008BF8AB /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47D2771F662008BF8AB /* SortOption.swift */; };
 		D50CD48027720352008BF8AB /* ViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47F27720352008BF8AB /* ViewItem.swift */; };
 		D51BDE932775D4C0008A455A /* DynamicFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51BDE912775D4C0008A455A /* DynamicFeedViewController.swift */; };
@@ -73,6 +77,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4160B8B1277CB4B800720667 /* GridFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridFlowLayout.swift; sourceTree = "<group>"; };
+		4160B8B3277D002300720667 /* ShortCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortCollectionCell.swift; sourceTree = "<group>"; };
+		4160B8B5277D086000720667 /* GridCollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GridCollectionCell.swift; sourceTree = "<group>"; };
+		4160B8B6277D086000720667 /* GridCollectionCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GridCollectionCell.xib; sourceTree = "<group>"; };
 		D50CD47D2771F662008BF8AB /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
 		D50CD47F27720352008BF8AB /* ViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItem.swift; sourceTree = "<group>"; };
 		D51BDE912775D4C0008A455A /* DynamicFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DynamicFeedViewController.swift; sourceTree = "<group>"; };
@@ -164,6 +172,7 @@
 			isa = PBXGroup;
 			children = (
 				D51BDE912775D4C0008A455A /* DynamicFeedViewController.swift */,
+				4160B8B1277CB4B800720667 /* GridFlowLayout.swift */,
 			);
 			path = "Dynamic Feed";
 			sourceTree = "<group>";
@@ -183,6 +192,9 @@
 				D54BE3FF2760FBF50076C370 /* CollectionCell.swift */,
 				D5F50EB62773739200F8609F /* CollectionCellRegistrable.swift */,
 				D5F50EB82773739E00F8609F /* CollectionCellReusable.swift */,
+				4160B8B3277D002300720667 /* ShortCollectionCell.swift */,
+				4160B8B5277D086000720667 /* GridCollectionCell.swift */,
+				4160B8B6277D086000720667 /* GridCollectionCell.xib */,
 			);
 			path = CollectionViewCell;
 			sourceTree = "<group>";
@@ -516,7 +528,7 @@
 				};
 			};
 			buildConfigurationList = D7651E9D27102B10007374FE /* Build configuration list for PBXProject "Posts.demo" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 12.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -544,6 +556,7 @@
 				D7651EB227102B17007374FE /* LaunchScreen.storyboard in Resources */,
 				D72A1F8B271456F10016FB27 /* DetailViewController.xib in Resources */,
 				D72A1F8327141D3A0016FB27 /* FilterViewController.xib in Resources */,
+				4160B8B8277D086000720667 /* GridCollectionCell.xib in Resources */,
 				D73EBAB627104F5600F24619 /* PostCell.xib in Resources */,
 				D7651EC027102B6E007374FE /* FeedViewController.xib in Resources */,
 				D7651EAF27102B17007374FE /* Assets.xcassets in Resources */,
@@ -560,6 +573,7 @@
 				D557ACD1276B731F003EA877 /* WebViewController.swift in Sources */,
 				D783D1DB271EFF5500E09F06 /* DetailRouter.swift in Sources */,
 				D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */,
+				4160B8B7277D086000720667 /* GridCollectionCell.swift in Sources */,
 				D7651EBF27102B6E007374FE /* FeedViewController.swift in Sources */,
 				D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */,
 				D523F2282771D70B004DBADF /* Post.swift in Sources */,
@@ -569,6 +583,7 @@
 				D55FB0C1276A1C1000AAA6DB /* JSONService.swift in Sources */,
 				D7651EC527102BC1007374FE /* FeedPresenter.swift in Sources */,
 				D5738C472768962B00535AE6 /* UIViewChildsExtension.swift in Sources */,
+				4160B8B4277D002300720667 /* ShortCollectionCell.swift in Sources */,
 				D50CD47E2771F662008BF8AB /* SortOption.swift in Sources */,
 				D523F2202770C3A0004DBADF /* AppFont.swift in Sources */,
 				D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */,
@@ -590,6 +605,7 @@
 				D55FB0BC276A1B4100AAA6DB /* FileManagerExtension.swift in Sources */,
 				D557ACD4276B7710003EA877 /* WebPresenter.swift in Sources */,
 				D557ACD8276B7DD4003EA877 /* WebRouter.swift in Sources */,
+				4160B8B2277CB4B800720667 /* GridFlowLayout.swift in Sources */,
 				D72A1F9727147B770016FB27 /* FeedRouter.swift in Sources */,
 				D51BDE932775D4C0008A455A /* DynamicFeedViewController.swift in Sources */,
 				D5F50EB92773739E00F8609F /* CollectionCellReusable.swift in Sources */,

@@ -13,32 +13,6 @@ protocol DynamicFeedViewControllerProtocol: FeedViewControllerProtocol {
     func setGalleryDisplayMode()
 }
 
-class FullWidthFeedCollectionFlowLayout: UICollectionViewFlowLayout {
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    static func fullSizeLayout() -> UICollectionViewFlowLayout {
-        let horizontalInset: CGFloat = 10
-        let verticalInset: CGFloat = 10
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = UIEdgeInsets(top: verticalInset,
-                                               left: horizontalInset,
-                                               bottom: verticalInset,
-                                               right: horizontalInset)
-        let insetsSum = flowLayout.sectionInset.left + flowLayout.sectionInset.right
-        let widthForItem: CGFloat = UIScreen.main.bounds.width / 2 - insetsSum
-        flowLayout.estimatedItemSize = CGSize(
-            width: widthForItem,
-            height: 200
-        )
-        
-        flowLayout.minimumLineSpacing = 15
-        return flowLayout
-    }
-}
-
 class DynamicFeedViewController: UIViewController {
     var presenter: FeedPresenter!
     
@@ -59,7 +33,7 @@ class DynamicFeedViewController: UIViewController {
         let button = UIBarButtonItem(image: UIImage(systemName: "rectangle.on.rectangle"),
                                      style: .plain,
                                      target: self,
-                                     action: #selector(displayModeSelector))
+                                     action: #selector(openModeSelector))
         button.tintColor = .white
         return button
     }()
@@ -77,13 +51,14 @@ class DynamicFeedViewController: UIViewController {
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let flowLayout = FullWidthFeedCollectionFlowLayout.fullSizeLayout()
+        let flowLayout = GridLayout()
+        flowLayout.delegate = self
         let collection = UICollectionView(frame: self.view.bounds,
                                           collectionViewLayout: flowLayout)
         collection.backgroundColor = .clear
         collection.delegate = self
         collection.dataSource = self
-        CollectionCell.register(in: collection)
+        GridCollectionCell.registerNib(in: collection)
         
         collection.keyboardDismissMode = .interactive
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -286,7 +261,7 @@ class DynamicFeedViewController: UIViewController {
         mockPickerTextField.resignFirstResponder()
     }
     
-    @objc private func displayModeSelector() {
+    @objc private func openModeSelector() {
         mockPickerTextField.becomeFirstResponder()
     }
     
@@ -312,8 +287,8 @@ extension DynamicFeedViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = CollectionCell.cell(in: collectionView, for: indexPath)
-        cell.delegate = self
+        let cell = GridCollectionCell.cell(in: collectionView, for: indexPath)
+//        cell.delegate = self
             let postState = presenter.getPostForCell(by: indexPath.row)
         cell.configure(postState: postState)
             return cell
@@ -329,11 +304,13 @@ extension DynamicFeedViewController: UICollectionViewDelegate,
 // MARK: - TableView Delegate -
 
 extension DynamicFeedViewController: UITableViewDelegate, UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView,
+                   numberOfRowsInSection section: Int) -> Int {
         presenter.postsCount
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = PostCell.cell(in: tableView, for: indexPath)
         cell.delegate = self
         let postState = presenter.getPostForCell(by: indexPath.row)
@@ -342,11 +319,13 @@ extension DynamicFeedViewController: UITableViewDelegate, UITableViewDataSource 
     }
 
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+    func tableView(_ tableView: UITableView,
+                   heightForRowAt indexPath: IndexPath) -> CGFloat {
         UITableView.automaticDimension
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath) {
         presenter.showDetail(by: indexPath.row)
     }
 }
@@ -379,6 +358,7 @@ extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
         DispatchQueue.main.async { [unowned self] in
             self.collectionView.reloadData()
             self.tableView.reloadData()
+            self.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
     
@@ -434,7 +414,8 @@ extension DynamicFeedViewController: PostCellDelegate {
 // MARK: - PickerView Delegate -
 
 extension DynamicFeedViewController: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+    func pickerView(_ pickerView: UIPickerView,
+                    numberOfRowsInComponent component: Int) -> Int {
         return FeedDisplayMode.allCases.count
     }
 }
@@ -444,8 +425,22 @@ extension DynamicFeedViewController: UIPickerViewDataSource {
         1
     }
     
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+    func pickerView(_ pickerView: UIPickerView,
+                    titleForRow row: Int,
+                    forComponent component: Int) -> String? {
         String(describing: FeedDisplayMode.allCases[row])
+    }
+}
+
+extension DynamicFeedViewController: GridLayoutDelegate {
+    func collectionView(_ collectionView: UICollectionView,
+    heightForPostAtIndexPath indexPath: IndexPath) -> CGFloat {
+        let post = presenter.getPostForCell(by: indexPath.row)
+        let titleLength = post.title.count
+        let numberOfLines = titleLength % 14 == 0 ? titleLength / 14 : (titleLength / 14) + 1
+        let lineHeight = 40
+        return CGFloat(numberOfLines * lineHeight)
+        
     }
 }
 

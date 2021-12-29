@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="18122" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="18093"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="gTV-IL-0wX" customClass="GridCollectionCell" customModule="Posts_demo" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="219" height="122"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="219" height="122"/>
+                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9n1-kN-YeI">
+                        <rect key="frame" x="5" y="16" width="209" height="53"/>
+                        <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="20"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uy2-EN-aEL">
+                        <rect key="frame" x="0.0" y="85" width="219" height="37"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="r2p-qS-arS">
+                                <rect key="frame" x="8" y="9.5" width="20.5" height="18.5"/>
+                                <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <imageReference key="image" image="heart.fill" catalog="system" symbolScale="default"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="751" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ES8-lm-mfR">
+                                <rect key="frame" x="36.5" y="8" width="41.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wLD-aG-xL9">
+                                <rect key="frame" x="169.5" y="8" width="41.5" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="r2p-qS-arS" firstAttribute="top" secondItem="uy2-EN-aEL" secondAttribute="top" constant="8" id="2GP-m5-Pkt"/>
+                            <constraint firstItem="wLD-aG-xL9" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="ES8-lm-mfR" secondAttribute="trailing" id="81F-r6-uMq"/>
+                            <constraint firstAttribute="bottom" secondItem="r2p-qS-arS" secondAttribute="bottom" constant="8" id="8Fc-MF-Cqj"/>
+                            <constraint firstAttribute="trailing" secondItem="wLD-aG-xL9" secondAttribute="trailing" constant="8" id="8Ko-N4-a0T"/>
+                            <constraint firstItem="wLD-aG-xL9" firstAttribute="top" secondItem="uy2-EN-aEL" secondAttribute="top" constant="8" id="8hF-mX-krP"/>
+                            <constraint firstItem="r2p-qS-arS" firstAttribute="leading" secondItem="uy2-EN-aEL" secondAttribute="leading" constant="8" id="Heg-aK-3OZ"/>
+                            <constraint firstItem="ES8-lm-mfR" firstAttribute="leading" secondItem="r2p-qS-arS" secondAttribute="trailing" constant="8" id="Sav-MR-OJm"/>
+                            <constraint firstAttribute="bottom" secondItem="ES8-lm-mfR" secondAttribute="bottom" constant="8" id="ehi-Nw-SDk"/>
+                            <constraint firstItem="ES8-lm-mfR" firstAttribute="top" secondItem="uy2-EN-aEL" secondAttribute="top" constant="8" id="epb-SP-jNS"/>
+                            <constraint firstItem="r2p-qS-arS" firstAttribute="centerY" secondItem="uy2-EN-aEL" secondAttribute="centerY" id="fJ3-f2-mvi"/>
+                            <constraint firstAttribute="bottom" secondItem="wLD-aG-xL9" secondAttribute="bottom" constant="8" id="xgl-n1-WNc"/>
+                            <constraint firstItem="ES8-lm-mfR" firstAttribute="centerY" secondItem="r2p-qS-arS" secondAttribute="centerY" id="z2u-t2-YII"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="9n1-kN-YeI" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="5" id="4v0-Ew-eq7"/>
+                <constraint firstItem="uy2-EN-aEL" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="C2S-F0-pAd"/>
+                <constraint firstAttribute="bottom" secondItem="uy2-EN-aEL" secondAttribute="bottom" id="HDw-xy-t6A"/>
+                <constraint firstAttribute="trailing" secondItem="9n1-kN-YeI" secondAttribute="trailing" constant="5" id="Jjh-Ke-qLT"/>
+                <constraint firstAttribute="trailing" secondItem="uy2-EN-aEL" secondAttribute="trailing" id="adJ-hZ-kNy"/>
+                <constraint firstItem="uy2-EN-aEL" firstAttribute="top" secondItem="9n1-kN-YeI" secondAttribute="bottom" constant="16" id="m0f-zL-NBT"/>
+                <constraint firstItem="9n1-kN-YeI" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="zQm-LD-V4l"/>
+            </constraints>
+            <size key="customSize" width="219" height="122"/>
+            <connections>
+                <outlet property="headlineLabel" destination="9n1-kN-YeI" id="49X-oq-qOc"/>
+                <outlet property="likesLabel" destination="ES8-lm-mfR" id="4Pu-7a-n0l"/>
+                <outlet property="timestampLabel" destination="wLD-aG-xL9" id="KzU-WT-8eN"/>
+            </connections>
+            <point key="canvasLocation" x="223.91304347826087" y="117.85714285714285"/>
+        </collectionViewCell>
+    </objects>
+    <resources>
+        <image name="heart.fill" catalog="system" width="128" height="109"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>
