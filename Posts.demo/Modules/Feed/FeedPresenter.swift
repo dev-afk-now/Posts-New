@@ -104,10 +104,13 @@ extension FeedPresenterImplementation: FeedPresenter {
         let state = FeedDisplayMode.allCases[index]
         switch state {
         case .list:
+            viewDisplayMode = .list
             view?.setListDisplayMode()
         case .grid:
+            viewDisplayMode = .grid
             view?.setGridDisplayMode()
         case .gallery:
+            viewDisplayMode = .gallery
             view?.setGalleryDisplayMode()
         }
     }
@@ -139,9 +142,7 @@ extension FeedPresenterImplementation: FeedPresenter {
         switch viewDisplayMode {
         case .list:
             view?.updateTableItemState(at: index)
-        case .grid:
-            view?.updateCollectionItemState(at: index)
-        case .gallery:
+        case .grid, .gallery:
             view?.updateCollectionItemState(at: index)
         }
     }

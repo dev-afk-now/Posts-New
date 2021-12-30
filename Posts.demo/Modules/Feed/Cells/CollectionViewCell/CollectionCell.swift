@@ -36,7 +36,6 @@ class CollectionCell: FullWidthCollectionViewCell,
     private lazy var descriptionLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
-        $0.numberOfLines = 2
         $0.font = .applicatonFont()
         $0.textAlignment = .left
         return $0

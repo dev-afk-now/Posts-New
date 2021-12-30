@@ -20,6 +20,27 @@ class DynamicFeedViewController: UIViewController {
     
     // MARK: - Private properties -
     
+    private let gridLayout = GridLayout()
+    private var galleryLayout: UICollectionViewFlowLayout {
+        let horizontalInset: CGFloat = 16
+        let verticalInset: CGFloat = 16
+        let flowLayout = UICollectionViewFlowLayout()
+        flowLayout.scrollDirection = .vertical
+        flowLayout.sectionInset = UIEdgeInsets(top: verticalInset,
+                                               left: horizontalInset,
+                                               bottom: verticalInset,
+                                               right: horizontalInset)
+        let insetsSum = flowLayout.sectionInset.left + flowLayout.sectionInset.right
+        let widthForItem: CGFloat = view.bounds.width - insetsSum
+        flowLayout.estimatedItemSize = CGSize(
+            width: widthForItem,
+            height: 200
+        )
+        
+        flowLayout.minimumLineSpacing = 15
+        return flowLayout
+    }
+    
     private lazy var logOutButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
             title: "Logout",
@@ -54,13 +75,12 @@ class DynamicFeedViewController: UIViewController {
     }()
     
     private lazy var collectionView: UICollectionView = {
-        let flowLayout = GridLayout()
-        flowLayout.delegate = self
         let collection = UICollectionView(frame: self.view.bounds,
-                                          collectionViewLayout: flowLayout)
+                                          collectionViewLayout: galleryLayout)
         collection.backgroundColor = .clear
         collection.delegate = self
         collection.dataSource = self
+        CollectionCell.register(in: collection)
         ShortCollectionCell.register(in: collection)
         
         collection.keyboardDismissMode = .interactive
@@ -142,7 +162,6 @@ class DynamicFeedViewController: UIViewController {
         searchBar.barTintColor = .clear
         searchBar.backgroundImage = UIImage()
         searchBar.searchTextField.backgroundColor = .white
-        searchBar.searchTextField.inputView = pickerView
         searchBar.isTranslucent = true
         searchBar.placeholder = "Enter title"
         return searchBar
@@ -278,7 +297,7 @@ class DynamicFeedViewController: UIViewController {
     }
 }
 
-// MARK: - CollectionView Delegate-
+// MARK: - CollectionView Delegate -
 
 extension DynamicFeedViewController: UICollectionViewDelegate,
                               UICollectionViewDataSource,
@@ -290,12 +309,18 @@ extension DynamicFeedViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = ShortCollectionCell.cell(in: collectionView, for: indexPath)
-//        cell.delegate = self
+        if presenter.displayMode == .grid {
+            let cell = ShortCollectionCell.cell(in: collectionView, for: indexPath)
             let postState = presenter.getPostForCell(by: indexPath.row)
-        cell.configure(postState: postState)
+            cell.configure(postState: postState)
             return cell
-        
+        } else {
+            let cell = CollectionCell.cell(in: collectionView, for: indexPath)
+            let postState = presenter.getPostForCell(by: indexPath.row)
+            cell.configure(postState: postState)
+            cell.delegate = self
+            return cell
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView,
@@ -368,6 +393,7 @@ extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
         DispatchQueue.main.async { [unowned self] in
             self.collectionView.reloadData()
             self.tableView.reloadData()
+            self.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
     
@@ -385,13 +411,17 @@ extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
     func setGridDisplayMode() {
         tableView.isHidden = true
         collectionView.isHidden = false
-        collectionView.collectionViewLayout = GridLayout()
+        collectionView.collectionViewLayout = gridLayout
+        collectionView.reloadData()
+        collectionView.collectionViewLayout.invalidateLayout()
     }
     
     func setGalleryDisplayMode() {
         tableView.isHidden = true
         collectionView.isHidden = false
-        collectionView.collectionViewLayout = .init()
+        collectionView.collectionViewLayout = galleryLayout
+        collectionView.reloadData()
+        collectionView.collectionViewLayout.invalidateLayout()
     }
 }
 
@@ -442,12 +472,5 @@ extension DynamicFeedViewController: UIPickerViewDataSource {
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
         String(describing: FeedDisplayMode.allCases[row])
-    }
-}
-
-extension DynamicFeedViewController: GridLayoutDelegate {
-    func collectionView(_ collectionView: UICollectionView,
-    heightForPostAtIndexPath indexPath: IndexPath) -> CGFloat {
-        return 200
     }
 }
