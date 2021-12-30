@@ -17,9 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let view = FeedConfigurator.create()
         window?.rootViewController = view
         window?.makeKeyAndVisible()
-        
-        let objects = PersistentService.shared.fetchObjects(entity: PostPersistent.self)
-        
         return true
     }
 }

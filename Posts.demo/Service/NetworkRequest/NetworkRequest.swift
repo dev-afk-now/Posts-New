@@ -42,10 +42,10 @@ extension NetworkRequestImplementation: NetworkRequest {
 }
 
 struct NetworkPostList: Codable {
-    var posts: [Response]
+    var posts: [Post]
 }
 
-struct Response: Codable {
+struct Post: Codable {
     var postId: Int
     var title: String
     var timeshamp: Int

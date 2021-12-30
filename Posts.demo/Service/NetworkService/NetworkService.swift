@@ -49,6 +49,5 @@ extension NetworkServiceImplementation: NetworkService {
                 }
             }
         }
-        return
     }
 }

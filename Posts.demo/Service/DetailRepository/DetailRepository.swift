@@ -19,16 +19,16 @@ class DetailRepositoryImplementation {
         case timeOut
     }
     
-    private var id: Int
+    private var postId: Int
     
     private let service: NetworkService
     
     private lazy var listPath = URL(
-        string: "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/posts/\(id).json")
+        string: "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/posts/\(postId).json")
     
-    init(id: Int, service: NetworkService) {
+    init(postId: Int, service: NetworkService) {
         self.service = service
-        self.id = id
+        self.postId = postId
     }
 }
 
@@ -36,17 +36,21 @@ extension DetailRepositoryImplementation: DetailRepository {
     func getDetail(
         completion: @escaping (Result<DetailModel, NetworkServiceImplementation.Error>) -> Void)
     {
-        service.fetchData(url: listPath!) { [weak self] (result: Result<NetworkDetail,
+        guard let url = listPath else {
+            completion(.failure(.offlined))
+            return
+        }
+        service.fetchData(url: url) { [weak self] (result: Result<NetworkDetail,
                                                          NetworkServiceImplementation.Error>) in
             guard let self = self else { return }
             switch result {
-            case .success(let success):
-                let postModel = DetailModel.init(success.post)
-                postModel.initPersistent()
+            case .success(let data):
+                let postModel = DetailModel.init(data.post)
+                postModel.generateDatabaseModel()
                 PersistentService.shared.save()
                 completion(.success(postModel))
             case .failure(let failure):
-                let localDetail = self.fetchLocalDetail(by: self.id)
+                let localDetail = self.fetchLocalDetail(by: self.postId)
                 if let localDetail = localDetail {
                     let detail = DetailModel(from: localDetail)
                     completion(.success(detail))

@@ -94,7 +94,7 @@ extension DetailViewController: DetailViewControllerProtocol {
     func updateView(items: [ViewItem]) {
         DispatchQueue.main.async { [unowned self] in
             self.progressView.stopAnimating()
-            self.imageStackView?.subviews.forEach { $0.removeFromSuperview() }
+            self.imageStackView.subviews.forEach { $0.removeFromSuperview() }
             for item in items {
                 self.createStackViewSubView(from: item)
             }
@@ -120,8 +120,8 @@ extension DetailViewController: DetailViewControllerProtocol {
             imageView.image = image
             let aspectRatio = image.size.width / image.size.height
             imageView.heightAnchor.constraint(
-                equalToConstant: (self.view?.frame.size.width)! / aspectRatio).isActive = true
-            self.imageStackView?.addArrangedSubview(imageView)
+                equalToConstant: (self.view.frame.size.width ?? 0) / aspectRatio).isActive = true
+            self.imageStackView.addArrangedSubview(imageView)
         case is DetailItem:
             let detailItem = item as! DetailItem
             likesLabel.text = String(detailItem.likes)

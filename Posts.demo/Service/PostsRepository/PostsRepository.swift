@@ -31,13 +31,17 @@ class PostsRepositoryImplementation {
 
 extension PostsRepositoryImplementation: PostsRepository {
     func getPosts(completion: @escaping (Result<[PostCellModel], NetworkServiceImplementation.Error>) -> Void) {
-        service.fetchData(url: listPath!) { [weak self] (result: Result<NetworkPostList,
+        guard let url = listPath else {
+            completion(.failure(.offlined))
+            return
+        }
+        service.fetchData(url: url) { [weak self] (result: Result<NetworkPostList,
                                                          NetworkServiceImplementation.Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let success):
                 let posts = success.posts.map(PostCellModel.init)
-                let _ = posts.map{ $0.initPersistent() }
+                let _ = posts.map{ $0.generateDatabaseModel() }
                 PersistentService.shared.save()
                 completion(.success(posts))
             case .failure(let failure):

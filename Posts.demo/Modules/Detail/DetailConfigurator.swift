@@ -8,15 +8,15 @@
 import UIKit
 
 final class DetailConfigurator {
-    static func create(id: Int) -> UIViewController {
+    static func create(postId: Int) -> UIViewController {
         let view = DetailViewController()
         let networkRequest = NetworkRequestImplementation()
         let networkService = NetworkServiceImplementation(requestService: networkRequest)
-        let repository = DetailRepositoryImplementation(id: id, service: networkService)
+        let repository = DetailRepositoryImplementation(postId: postId, service: networkService)
         let imageRequest = ImageRequestImplementation()
         let imageService = ImageServiceImplementation(requestService: imageRequest)
         let router = DetailRouterImplementation(context: view)
-        let presenter = DetailPresenterImpementation(id: id,
+        let presenter = DetailPresenterImpementation(postId: postId,
                                                      view: view,
                                                      repository: repository,
                                                      router: router,

@@ -27,7 +27,7 @@ extension FeedRouterImplementation: FeedRouter {
     }
     
     func showDetailScreen(id: Int) {
-        let module = DetailConfigurator.create(id: id)
+        let module = DetailConfigurator.create(postId: id)
         context.navigationController?.pushViewController(module, animated: true)
     }
 }

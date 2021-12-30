@@ -8,11 +8,10 @@
 import Foundation
 import CoreData
 
-public let context = PersistentService.shared.container.viewContext
-
 final class PersistentService {
     static let shared = PersistentService()
-    let container: NSPersistentContainer = {
+    lazy var context = container.viewContext
+    lazy var container: NSPersistentContainer = {
         let persistentContatiner = NSPersistentContainer(name: "PostPersistent")
         persistentContatiner.loadPersistentStores(completionHandler: { (storeDescription, error) in
             if let error = error as NSError? {
@@ -33,7 +32,6 @@ final class PersistentService {
             let list = try context.fetch(fetchRequest)
             return list
         } catch {
-            print(error.localizedDescription)
             return []
         }
     }

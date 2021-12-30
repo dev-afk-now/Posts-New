@@ -27,7 +27,9 @@ final class FeedPresenterImplementation {
     private let repository: PostsRepository
     private let router: FeedRouter
     
-    private var listPath = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/main.json"
+    private var listPath: URL? {
+        URL(string: "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/main.json")
+    }
     
     private var searchTask: DispatchWorkItem?
 
@@ -55,8 +57,6 @@ final class FeedPresenterImplementation {
     }
     private var postsDefaultOrder: [Int] = []
     private var selectedSortOption: FilterViewController.SortOption = .none
-    
-    
     
     // MARK: - Lifecycle -
     
@@ -123,20 +123,20 @@ extension FeedPresenterImplementation: FeedPresenter {
     }
     
     func viewDidLoad() {
-        repository.getPosts { result in
+        repository.getPosts { [weak self] result in
             switch result {
             case .success(let posts):
-                self.postsDefaultOrder = posts.map { $0.postId }
-                self.postList = posts
-                self.view?.updateView()
+                self?.postsDefaultOrder = posts.map { $0.postId }
+                self?.postList = posts
+                self?.view?.updateView()
             case .failure(let error):
                 switch error {
                 case .offlined:
-                    self.view?.showNoInternetConnectionError()
+                    self?.view?.showNoInternetConnectionError()
                 case .propagated:
-                    self.view?.showUnreachableServiceError()
+                    self?.view?.showUnreachableServiceError()
                 case .timeOut:
-                    self.view?.showNoInternetConnectionError()
+                    self?.view?.showNoInternetConnectionError()
                 }
             }
         }

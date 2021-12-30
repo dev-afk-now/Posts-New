@@ -31,21 +31,18 @@ struct DetailModel {
         likesCount = Int(model.likesCount)
         timestamp = Int(model.timestamp)
         images = model.images as? [String] ?? []
-        print(model.images)
-        print("readed from coreData \(model.postId)")
     }
 }
 
 extension DetailModel {
-    func initPersistent() {
-        let object = DetailPersistentModel(context: context)
-        object.postId = self.postId.int32
-        object.likesCount = self.likesCount.int32
-        object.timestamp = self.timestamp.int32
+    func generateDatabaseModel() {
+        let object = DetailPersistentModel(context: PersistentService.shared.context)
+        object.postId = self.postId.int32value
+        object.likesCount = self.likesCount.int32value
+        object.timestamp = self.timestamp.int32value
         object.text = self.text
         object.title = self.title
         object.images = self.images as? [NSString] ?? []
-        print("created detail: \(images)")
     }
 }
 
