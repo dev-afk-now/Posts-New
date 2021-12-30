@@ -11,6 +11,8 @@ protocol DynamicFeedViewControllerProtocol: FeedViewControllerProtocol {
     func setListDisplayMode()
     func setGridDisplayMode()
     func setGalleryDisplayMode()
+    func updateCollectionItemState(at index: Int)
+    func updateTableItemState(at index: Int)
 }
 
 class DynamicFeedViewController: UIViewController {
@@ -47,6 +49,7 @@ class DynamicFeedViewController: UIViewController {
         let tableView = UITableView()
         tableView.backgroundColor = .red
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
         return tableView
     }()
     
@@ -58,7 +61,7 @@ class DynamicFeedViewController: UIViewController {
         collection.backgroundColor = .clear
         collection.delegate = self
         collection.dataSource = self
-        GridCollectionCell.registerNib(in: collection)
+        ShortCollectionCell.register(in: collection)
         
         collection.keyboardDismissMode = .interactive
         collection.translatesAutoresizingMaskIntoConstraints = false
@@ -287,7 +290,7 @@ extension DynamicFeedViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = GridCollectionCell.cell(in: collectionView, for: indexPath)
+        let cell = ShortCollectionCell.cell(in: collectionView, for: indexPath)
 //        cell.delegate = self
             let postState = presenter.getPostForCell(by: indexPath.row)
         cell.configure(postState: postState)
@@ -342,23 +345,29 @@ extension DynamicFeedViewController: CollectionCellDelegate {
 // MARK: - FeedViewControllerProtocol -
 
 extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
-
-    func showNoInternetConnectionError() {}
-    
-    func showUnreachableServiceError() {}
-    
-    func updateItemState(at index: Int) {
+    func updateCollectionItemState(at index: Int) {
         collectionView.performBatchUpdates({
             collectionView.reloadItems(at: [IndexPath(item: index,
                                                       section: .zero)])
         }, completion: nil)
     }
     
+    func updateTableItemState(at index: Int) {
+        tableView.performBatchUpdates({
+            tableView.reloadRows(at: [IndexPath(item: index,
+                                                section: .zero)], with: .fade)
+        }, completion: nil)
+    }
+    
+
+    func showNoInternetConnectionError() {}
+    
+    func showUnreachableServiceError() {}
+    
     func updateView() {
         DispatchQueue.main.async { [unowned self] in
             self.collectionView.reloadData()
             self.tableView.reloadData()
-            self.collectionView.collectionViewLayout.invalidateLayout()
         }
     }
     
@@ -376,9 +385,13 @@ extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
     func setGridDisplayMode() {
         tableView.isHidden = true
         collectionView.isHidden = false
+        collectionView.collectionViewLayout = GridLayout()
     }
     
     func setGalleryDisplayMode() {
+        tableView.isHidden = true
+        collectionView.isHidden = false
+        collectionView.collectionViewLayout = .init()
     }
 }
 
@@ -435,19 +448,6 @@ extension DynamicFeedViewController: UIPickerViewDataSource {
 extension DynamicFeedViewController: GridLayoutDelegate {
     func collectionView(_ collectionView: UICollectionView,
     heightForPostAtIndexPath indexPath: IndexPath) -> CGFloat {
-        let post = presenter.getPostForCell(by: indexPath.row)
-        let titleLength = post.title.count
-        let numberOfLines = titleLength % 14 == 0 ? titleLength / 14 : (titleLength / 14) + 1
-        let lineHeight = 40
-        return CGFloat(numberOfLines * lineHeight)
-        
+        return 200
     }
-}
-
-// MARK: - FeedDisplayMode -
-
-enum FeedDisplayMode: CaseIterable {
-    case list
-    case grid
-    case gallery
 }

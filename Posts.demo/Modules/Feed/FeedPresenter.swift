@@ -9,6 +9,7 @@ import Foundation
 
 protocol FeedPresenter {
     var postsCount: Int { get }
+    var displayMode: FeedDisplayMode { get }
     func getPostForCell(by index: Int) -> PostCellModel
     func switchPreviewState(by index: Int)
     func viewDidLoad()
@@ -95,6 +96,10 @@ final class FeedPresenterImplementation {
 // MARK: - FeedPresenterImplementation -
 
 extension FeedPresenterImplementation: FeedPresenter {
+    var displayMode: FeedDisplayMode {
+        return viewDisplayMode
+    }
+    
     func changeDisplayMode(index: Int) {
         let state = FeedDisplayMode.allCases[index]
         switch state {
@@ -131,7 +136,14 @@ extension FeedPresenterImplementation: FeedPresenter {
     
     func switchPreviewState(by index: Int) {
         dataSource[index].isShowingFullPreview.toggle()
-        view?.updateItemState(at: index)
+        switch viewDisplayMode {
+        case .list:
+            view?.updateTableItemState(at: index)
+        case .grid:
+            view?.updateCollectionItemState(at: index)
+        case .gallery:
+            view?.updateCollectionItemState(at: index)
+        }
     }
     
     func viewDidLoad() {
@@ -202,4 +214,12 @@ extension Date {
         let time = Date(timeIntervalSince1970: TimeInterval(timestamp))
         return formatter.string(from: time)
     }
+}
+
+// MARK: - FeedDisplayMode -
+
+enum FeedDisplayMode: CaseIterable {
+    case list
+    case grid
+    case gallery
 }

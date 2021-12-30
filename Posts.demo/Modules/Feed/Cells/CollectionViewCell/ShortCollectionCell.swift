@@ -148,7 +148,6 @@ class ShortCollectionCell: FullWidthCollectionViewCell,
             headlineLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: horizontalSpacing),
             headlineLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -horizontalSpacing),
             headlineLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: verticalInset),
-            headlineLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -verticalInset),
 
             footerContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: horizontalSpacing),
             footerContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -horizontalSpacing),

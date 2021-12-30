@@ -1,15 +1,13 @@
 //
-//  GridFlowLayout.swift
+//  GalleryFlowLayout.swift
 //  Posts.demo
 //
-//  Created by Никита Дубовик on 29.12.2021.
+//  Created by devmac on 30.12.2021.
 //
 
 import UIKit
 
-class GridLayout: UICollectionViewFlowLayout {
-    // 1
-    weak var delegate: GridLayoutDelegate?
+class GalleryLayout: UICollectionViewFlowLayout {
 
     // 2
     private let numberOfColumns = 2
