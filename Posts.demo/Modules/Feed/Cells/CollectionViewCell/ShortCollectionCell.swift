@@ -102,9 +102,7 @@ class ShortCollectionCell: FullWidthCollectionViewCell,
     
     private func arrangeContainerViewSubviews() {
         containerView.addSubview(headlineLabel)
-//        containerView.addSubview(descriptionLabel)
         containerView.addSubview(footerContainer)
-//        containerView.addSubview(showFullPreviewButton)
     }
     
     private func layoutContainerView() {

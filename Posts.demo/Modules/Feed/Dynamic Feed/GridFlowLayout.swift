@@ -9,7 +9,6 @@ import UIKit
 
 class GridLayout: UICollectionViewFlowLayout {
     // 1
-    weak var delegate: GridLayoutDelegate?
 
     // 2
     private let numberOfColumns = 2
