@@ -120,7 +120,7 @@ extension DetailViewController: DetailViewControllerProtocol {
             imageView.image = image
             let aspectRatio = image.size.width / image.size.height
             imageView.heightAnchor.constraint(
-                equalToConstant: (self.view.frame.size.width ?? 0) / aspectRatio).isActive = true
+                equalToConstant: self.view.frame.size.width / aspectRatio).isActive = true
             self.imageStackView.addArrangedSubview(imageView)
         case is DetailItem:
             let detailItem = item as! DetailItem

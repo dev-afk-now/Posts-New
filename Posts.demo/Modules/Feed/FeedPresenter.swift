@@ -133,10 +133,10 @@ extension FeedPresenterImplementation: FeedPresenter {
                 switch error {
                 case .offlined:
                     self?.view?.showNoInternetConnectionError()
-                case .propagated:
-                    self?.view?.showUnreachableServiceError()
                 case .timeOut:
                     self?.view?.showNoInternetConnectionError()
+                default:
+                    self?.view?.showUnreachableServiceError()
                 }
             }
         }

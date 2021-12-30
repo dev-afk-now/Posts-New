@@ -32,7 +32,7 @@ class PostsRepositoryImplementation {
 extension PostsRepositoryImplementation: PostsRepository {
     func getPosts(completion: @escaping (Result<[PostCellModel], NetworkServiceImplementation.Error>) -> Void) {
         guard let url = listPath else {
-            completion(.failure(.offlined))
+            completion(.failure(.unresolved))
             return
         }
         service.fetchData(url: url) { [weak self] (result: Result<NetworkPostList,

@@ -10,7 +10,9 @@ import CoreData
 
 final class PersistentService {
     static let shared = PersistentService()
-    lazy var context = container.viewContext
+    var context: NSManagedObjectContext {
+        container.viewContext
+    }
     lazy var container: NSPersistentContainer = {
         let persistentContatiner = NSPersistentContainer(name: "PostPersistent")
         persistentContatiner.loadPersistentStores(completionHandler: { (storeDescription, error) in

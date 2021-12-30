@@ -21,7 +21,7 @@ extension DetailPersistentModel {
     @NSManaged public var text: String?
     @NSManaged public var timestamp: Int32
     @NSManaged public var title: String?
-    @NSManaged public var images: [NSString]
+    @NSManaged public var images: [String]
 
 }
 

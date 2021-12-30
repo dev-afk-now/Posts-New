@@ -71,11 +71,11 @@ extension DetailPresenterImpementation: DetailPresenter {
                     self?.view?.showNoInternetConnectionError()
                 case .timeOut:
                     self?.view?.showTimeOutConnectionError()
-                case .propagated:
+                default:
                     self?.view?.showUnreachableServiceError()
-                }
             }
         }
+    }
     }
     
     private func createViewItems(from post: DetailModel) {

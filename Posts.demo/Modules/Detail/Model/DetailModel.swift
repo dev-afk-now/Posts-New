@@ -30,7 +30,7 @@ struct DetailModel {
         text = model.text ?? ""
         likesCount = Int(model.likesCount)
         timestamp = Int(model.timestamp)
-        images = model.images as? [String] ?? []
+        images = model.images
     }
 }
 
@@ -42,7 +42,7 @@ extension DetailModel {
         object.timestamp = self.timestamp.int32value
         object.text = self.text
         object.title = self.title
-        object.images = self.images as? [NSString] ?? []
+        object.images = self.images
     }
 }
 

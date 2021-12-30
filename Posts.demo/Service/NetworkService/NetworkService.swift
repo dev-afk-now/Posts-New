@@ -17,6 +17,7 @@ final class NetworkServiceImplementation {
         case propagated(Swift.Error)
         case offlined
         case timeOut
+        case unresolved
     }
 
     private var requestService: NetworkRequest!

@@ -30,15 +30,17 @@ extension ImageServiceImplementation: ImageService {
     
     func fetchImages(_ urls: [URL?], completion: @escaping ([URL?]) -> Void) {
         let group = DispatchGroup()
-        var order: [URL:URL] = [:]
+        var order: [URL: URL] = [:]
         for url in urls {
             guard let value = url else { continue }
-            fetchImageAddToGroup(group: group, url: value) { url in
+            group.enter()
+            fetchImage(url) { output in
                 order[value] = url
+                group.leave()
             }
         }
         group.notify(queue: .main) {
-            let result = urls.map{ value -> URL? in
+            let result = urls.map { value -> URL? in
                 guard let value = value else {
                     return nil
                 }
@@ -48,16 +50,8 @@ extension ImageServiceImplementation: ImageService {
         }
     }
     
-    private func fetchImageAddToGroup(group: DispatchGroup,
-                                      url: URL, completion: @escaping(URL?) -> Void) {
-        group.enter()
-        fetchImage(url) { output in
-            defer { group.leave() }
-            completion(output)
-        }
-    }
-    
-    private func fetchImage(_ url: URL?, completion: @escaping(URL?) -> Void) {
+    private func fetchImage(_ url: URL?,
+                            completion: @escaping (URL?) -> ()) {
         guard let url = url else {
             completion(nil)
             return
