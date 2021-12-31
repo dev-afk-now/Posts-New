@@ -26,8 +26,6 @@ final class PersistentService {
     private init() {}
     
     func fetchObjects<T: NSManagedObject>(entity: T.Type) -> [T] {
-        let context = container.viewContext
-        
         let entityName = String(describing: T.self)
         let fetchRequest = NSFetchRequest<T>.init(entityName: entityName)
         do {
