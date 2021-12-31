@@ -46,7 +46,7 @@ extension DetailRepositoryImplementation: DetailRepository {
             switch result {
             case .success(let data):
                 let detailModel = DetailModel.init(from: data.post)
-                DetailPersistentAdapter.shared.generateDatabaseDetailObject(detailModel)
+                DetailPersistentAdapter.shared.generateDatabaseDetailObject(from: detailModel)
                 completion(.success(detailModel))
             case .failure(let failure):
                 let localDetail = DetailPersistentAdapter.shared.pullDatabaseDetailObject(by: self.postId)

@@ -12,11 +12,11 @@ final class DetailPersistentAdapter {
     
     private init() {}
     
-    func generateDatabaseDetailObjects(_ detailList: [DetailModel]) {
-        detailList.forEach{ generateDatabaseDetailObject($0) }
+    func generateDatabaseDetailObjects(from detailList: [DetailModel]) {
+        detailList.forEach{ generateDatabaseDetailObject(from: $0) }
     }
     
-    func generateDatabaseDetailObject(_ detailModel: DetailModel) {
+    func generateDatabaseDetailObject(from detailModel: DetailModel) {
         let object = DetailPersistentModel(context: PersistentService.shared.context)
         object.postId = detailModel.postId.int32value
         object.likesCount = detailModel.likesCount.int32value

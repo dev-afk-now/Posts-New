@@ -40,7 +40,7 @@ extension PostsRepositoryImplementation: PostsRepository {
             switch result {
             case .success(let success):
                 let posts = success.posts.map(PostCellModel.init)
-                PostPersistentAdapter.shared.generateDatabasePostObjects(posts)
+                PostPersistentAdapter.shared.generateDatabasePostObjects(from: posts)
                 completion(.success(posts))
             case .failure(let failure):
                 let list = PostPersistentAdapter.shared.pullDatabasePostObjects()

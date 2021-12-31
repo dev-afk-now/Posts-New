@@ -12,11 +12,11 @@ final class PostPersistentAdapter {
     
     private init() {}
     
-    func generateDatabasePostObjects(_ postList: [PostCellModel]) {
-        postList.forEach{ generateDatabasePostObject($0) }
+    func generateDatabasePostObjects(from postList: [PostCellModel]) {
+        postList.forEach{ generateDatabasePostObject(from: $0) }
     }
     
-    func generateDatabasePostObject(_ postModel: PostCellModel) {
+    func generateDatabasePostObject(from postModel: PostCellModel) {
         let object = PostPersistent(context: PersistentService.shared.context)
         object.postId = postModel.postId.int32value
         object.likesCount = postModel.likesCount.int32value
