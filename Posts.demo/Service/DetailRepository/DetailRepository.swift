@@ -41,28 +41,22 @@ extension DetailRepositoryImplementation: DetailRepository {
             return
         }
         service.fetchData(url: url) { [weak self] (result: Result<NetworkDetail,
-                                                         NetworkServiceImplementation.Error>) in
+                                                   NetworkServiceImplementation.Error>) in
             guard let self = self else { return }
             switch result {
             case .success(let data):
-                let postModel = DetailModel.init(data.post)
-                postModel.generateDatabaseModel()
-                PersistentService.shared.save()
-                completion(.success(postModel))
+                let detailModel = DetailModel.init(from: data.post)
+                DetailPersistentAdapter.shared.generateDatabaseDetailObject(detailModel)
+                completion(.success(detailModel))
             case .failure(let failure):
-                let localDetail = self.fetchLocalDetail(by: self.postId)
-                if let localDetail = localDetail {
-                    let detail = DetailModel(from: localDetail)
-                    completion(.success(detail))
-                } else {
+                let localDetail = DetailPersistentAdapter.shared.pullDatabaseDetailObject(by: self.postId)
+                guard let localDetail = localDetail else {
                     completion(.failure(failure))
+                    return
                 }
+                let detail = DetailModel(from: localDetail)
+                completion(.success(detail))
             }
         }
-    }
-    
-    private func fetchLocalDetail(by postId: Int) -> DetailPersistentModel? {
-        let details = PersistentService.shared.fetchObjects(entity: DetailPersistentModel.self)
-        return details.first { $0.postId == postId }
     }
 }

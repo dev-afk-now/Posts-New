@@ -35,7 +35,7 @@ extension ImageServiceImplementation: ImageService {
             guard let value = url else { continue }
             group.enter()
             fetchImage(url) { output in
-                order[value] = url
+                order[value] = output
                 group.leave()
             }
         }
@@ -68,7 +68,7 @@ extension ImageServiceImplementation: ImageService {
                 }
                 HashService.save(data: data, key: url.absoluteString)
                 let result = HashService.get(by: url.absoluteString)
-                result == nil ? completion(nil) : completion(result!)
+                result == nil ? completion(nil) : completion(result)
             }
             return
         }

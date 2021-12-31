@@ -35,17 +35,15 @@ extension PostsRepositoryImplementation: PostsRepository {
             completion(.failure(.unresolved))
             return
         }
-        service.fetchData(url: url) { [weak self] (result: Result<NetworkPostList,
+        service.fetchData(url: url) { (result: Result<NetworkPostList,
                                                          NetworkServiceImplementation.Error>) in
-            guard let self = self else { return }
             switch result {
             case .success(let success):
                 let posts = success.posts.map(PostCellModel.init)
-                let _ = posts.map{ $0.generateDatabaseModel() }
-                PersistentService.shared.save()
+                PostPersistentAdapter.shared.generateDatabasePostObjects(posts)
                 completion(.success(posts))
             case .failure(let failure):
-                let list = self.fetchLocalPosts()
+                let list = PostPersistentAdapter.shared.pullDatabasePostObjects()
                 let posts: [PostCellModel] = list.map { PostCellModel(from: $0) }
                 if list.isEmpty {
                     completion(.failure(failure))
@@ -54,9 +52,5 @@ extension PostsRepositoryImplementation: PostsRepository {
                 }
             }
         }
-    }
-    
-    private func fetchLocalPosts() -> [PostPersistent] {
-        return PersistentService.shared.fetchObjects(entity: PostPersistent.self)
     }
 }

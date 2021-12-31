@@ -29,6 +29,7 @@ final class HashService {
         let cachesDirectoryUrl = urls[0]
         let fileUrl = cachesDirectoryUrl.appendingPathComponent(MD5(string: key))
         if fileManager.fileExists(atPath: fileUrl.path) {
+            print("readed\(key)")
             return fileUrl
         } else {
             return nil
