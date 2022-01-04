@@ -106,17 +106,8 @@ extension FeedPresenterImplementation: FeedPresenter {
     
     func changeDisplayMode(index: Int) {
         let state = FeedDisplayMode.allCases[index]
-        switch state {
-        case .list:
-            viewDisplayMode = .list
-            view?.setListDisplayMode()
-        case .grid:
-            viewDisplayMode = .grid
-            view?.setGridDisplayMode()
-        case .gallery:
-            viewDisplayMode = .gallery
-            view?.setGalleryDisplayMode()
-        }
+        viewDisplayMode = state
+        view?.setDisplayMode(state)
     }
     
     func logOut() {

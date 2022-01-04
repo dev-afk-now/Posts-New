@@ -8,9 +8,7 @@
 import UIKit
 
 protocol DynamicFeedViewControllerProtocol: FeedViewControllerProtocol {
-    func setListDisplayMode()
-    func setGridDisplayMode()
-    func setGalleryDisplayMode()
+    func setDisplayMode(_ mode: FeedDisplayMode)
     func updateCollectionItemState(at index: Int)
     func updateTableItemState(at index: Int)
 }
@@ -21,25 +19,7 @@ class DynamicFeedViewController: UIViewController {
     // MARK: - Private properties -
     
     private let gridLayout = GridLayout()
-    private var galleryLayout: UICollectionViewFlowLayout {
-        let horizontalInset: CGFloat = 16
-        let verticalInset: CGFloat = 16
-        let flowLayout = UICollectionViewFlowLayout()
-        flowLayout.scrollDirection = .vertical
-        flowLayout.sectionInset = UIEdgeInsets(top: verticalInset,
-                                               left: horizontalInset,
-                                               bottom: verticalInset,
-                                               right: horizontalInset)
-        let insetsSum = flowLayout.sectionInset.left + flowLayout.sectionInset.right
-        let widthForItem: CGFloat = view.bounds.width - insetsSum
-        flowLayout.estimatedItemSize = CGSize(
-            width: widthForItem,
-            height: 200
-        )
-        
-        flowLayout.minimumLineSpacing = 15
-        return flowLayout
-    }
+    private var galleryLayout = GalleryFlowLayout()
     
     private lazy var logOutButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -403,25 +383,19 @@ extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
         }
     }
     
-    func setListDisplayMode() {
-        tableView.isHidden = false
-        collectionView.isHidden = true
-    }
-    
-    func setGridDisplayMode() {
-        tableView.isHidden = true
-        collectionView.isHidden = false
-        collectionView.collectionViewLayout = gridLayout
-        collectionView.reloadData()
-        collectionView.collectionViewLayout.invalidateLayout()
-    }
-    
-    func setGalleryDisplayMode() {
-        tableView.isHidden = true
-        collectionView.isHidden = false
-        collectionView.collectionViewLayout = galleryLayout
-        collectionView.reloadData()
-        collectionView.collectionViewLayout.invalidateLayout()
+    func setDisplayMode(_ mode: FeedDisplayMode) {
+        switch mode {
+        case .list:
+            tableView.isHidden = false
+            collectionView.isHidden = true
+        case .grid, .gallery:
+            tableView.isHidden = true
+            collectionView.isHidden = false
+            collectionView.collectionViewLayout =
+                (mode == .grid ? gridLayout : galleryLayout)
+            collectionView.reloadData()
+            collectionView.collectionViewLayout.invalidateLayout()
+        }
     }
 }
 

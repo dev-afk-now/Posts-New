@@ -7,9 +7,7 @@
 
 import UIKit
 
-class ShortCollectionCell: FullWidthCollectionViewCell,
-                      CollectionCellRegistrable,
-                      CollectionCellReusable {
+class ShortCollectionCell: BaseCollectionViewCell {
     
     // MARK: - Private properties -
     
