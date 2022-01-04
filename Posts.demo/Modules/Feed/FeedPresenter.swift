@@ -9,13 +9,14 @@ import Foundation
 
 protocol FeedPresenter {
     var postsCount: Int { get }
-    func getPostForCell(by index: Int) -> PostCellModel?
-    func toggle(by index: Int)
+    func getPostForCell(by index: Int) -> PostCellModel
+    func switchPreviewState(by index: Int)
     func viewDidLoad()
     func showDetail(by index: Int)
     func showFilter()
     func searchPostForTitle(_ searchWord: String)
     func breakSearch()
+    func logOut()
 }
 
 final class FeedPresenterImplementation {
@@ -32,7 +33,7 @@ final class FeedPresenterImplementation {
     }
     
     private var searchTask: DispatchWorkItem?
-
+    
     private var searchText = ""
     
     private var isSearchingForPost: Bool {
@@ -67,7 +68,7 @@ final class FeedPresenterImplementation {
     }
     
     private func sortedItems(_ items: [PostCellModel],
-                           by option: FilterViewController.SortOption) -> [PostCellModel] {
+                             by option: FilterViewController.SortOption) -> [PostCellModel] {
         switch option {
         case .dateAscending:
             return items.sorted { $0.timestamp < $1.timestamp }
@@ -93,13 +94,17 @@ final class FeedPresenterImplementation {
     
 }
 
-// MARK: - FeedPresenter -
+// MARK: - FeedPresenterImplementation -
 
 extension FeedPresenterImplementation: FeedPresenter {
+    func logOut() {
+        KeychainService.shared.clear()
+        router.showLoginScreen()
+    }
+    
     func showDetail(by index: Int) {
-        if let post = getPostForCell(by: index) {
-            router.showDetailScreen(id: post.postId)
-        }
+        let post = getPostForCell(by: index)
+        router.showDetailScreen(id: post.postId)
     }
     
     func showFilter() {
@@ -110,16 +115,13 @@ extension FeedPresenterImplementation: FeedPresenter {
         self.dataSource.count
     }
     
-    func getPostForCell(by index: Int) -> PostCellModel? {
-        guard index < dataSource.count else {
-            return nil
-        }
+    func getPostForCell(by index: Int) -> PostCellModel {
         return dataSource[index]
     }
     
-    func toggle(by index: Int) {
+    func switchPreviewState(by index: Int) {
         dataSource[index].isShowingFullPreview.toggle()
-        view?.updateView()
+        view?.updateItemState(at: index)
     }
     
     func viewDidLoad() {
@@ -148,7 +150,7 @@ extension FeedPresenterImplementation: FeedPresenter {
     }
     
     private func executeSearch() {
-
+        
         if searchText.isEmpty {
             breakSearch()
         }
@@ -175,7 +177,7 @@ extension FeedPresenterImplementation: FeedPresenter {
     }
 }
 
-// MARK: - VC delegate -
+// MARK: - FeedPresenterImplementation extension -
 
 extension FeedPresenterImplementation: FilterViewControllerDelegate {
     func onSortOptionChanged(_ option: FilterViewController.SortOption) {

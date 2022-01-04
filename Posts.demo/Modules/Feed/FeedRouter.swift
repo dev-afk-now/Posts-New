@@ -10,6 +10,7 @@ import UIKit
 protocol FeedRouter {
     func showFilterScreen(_ delegate: FilterViewControllerDelegate)
     func showDetailScreen(id: Int)
+    func showLoginScreen()
 }
 
 final class FeedRouterImplementation {
@@ -21,9 +22,17 @@ final class FeedRouterImplementation {
 }
 
 extension FeedRouterImplementation: FeedRouter {
+    func showLoginScreen() {
+        let module = SignUpConfigurator.create()
+        UIViewController.swapCurrentViewController(with: module,
+                                                   isReversed: true)
+    }
     func showFilterScreen(_ delegate: FilterViewControllerDelegate) {
-        let filterVC = FilterConfigurator.create(delegate: delegate)
-        context.present(filterVC, animated: true)
+        let module = FilterConfigurator.create(delegate: delegate)
+        context.modalPresentationStyle = .fullScreen
+        context.navigationController?.present(module,
+                                              animated: true,
+                                              completion: nil)
     }
     
     func showDetailScreen(id: Int) {
@@ -31,3 +40,4 @@ extension FeedRouterImplementation: FeedRouter {
         context.navigationController?.pushViewController(module, animated: true)
     }
 }
+

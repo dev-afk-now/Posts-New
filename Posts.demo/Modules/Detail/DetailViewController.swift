@@ -18,6 +18,8 @@ class DetailViewController: UIViewController {
     
     var presenter: DetailPresenter!
     
+    // MARK:  - Outlets -
+    
     @IBOutlet private weak var progressView: UIActivityIndicatorView!
     @IBOutlet private weak var alertView: UIView!
     @IBOutlet private weak var failDescriptionLabel: UILabel!
@@ -26,12 +28,15 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var likesLabel: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var imageStackView: UIStackView!
+
+    // MARK:  - Private variables -
     
     private lazy var titleLabel: UILabel = {
-        $0.textColor = .white
-        $0.font = UIFont(name: "Helvetica Neue", size: 20)
-        return $0
-    } (UILabel())
+        let title = UILabel()
+        title.textColor = .white
+        title.font = .applicatonFont()
+        return title
+    }()
     
     private lazy var backButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -43,6 +48,10 @@ class DetailViewController: UIViewController {
         button.tintColor = .white
         return button
     }()
+    
+    // MARK: - Life Cycle -
+    
+    // MARK: - Private methods -
     
     @objc func goBackAction() {
         presenter.navigateToRootViewController()
@@ -66,6 +75,8 @@ class DetailViewController: UIViewController {
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 10)
         ])
+        navigationItem.titleView = titleLabel
+        navigationItem.leftBarButtonItem = backButton
     }
 }
 
@@ -131,13 +142,5 @@ extension DetailViewController: DetailViewControllerProtocol {
         default:
             break
         }
-    }
-}
-
-extension Date {
-    func toStringShort() -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy"
-        return formatter.string(from: self)
     }
 }

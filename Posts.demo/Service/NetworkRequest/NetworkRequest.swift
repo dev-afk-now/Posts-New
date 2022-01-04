@@ -17,8 +17,7 @@ final class NetworkRequestImplementation {
     }
 }
 
-extension NetworkRequestImplementation: NetworkRequest {
-    
+extension NetworkRequestImplementation: NetworkRequest {    
     func GET<T: Decodable>(url: URL, completion: @escaping (Result<T, Error>) -> Void) {
         let request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalAndRemoteCacheData, timeoutInterval: 60)
         URLSession.shared.dataTask(with: request) { data, _, error in
@@ -26,13 +25,13 @@ extension NetworkRequestImplementation: NetworkRequest {
                 completion(.failure(Error.propagated(error!)))
                 return
             }
-            guard data != nil else {
+            guard let data = data else {
                 let context = DecodingError.Context(codingPath: [], debugDescription: "data corrupted")
                 completion(.failure(Error.propagated(DecodingError.dataCorrupted(context))))
                 return
             }
             do {
-                let parsedData = try JSONDecoder().decode(T.self, from: data!)
+                let parsedData = try JSONDecoder().decode(T.self, from: data)
                 completion(.success(parsedData))
             } catch let error {
                 completion(.failure(Error.propagated(error)))
@@ -43,14 +42,6 @@ extension NetworkRequestImplementation: NetworkRequest {
 
 struct NetworkPostList: Codable {
     var posts: [Post]
-}
-
-struct Post: Codable {
-    var postId: Int
-    var title: String
-    var timeshamp: Int
-    var preview_text: String
-    var likes_count: Int
 }
 
 struct NetworkDetail: Codable {
