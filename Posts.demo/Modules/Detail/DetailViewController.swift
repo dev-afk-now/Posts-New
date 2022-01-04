@@ -1,5 +1,5 @@
 //
-//  PostDetailViewController.swift
+//  DetailViewController.swift
 //  Posts.demo
 //
 //  Created by New Mac on 11.10.2021.
@@ -28,7 +28,7 @@ class DetailViewController: UIViewController {
     @IBOutlet private weak var likesLabel: UILabel!
     @IBOutlet private weak var dateLabel: UILabel!
     @IBOutlet private weak var imageStackView: UIStackView!
-    
+
     // MARK:  - Private variables -
     
     private lazy var titleLabel: UILabel = {
@@ -51,12 +51,6 @@ class DetailViewController: UIViewController {
     
     // MARK: - Life Cycle -
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        presenter.viewDidLoad()
-        setupNavigationBar()
-    }
-    
     // MARK: - Private methods -
     
     @objc func goBackAction() {
@@ -70,6 +64,14 @@ class DetailViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
+        navigationItem.leftBarButtonItem = backButton
+        navigationItem.titleView = titleLabel
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupNavigationBar()
+        presenter.viewDidLoad()
         NSLayoutConstraint.activate([
             titleLabel.widthAnchor.constraint(greaterThanOrEqualToConstant: 10)
         ])
@@ -103,7 +105,7 @@ extension DetailViewController: DetailViewControllerProtocol {
     func updateView(items: [ViewItem]) {
         DispatchQueue.main.async { [unowned self] in
             self.progressView.stopAnimating()
-            self.imageStackView?.subviews.forEach { $0.removeFromSuperview() }
+            self.imageStackView.subviews.forEach { $0.removeFromSuperview() }
             for item in items {
                 self.createStackViewSubView(from: item)
             }
@@ -115,9 +117,11 @@ extension DetailViewController: DetailViewControllerProtocol {
         case is TitleItem:
             let title = item as! TitleItem
             titleLabel.text = title.title
+            headlineLabel.textColor = .black
             headlineLabel.text = title.title
         case is TextItem:
             let description = item as! TextItem
+            descriptionLabel.textColor = .black
             descriptionLabel.text = description.text
         case is ImageItem:
             let imageItem = item as! ImageItem
@@ -126,11 +130,14 @@ extension DetailViewController: DetailViewControllerProtocol {
             guard let data = try? Data(contentsOf: url), let image = UIImage(data: data) else { break }
             imageView.image = image
             let aspectRatio = image.size.width / image.size.height
-            imageView.heightAnchor.constraint(equalToConstant: (self.view?.frame.size.width)! / aspectRatio).isActive = true
-            self.imageStackView?.addArrangedSubview(imageView)
+            imageView.heightAnchor.constraint(
+                equalToConstant: self.view.frame.size.width / aspectRatio).isActive = true
+            self.imageStackView.addArrangedSubview(imageView)
         case is DetailItem:
             let detailItem = item as! DetailItem
             likesLabel.text = String(detailItem.likes)
+            likesLabel.textColor = .black
+            dateLabel.textColor = .black
             dateLabel.text = detailItem.date.toStringShort()
         default:
             break

@@ -9,11 +9,19 @@
 /* Begin PBXBuildFile section */
 		D50CD47E2771F662008BF8AB /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47D2771F662008BF8AB /* SortOption.swift */; };
 		D50CD48027720352008BF8AB /* ViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47F27720352008BF8AB /* ViewItem.swift */; };
+		D51A1AFA277486A700E29EA8 /* DetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A1AF9277486A700E29EA8 /* DetailRepository.swift */; };
+		D51A1AFD2774908D00E29EA8 /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A1AFC2774908D00E29EA8 /* DetailModel.swift */; };
+		D51A1B0C2774B05A00E29EA8 /* DetailPersistentModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A1B0A2774B05A00E29EA8 /* DetailPersistentModel+CoreDataClass.swift */; };
+		D51A1B0D2774B05A00E29EA8 /* DetailPersistentModel+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A1B0B2774B05A00E29EA8 /* DetailPersistentModel+CoreDataProperties.swift */; };
+		D51EA41A277EF73E00018AC7 /* DetailPersistentAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51EA419277EF73E00018AC7 /* DetailPersistentAdapter.swift */; };
 		D523F2202770C3A0004DBADF /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F21F2770C3A0004DBADF /* AppFont.swift */; };
 		D523F2242771D6DA004DBADF /* ValidationError.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2232771D6DA004DBADF /* ValidationError.swift */; };
 		D523F2262771D6E8004DBADF /* String+isAlphanumeric.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2252771D6E8004DBADF /* String+isAlphanumeric.swift */; };
 		D523F2282771D70B004DBADF /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F2272771D70B004DBADF /* Post.swift */; };
 		D523F22D2771D741004DBADF /* ConcretePost.swift in Sources */ = {isa = PBXBuildFile; fileRef = D523F22C2771D741004DBADF /* ConcretePost.swift */; };
+		D52C70AA276C933700A65202 /* PersistentService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70A9276C933700A65202 /* PersistentService.swift */; };
+		D52C70AD276C93DF00A65202 /* PostPersistent.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AB276C93DF00A65202 /* PostPersistent.xcdatamodeld */; };
+		D52C70B4276CC2CC00A65202 /* PostsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70B3276CC2CC00A65202 /* PostsRepository.swift */; };
 		D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FB2760FAC10076C370 /* HomeViewController.swift */; };
 		D54BE3FE2760FAC10076C370 /* HomeViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = D54BE3FC2760FAC10076C370 /* HomeViewController.xib */; };
 		D54BE4012760FBF50076C370 /* CollectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D54BE3FF2760FBF50076C370 /* CollectionCell.swift */; };
@@ -36,6 +44,9 @@
 		D5738C4B276896C900535AE6 /* NetworkModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5738C4A276896C900535AE6 /* NetworkModel.swift */; };
 		D5738C522768A1E900535AE6 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5738C512768A1E900535AE6 /* KeychainService.swift */; };
 		D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57DF0DB275E03F6001DB998 /* PostCellModel.swift */; };
+		D582C5862774839C00C2896D /* PostPersistent+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */; };
+		D582C5872774839C00C2896D /* PostPersistent+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */; };
+		D5850047277F0305006F26EA /* PostPersistentAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5850046277F0305006F26EA /* PostPersistentAdapter.swift */; };
 		D5D20C02276B3358009EDE0F /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D20C01276B3358009EDE0F /* SignInViewController.swift */; };
 		D5D20C04276B336B009EDE0F /* SignInPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D20C03276B336B009EDE0F /* SignInPresenter.swift */; };
 		D5D20C06276B337D009EDE0F /* SignInRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5D20C05276B337D009EDE0F /* SignInRouter.swift */; };
@@ -75,11 +86,21 @@
 /* Begin PBXFileReference section */
 		D50CD47D2771F662008BF8AB /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
 		D50CD47F27720352008BF8AB /* ViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItem.swift; sourceTree = "<group>"; };
+		D51A1AF9277486A700E29EA8 /* DetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepository.swift; sourceTree = "<group>"; };
+		D51A1AFC2774908D00E29EA8 /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
+		D51A1B0A2774B05A00E29EA8 /* DetailPersistentModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailPersistentModel+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D51A1B0B2774B05A00E29EA8 /* DetailPersistentModel+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailPersistentModel+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D51EA419277EF73E00018AC7 /* DetailPersistentAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailPersistentAdapter.swift; sourceTree = "<group>"; };
 		D523F21F2770C3A0004DBADF /* AppFont.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 		D523F2232771D6DA004DBADF /* ValidationError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidationError.swift; sourceTree = "<group>"; };
 		D523F2252771D6E8004DBADF /* String+isAlphanumeric.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+isAlphanumeric.swift"; sourceTree = "<group>"; };
 		D523F2272771D70B004DBADF /* Post.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		D523F22C2771D741004DBADF /* ConcretePost.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConcretePost.swift; sourceTree = "<group>"; };
+		D52C70A9276C933700A65202 /* PersistentService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentService.swift; sourceTree = "<group>"; };
+		D52C70AC276C93DF00A65202 /* PostPersistent.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = PostPersistent.xcdatamodel; sourceTree = "<group>"; };
+		D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostPersistent+CoreDataClass.swift"; sourceTree = "<group>"; };
+		D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PostPersistent+CoreDataProperties.swift"; sourceTree = "<group>"; };
+		D52C70B3276CC2CC00A65202 /* PostsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostsRepository.swift; sourceTree = "<group>"; };
 		D54BE3FB2760FAC10076C370 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		D54BE3FC2760FAC10076C370 /* HomeViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = HomeViewController.xib; sourceTree = "<group>"; };
 		D54BE3FF2760FBF50076C370 /* CollectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionCell.swift; sourceTree = "<group>"; };
@@ -101,6 +122,7 @@
 		D5738C4A276896C900535AE6 /* NetworkModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkModel.swift; sourceTree = "<group>"; };
 		D5738C512768A1E900535AE6 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		D57DF0DB275E03F6001DB998 /* PostCellModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCellModel.swift; sourceTree = "<group>"; };
+		D5850046277F0305006F26EA /* PostPersistentAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPersistentAdapter.swift; sourceTree = "<group>"; };
 		D5D20C01276B3358009EDE0F /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
 		D5D20C03276B336B009EDE0F /* SignInPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInPresenter.swift; sourceTree = "<group>"; };
 		D5D20C05276B337D009EDE0F /* SignInRouter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInRouter.swift; sourceTree = "<group>"; };
@@ -151,6 +173,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D51A1AF82774865700E29EA8 /* DetailRepository */ = {
+			isa = PBXGroup;
+			children = (
+				D51A1AF9277486A700E29EA8 /* DetailRepository.swift */,
+			);
+			path = DetailRepository;
+			sourceTree = "<group>";
+		};
+		D51A1AFB2774907C00E29EA8 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				D51A1AFC2774908D00E29EA8 /* DetailModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		D523F22B2771D739004DBADF /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,6 +196,25 @@
 				D50CD47F27720352008BF8AB /* ViewItem.swift */,
 			);
 			path = Model;
+			sourceTree = "<group>";
+		};
+		D52C70A8276C930800A65202 /* PersistentService */ = {
+			isa = PBXGroup;
+			children = (
+				D582C57D277481D200C2896D /* Details */,
+				D582C57C277481C800C2896D /* Service */,
+				D582C57B277481B900C2896D /* Post */,
+				D52C70AB276C93DF00A65202 /* PostPersistent.xcdatamodeld */,
+			);
+			path = PersistentService;
+			sourceTree = "<group>";
+		};
+		D52C70B2276CC28C00A65202 /* PostsRepository */ = {
+			isa = PBXGroup;
+			children = (
+				D52C70B3276CC2CC00A65202 /* PostsRepository.swift */,
+			);
+			path = PostsRepository;
 			sourceTree = "<group>";
 		};
 		D54BE4032760FC040076C370 /* CollectionViewCell */ = {
@@ -283,6 +340,34 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
+		D582C57B277481B900C2896D /* Post */ = {
+			isa = PBXGroup;
+			children = (
+				D52C70AF276C969B00A65202 /* PostPersistent+CoreDataProperties.swift */,
+				D52C70AE276C969B00A65202 /* PostPersistent+CoreDataClass.swift */,
+				D5850046277F0305006F26EA /* PostPersistentAdapter.swift */,
+			);
+			path = Post;
+			sourceTree = "<group>";
+		};
+		D582C57C277481C800C2896D /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				D52C70A9276C933700A65202 /* PersistentService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		D582C57D277481D200C2896D /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				D51A1B0A2774B05A00E29EA8 /* DetailPersistentModel+CoreDataClass.swift */,
+				D51A1B0B2774B05A00E29EA8 /* DetailPersistentModel+CoreDataProperties.swift */,
+				D51EA419277EF73E00018AC7 /* DetailPersistentAdapter.swift */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
 		D5D20BFF276B3303009EDE0F /* SignUp */ = {
 			isa = PBXGroup;
 			children = (
@@ -326,6 +411,7 @@
 		D72A1F9127147AB10016FB27 /* Detail */ = {
 			isa = PBXGroup;
 			children = (
+				D51A1AFB2774907C00E29EA8 /* Model */,
 				D523F22B2771D739004DBADF /* Model */,
 				D72A1F88271456F10016FB27 /* DetailViewController.swift */,
 				D721E45027157A81000D887E /* DetailPresenter.swift */,
@@ -352,6 +438,9 @@
 		D72A1F9327147ACC0016FB27 /* Service */ = {
 			isa = PBXGroup;
 			children = (
+				D51A1AF82774865700E29EA8 /* DetailRepository */,
+				D52C70B2276CC28C00A65202 /* PostsRepository */,
+				D52C70A8276C930800A65202 /* PersistentService */,
 				D55FB0BD276A1B7A00AAA6DB /* JSONService */,
 				D5738C4E2768A13400535AE6 /* KeychainService */,
 				D75D5ADE274FCC8600B71B61 /* HashService */,
@@ -542,11 +631,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D582C5862774839C00C2896D /* PostPersistent+CoreDataProperties.swift in Sources */,
+				D582C5872774839C00C2896D /* PostPersistent+CoreDataClass.swift in Sources */,
 				D557ACD1276B731F003EA877 /* WebViewController.swift in Sources */,
 				D783D1DB271EFF5500E09F06 /* DetailRouter.swift in Sources */,
 				D57DF0DC275E03F6001DB998 /* PostCellModel.swift in Sources */,
 				D7651EBF27102B6E007374FE /* FeedViewController.swift in Sources */,
 				D721E44E27157A45000D887E /* DetailConfigurator.swift in Sources */,
+				D52C70AA276C933700A65202 /* PersistentService.swift in Sources */,
 				D523F2282771D70B004DBADF /* Post.swift in Sources */,
 				D54EBBD827673FB600148E48 /* SignUpViewController.swift in Sources */,
 				D5D20C08276B338F009EDE0F /* SignInConfigurator.swift in Sources */,
@@ -562,13 +654,18 @@
 				D523F2262771D6E8004DBADF /* String+isAlphanumeric.swift in Sources */,
 				D783D1DE271F04B200E09F06 /* FilterRouter.swift in Sources */,
 				D72A1F8227141D3A0016FB27 /* FilterViewController.swift in Sources */,
+				D52C70B4276CC2CC00A65202 /* PostsRepository.swift in Sources */,
+				D52C70AD276C93DF00A65202 /* PostPersistent.xcdatamodeld in Sources */,
 				D75D5AE0274FCC9800B71B61 /* HashService.swift in Sources */,
+				D51A1B0C2774B05A00E29EA8 /* DetailPersistentModel+CoreDataClass.swift in Sources */,
+				D51EA41A277EF73E00018AC7 /* DetailPersistentAdapter.swift in Sources */,
 				D7966AF727510AE300D82610 /* ImageRequest.swift in Sources */,
 				D5D20C06276B337D009EDE0F /* SignInRouter.swift in Sources */,
 				D557ACD6276B7829003EA877 /* WebConfigurator.swift in Sources */,
 				D54EBBDC276740B800148E48 /* SignUpConfigurator.swift in Sources */,
 				D5F50EB72773739200F8609F /* CollectionCellRegistrable.swift in Sources */,
 				D7651ECF27104A49007374FE /* FeedConfigurator.swift in Sources */,
+				D51A1AFA277486A700E29EA8 /* DetailRepository.swift in Sources */,
 				D7651EC9271040EB007374FE /* NetworkService.swift in Sources */,
 				D71015AB271D9A8A00BDBADF /* FilterConfigurator.swift in Sources */,
 				D5F50EB52773733300F8609F /* TableCellReusable.swift in Sources */,
@@ -576,6 +673,10 @@
 				D557ACD4276B7710003EA877 /* WebPresenter.swift in Sources */,
 				D557ACD8276B7DD4003EA877 /* WebRouter.swift in Sources */,
 				D72A1F9727147B770016FB27 /* FeedRouter.swift in Sources */,
+				D51A1AFD2774908D00E29EA8 /* DetailModel.swift in Sources */,
+				D7651EA627102B10007374FE /* AppDelegate.swift in Sources */,
+				D73EBAB527104F5600F24619 /* PostCell.swift in Sources */,
+				D5850047277F0305006F26EA /* PostPersistentAdapter.swift in Sources */,
 				D5F50EB92773739E00F8609F /* CollectionCellReusable.swift in Sources */,
 				D7651EA627102B10007374FE /* AppDelegate.swift in Sources */,
 				D73EBAB527104F5600F24619 /* PostCell.swift in Sources */,
@@ -583,6 +684,7 @@
 				D54BE4012760FBF50076C370 /* CollectionCell.swift in Sources */,
 				D50CD48027720352008BF8AB /* ViewItem.swift in Sources */,
 				D72A1F8A271456F10016FB27 /* DetailViewController.swift in Sources */,
+				D51A1B0D2774B05A00E29EA8 /* DetailPersistentModel+CoreDataProperties.swift in Sources */,
 				D783D1E32720001700E09F06 /* ImageService.swift in Sources */,
 				D5738C49276896A400535AE6 /* DateExtension.swift in Sources */,
 				D56B4B0C2763463500CEE6A8 /* SelfSizingCollectionCell.swift in Sources */,
@@ -813,6 +915,19 @@
 			productName = KeychainSwift;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		D52C70AB276C93DF00A65202 /* PostPersistent.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				D52C70AC276C93DF00A65202 /* PostPersistent.xcdatamodel */,
+			);
+			currentVersion = D52C70AC276C93DF00A65202 /* PostPersistent.xcdatamodel */;
+			path = PostPersistent.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = D7651E9A27102B10007374FE /* Project object */;
 }

@@ -8,8 +8,7 @@
 import Foundation
 
 protocol NetworkService {
-    func fetchPost(by id: Int, completion: @escaping (Result<NetworkPost, NetworkServiceImplementation.Error>) -> Void)
-    func fetchData(completion: @escaping (Result<NetworkData, NetworkServiceImplementation.Error>) -> Void)
+    func fetchData<T: Codable>(url: URL, completion: @escaping (Result<T, NetworkServiceImplementation.Error>) -> Void)
 }
 
 final class NetworkServiceImplementation {
@@ -18,10 +17,9 @@ final class NetworkServiceImplementation {
         case propagated(Swift.Error)
         case offlined
         case timeOut
+        case unresolved
     }
-    
-    private var listPath = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/main.json"
-    private var basicPath = "https://raw.githubusercontent.com/aShaforostov/jsons/master/api/posts/[id].json"
+
     private var requestService: NetworkRequest!
     
     
@@ -31,33 +29,9 @@ final class NetworkServiceImplementation {
 }
 
 extension NetworkServiceImplementation: NetworkService {
-    func fetchPost(by id: Int, completion: @escaping (Result<NetworkPost, NetworkServiceImplementation.Error>) -> Void) {
-        if let url = URL(string: basicPath.replacingOccurrences(of: "[id]", with: "\(id)")) {
-            requestService.GET(url: url) { (result: Result<NetworkPost, NetworkRequestImplementation.Error>) in
-                switch result {
-                case .success(let value):
-                    completion(.success(value))
-                case .failure(let error):
-                    switch error {
-                    case let .propagated(error):
-                        let error = error as NSError
-                        switch error.code {
-                        case URLError.notConnectedToInternet.rawValue:
-                            completion(.failure(NetworkServiceImplementation.Error.offlined))
-                        case URLError.timedOut.rawValue:
-                            completion(.failure(NetworkServiceImplementation.Error.timeOut))
-                        default:
-                            completion(.failure(NetworkServiceImplementation.Error.propagated(error)))
-                        }
-                    }
-                }
-            }
-        }
-    }
-    
-    func fetchData(completion: @escaping (Result<NetworkData, NetworkServiceImplementation.Error>) -> Void) {
-        guard let url = URL(string: listPath) else { return }
-        requestService.GET(url: url) { (result: Result<NetworkData, NetworkRequestImplementation.Error>) in
+    func fetchData<T: Codable>(url: URL,
+                               completion: @escaping (Result<T, NetworkServiceImplementation.Error>) -> Void) {
+        requestService.GET(url: url) { (result: Result<T, NetworkRequestImplementation.Error>) in
             switch result {
             case .success(let value):
                 completion(.success(value))
@@ -68,6 +42,8 @@ extension NetworkServiceImplementation: NetworkService {
                     switch error.code {
                     case URLError.notConnectedToInternet.rawValue:
                         completion(.failure(NetworkServiceImplementation.Error.offlined))
+                    case URLError.timedOut.rawValue:
+                        completion(.failure(NetworkServiceImplementation.Error.timeOut))
                     default:
                         completion(.failure(NetworkServiceImplementation.Error.propagated(error)))
                     }

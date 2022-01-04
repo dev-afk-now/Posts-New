@@ -15,18 +15,33 @@ struct PostCellModel {
     var likesCount: Int
     var isShowingFullPreview: Bool
     
-    init(_ model: Post) {
-        self.postId = model.postId
-        self.title = model.title
-        self.text = model.preview_text
+    init(from networkModel: Post) {
+        self.postId = networkModel.postId
+        self.title = networkModel.title
+        self.text = networkModel.preview_text
         self.isShowingFullPreview = false
-        self.likesCount = model.likes_count
-        self.timestamp = model.timeshamp
+        self.likesCount = networkModel.likes_count
+        self.timestamp = networkModel.timeshamp
+    }
+    
+    init(from model: PostPersistent) {
+        self.postId = Int(model.postId)
+        self.title = model.title ?? ""
+        self.text = model.text ?? ""
+        self.isShowingFullPreview = false
+        self.likesCount = Int(model.likesCount)
+        self.timestamp = Int(model.timestamp)
     }
 }
 
 extension PostCellModel {
     var likes: String {
         String(likesCount)
+    }
+}
+
+extension Int {
+    var int32value: Int32 {
+        Int32(self)
     }
 }

@@ -13,8 +13,11 @@ final class FeedConfigurator {
         let view = HomeViewController()
         let networkRequest = NetworkRequestImplementation()
         let networkService = NetworkServiceImplementation(requestService: networkRequest)
+        let repository = PostsRepositoryImplementation(service: networkService)
         let router = FeedRouterImplementation(context: view)
-        let presenter = FeedPresenterImplementation(view: view, service: networkService, router: router)
+        let presenter = FeedPresenterImplementation(view: view,
+                                                    repository: repository,
+                                                    router: router)
         view.presenter = presenter
         let navVC = BaseNavigationController(rootViewController: view)
         return navVC
