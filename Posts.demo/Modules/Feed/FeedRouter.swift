@@ -36,10 +36,8 @@ extension FeedRouterImplementation: FeedRouter {
     }
     
     func showDetailScreen(id: Int) {
-        let module = DetailConfigurator.create(id: id)
-        context.modalPresentationStyle = .overFullScreen
-        context.navigationController?.pushViewController(module,
-                                                         animated: true)
+        let module = DetailConfigurator.create(postId: id)
+        context.navigationController?.pushViewController(module, animated: true)
     }
 }
 

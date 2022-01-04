@@ -25,9 +25,6 @@ final class HashService {
         let filePath = fileUrl.path
         if !fileManager.fileExists(atPath: filePath) {
             fileManager.createFile(atPath: filePath, contents: data)
-            print(" - \(key) created with data: \(data)")
-        } else {
-            print(" - \(key) already exists with data: \(data)")
         }
     }
     
@@ -36,7 +33,7 @@ final class HashService {
         let cachesDirectoryUrl = urls[0]
         let fileUrl = cachesDirectoryUrl.appendingPathComponent(MD5(string: key))
         if fileManager.fileExists(atPath: fileUrl.path) {
-            print(" - \(key) readed from cache")
+            print("readed\(key)")
             return fileUrl
         } else {
             return nil
