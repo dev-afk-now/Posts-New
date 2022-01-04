@@ -64,7 +64,7 @@ final class FeedPresenterImplementation {
     
     // MARK: - Lifecycle -
     
-    init(view: FeedViewControllerProtocol, repository: PostsRepository, router: FeedRouter) {
+    init(view: DynamicFeedViewControllerProtocol, repository: PostsRepository, router: FeedRouter) {
         self.repository = repository
         self.view = view
         self.router = router
