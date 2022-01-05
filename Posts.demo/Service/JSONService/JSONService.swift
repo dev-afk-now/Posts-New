@@ -28,7 +28,6 @@ final class JSONService {
             
             result = try FileManager.saveObjects(list: storage, to: accountStorageName)
         } catch {
-            print(error.localizedDescription)
             return false
         }
         return result

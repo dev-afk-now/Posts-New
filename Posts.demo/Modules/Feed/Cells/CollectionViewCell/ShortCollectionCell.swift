@@ -80,7 +80,6 @@ class ShortCollectionCell: BaseCollectionViewCell {
     
     func configure(postState: PostCellModel) {
         headlineLabel.text = postState.title
-        print(headlineLabel.frame.height)
         likesLabel.text = postState.likes
         timestampLabel.text = Date.dateStringFromTimestamp(postState.timestamp)
     }

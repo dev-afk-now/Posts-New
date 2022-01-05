@@ -289,12 +289,14 @@ extension DynamicFeedViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if presenter.displayMode == .grid {
-            let cell = ShortCollectionCell.cell(in: collectionView, for: indexPath)
+        switch presenter.displayMode {
+        case .grid:
+            let cell = ShortCollectionCell.cell(in: collectionView,
+                                                for: indexPath)
             let postState = presenter.getPostForCell(by: indexPath.row)
             cell.configure(postState: postState)
             return cell
-        } else {
+        default:
             let cell = CollectionCell.cell(in: collectionView, for: indexPath)
             let postState = presenter.getPostForCell(by: indexPath.row)
             cell.configure(postState: postState)
@@ -399,17 +401,12 @@ extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
     }
 }
 
-// MARK: - UISearchBarDelegate -
+// MARK: - SearchBarDelegate -
 
 extension DynamicFeedViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
         search(with: searchText)
-    }
-    
-    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
-        searchBar.text = ""
-        presenter.breakSearch()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
