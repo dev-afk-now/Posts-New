@@ -147,6 +147,13 @@ class DynamicFeedViewController: UIViewController {
         return searchBar
     }()
     
+    private lazy var customTabView: CustomTabView = {
+        let itemSize = CGSize(width: UIScreen.main.bounds.width / 3,
+                              height: 60)
+        let view = CustomTabView(items: [], in: itemSize)
+        return view
+    }()
+    
     // MARK: - Life Cycle -
     
     override func viewDidLoad() {
@@ -211,19 +218,21 @@ class DynamicFeedViewController: UIViewController {
         view.addSubview(pickerView)
         view.addSubview(mockPickerTextField)
         view.addSubview(collectionView)
-        
-        NSLayoutConstraint.activate([
-            
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
-            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor)
-        ])
-        
+        view.addSubview(customTabView)
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            tableView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            customTabView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            customTabView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            customTabView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            customTabView.heightAnchor.constraint(equalToConstant: 60),
+            
+            tableView.topAnchor.constraint(equalTo: customTabView.bottomAnchor),
             tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor)

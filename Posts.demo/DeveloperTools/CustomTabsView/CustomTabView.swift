@@ -7,13 +7,20 @@
 
 import UIKit
 
+protocol CustomTabViewDelegate: AnyObject {
+    func tabItemSelected(_ item: String)
+}
+
 class CustomTabView: UIView {
     
     // MARK: - Private properties -
+    
+    weak var delegate: CustomTabViewDelegate?
     private var items = [String]()
     private var itemSize: CGSize = .zero
     private var selectedItemIndex: Int = 0 {
-        didSet {
+        didSet(newValue) {
+            delegate?.tabItemSelected(items[newValue])
             setSelectionIndicatorPosition()
         }
     }
