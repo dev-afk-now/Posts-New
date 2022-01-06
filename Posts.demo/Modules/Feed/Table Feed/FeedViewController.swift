@@ -12,7 +12,6 @@ protocol FeedViewControllerProtocol: AnyObject {
     func showNoInternetConnectionError()
     func showUnreachableServiceError()
     func setupNoResultsViewIfNeeded(isResultsEmpty: Bool)
-    func updateItemState(at index: Int)
 }
 
 class FeedViewController: UIViewController {

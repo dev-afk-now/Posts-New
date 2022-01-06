@@ -9,6 +9,7 @@ import Foundation
 
 protocol FeedPresenter {
     var postsCount: Int { get }
+    var displayMode: FeedDisplayMode { get }
     func getPostForCell(by index: Int) -> PostCellModel
     func switchPreviewState(by index: Int)
     func viewDidLoad()
@@ -17,11 +18,12 @@ protocol FeedPresenter {
     func searchPostForTitle(_ searchWord: String)
     func breakSearch()
     func logOut()
+    func changeDisplayMode(index: Int)
 }
 
 final class FeedPresenterImplementation {
     
-    weak var view: FeedViewControllerProtocol?
+    weak var view: DynamicFeedViewControllerProtocol?
     
     // MARK: - Private properties -
     
@@ -35,6 +37,7 @@ final class FeedPresenterImplementation {
     private var searchTask: DispatchWorkItem?
     
     private var searchText = ""
+    private var viewDisplayMode: FeedDisplayMode = .list
     
     private var isSearchingForPost: Bool {
         !searchText.isEmpty
@@ -61,7 +64,7 @@ final class FeedPresenterImplementation {
     
     // MARK: - Lifecycle -
     
-    init(view: FeedViewControllerProtocol, repository: PostsRepository, router: FeedRouter) {
+    init(view: DynamicFeedViewControllerProtocol, repository: PostsRepository, router: FeedRouter) {
         self.repository = repository
         self.view = view
         self.router = router
@@ -97,6 +100,16 @@ final class FeedPresenterImplementation {
 // MARK: - FeedPresenterImplementation -
 
 extension FeedPresenterImplementation: FeedPresenter {
+    var displayMode: FeedDisplayMode {
+        return viewDisplayMode
+    }
+    
+    func changeDisplayMode(index: Int) {
+        let state = FeedDisplayMode.allCases[index]
+        viewDisplayMode = state
+        view?.setDisplayMode(state)
+    }
+    
     func logOut() {
         KeychainService.shared.clear()
         router.showLoginScreen()
@@ -121,7 +134,12 @@ extension FeedPresenterImplementation: FeedPresenter {
     
     func switchPreviewState(by index: Int) {
         dataSource[index].isShowingFullPreview.toggle()
-        view?.updateItemState(at: index)
+        switch viewDisplayMode {
+        case .list:
+            view?.updateTableItemState(at: index)
+        case .grid, .gallery:
+            view?.updateCollectionItemState(at: index)
+        }
     }
     
     func viewDidLoad() {
@@ -150,7 +168,6 @@ extension FeedPresenterImplementation: FeedPresenter {
     }
     
     private func executeSearch() {
-        
         if searchText.isEmpty {
             breakSearch()
         }
@@ -193,4 +210,12 @@ extension Date {
         let time = Date(timeIntervalSince1970: TimeInterval(timestamp))
         return formatter.string(from: time)
     }
+}
+
+// MARK: - FeedDisplayMode -
+
+enum FeedDisplayMode: CaseIterable {
+    case list
+    case grid
+    case gallery
 }
