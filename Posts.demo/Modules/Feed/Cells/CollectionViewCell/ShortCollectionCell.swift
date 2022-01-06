@@ -1,55 +1,25 @@
 //
-//  CollectionViewCell.swift
+//  ShortCollectionCell.swift
 //  Posts.demo
 //
-//  Created by devmac on 08.12.2021.
+//  Created by Никита Дубовик on 29.12.2021.
 //
 
 import UIKit
 
-protocol CollectionCellDelegate: AnyObject {
-    func compressDescriptionLabel(_ cell: CollectionCell)
-}
-
-class CollectionCell: FullWidthCollectionViewCell {
-    
-    weak var delegate: CollectionCellDelegate?
+class ShortCollectionCell: BaseCollectionViewCell {
     
     // MARK: - Private properties -
-    
-    private let buttonTitleIfExpanded = "Скрыть"
-    private let buttonTitleIfNotExpanded = "Показать полностью"
-
-    private let collapsedStateNumberOfLines = 2
     
     private lazy var headlineLabel: UILabel = {
         $0.translatesAutoresizingMaskIntoConstraints = false
         $0.textColor = .black
         $0.numberOfLines = 0
         $0.font = .applicatonFont(.bold, size: 20)
-        $0.textAlignment = .left
+        $0.text = "Главная"
+        $0.textAlignment = .center
         return $0
     }(UILabel())
-    
-    private lazy var descriptionLabel: UILabel = {
-        $0.translatesAutoresizingMaskIntoConstraints = false
-        $0.textColor = .black
-        $0.font = .applicatonFont()
-        $0.textAlignment = .left
-        return $0
-    }(UILabel())
-    
-    private lazy var showFullPreviewButton: UIButton = {
-        let button = UIButton()
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.titleLabel?.font = .applicatonFont(size: 14)
-        button.setTitleColor(.white, for: .normal)
-        button.backgroundColor = .black
-        button.addAction(UIAction(handler: { _ in
-            self.showFullDescription()
-        }), for: .touchUpInside)
-        return button
-    }()
     
     private lazy var containerView: UIView = {
         let view = UIView()
@@ -58,10 +28,6 @@ class CollectionCell: FullWidthCollectionViewCell {
         view.layer.cornerRadius = 8
         return view
     }()
-    
-    private func showFullDescription() {
-        self.delegate?.compressDescriptionLabel(self)
-    }
     
     private lazy var heartImageView: UIImageView = {
         let image = UIImage(systemName: "heart.fill")
@@ -114,13 +80,8 @@ class CollectionCell: FullWidthCollectionViewCell {
     
     func configure(postState: PostCellModel) {
         headlineLabel.text = postState.title
-        descriptionLabel.text = postState.text
         likesLabel.text = postState.likes
         timestampLabel.text = Date.dateStringFromTimestamp(postState.timestamp)
-        descriptionLabel.numberOfLines = postState.isShowingFullPreview ? 0 : collapsedStateNumberOfLines
-        showFullPreviewButton.setTitle(postState.isShowingFullPreview ?
-                                            buttonTitleIfExpanded : buttonTitleIfNotExpanded,
-                                            for: .normal)
     }
     
     // MARK: - Private functions -
@@ -138,9 +99,7 @@ class CollectionCell: FullWidthCollectionViewCell {
     
     private func arrangeContainerViewSubviews() {
         containerView.addSubview(headlineLabel)
-        containerView.addSubview(descriptionLabel)
         containerView.addSubview(footerContainer)
-        containerView.addSubview(showFullPreviewButton)
     }
     
     private func layoutContainerView() {
@@ -156,7 +115,7 @@ class CollectionCell: FullWidthCollectionViewCell {
     
     private func setupFooterContainerSubviews() {
         let verticalInset: CGFloat = 2
-        let horizontalSpacing: CGFloat = 21
+        let horizontalSpacing: CGFloat = 10
         footerContainer.addSubview(heartImageView)
         footerContainer.addSubview(likesLabel)
         footerContainer.addSubview(timestampLabel)
@@ -170,39 +129,25 @@ class CollectionCell: FullWidthCollectionViewCell {
             likesLabel.leadingAnchor.constraint(equalTo: heartImageView.trailingAnchor, constant: horizontalSpacing / 2),
             likesLabel.topAnchor.constraint(equalTo: footerContainer.topAnchor, constant: verticalInset),
             likesLabel.bottomAnchor.constraint(equalTo: footerContainer.bottomAnchor, constant: -verticalInset),
-            
-            
             timestampLabel.trailingAnchor.constraint(equalTo: footerContainer.trailingAnchor, constant: -horizontalSpacing),
             timestampLabel.topAnchor.constraint(equalTo: footerContainer.topAnchor, constant: verticalInset),
             timestampLabel.bottomAnchor.constraint(equalTo: footerContainer.bottomAnchor, constant: -verticalInset),
-            timestampLabel.widthAnchor.constraint(equalToConstant: 80)
+                        timestampLabel.widthAnchor.constraint(equalToConstant: 80)
         ])
     }
     
     private func setupSubviewsConstraints() {
-        let horizontalSpacing: CGFloat = 32
-        let verticalInset: CGFloat = 16
+        let horizontalSpacing: CGFloat = 16
+        let verticalInset: CGFloat = 0
         NSLayoutConstraint.activate([
             headlineLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: horizontalSpacing),
             headlineLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -horizontalSpacing),
             headlineLabel.topAnchor.constraint(equalTo: containerView.topAnchor, constant: verticalInset),
-            headlineLabel.bottomAnchor.constraint(equalTo: descriptionLabel.topAnchor, constant: -verticalInset),
 
-            descriptionLabel.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor, constant: verticalInset),
-            descriptionLabel.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: horizontalSpacing),
-            descriptionLabel.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -horizontalSpacing),
-            descriptionLabel.bottomAnchor.constraint(equalTo: footerContainer.topAnchor, constant: -verticalInset),
-            
             footerContainer.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: horizontalSpacing),
             footerContainer.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -horizontalSpacing),
-            footerContainer.topAnchor.constraint(equalTo: descriptionLabel.bottomAnchor, constant: verticalInset),
-            footerContainer.bottomAnchor.constraint(equalTo: showFullPreviewButton.topAnchor, constant: -verticalInset),
-            
-            showFullPreviewButton.leadingAnchor.constraint(equalTo: containerView.leadingAnchor),
-            showFullPreviewButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
-            showFullPreviewButton.topAnchor.constraint(equalTo: footerContainer.bottomAnchor, constant: verticalInset),
-            showFullPreviewButton.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
-            showFullPreviewButton.heightAnchor.constraint(equalToConstant: 40)
+            footerContainer.topAnchor.constraint(equalTo: headlineLabel.bottomAnchor, constant: verticalInset),
+            footerContainer.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -verticalInset),
         ])
         setupFooterContainerSubviews()
     }

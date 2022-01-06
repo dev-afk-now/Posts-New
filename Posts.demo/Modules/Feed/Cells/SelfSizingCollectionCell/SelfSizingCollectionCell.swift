@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FullWidthCollectionViewCell: UICollectionViewCell {
+class FullWidthCollectionViewCell: BaseCollectionViewCell {
     override func systemLayoutSizeFitting(
         _ targetSize: CGSize,
         withHorizontalFittingPriority horizontalFittingPriority: UILayoutPriority,

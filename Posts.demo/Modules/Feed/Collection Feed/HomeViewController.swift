@@ -210,7 +210,7 @@ extension HomeViewController: UICollectionViewDelegate,
         let cell = CollectionCell.cell(in: collectionView, for: indexPath)
         cell.delegate = self
             let postState = presenter.getPostForCell(by: indexPath.row)
-            cell.configure(postState: postState)
+        cell.configure(postState: postState)
             return cell
         
     }

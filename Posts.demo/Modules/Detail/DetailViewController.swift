@@ -123,6 +123,7 @@ extension DetailViewController: DetailViewControllerProtocol {
             let description = item as! TextItem
             descriptionLabel.textColor = .black
             descriptionLabel.text = description.text
+            descriptionLabel.textColor = .black
         case is ImageItem:
             let imageItem = item as! ImageItem
             let imageView = UIImageView()

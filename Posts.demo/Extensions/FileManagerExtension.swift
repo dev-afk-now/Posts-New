@@ -17,7 +17,6 @@ extension FileManager {
             fileURL = fileURL.appendingPathExtension("json")
             let encodedObjects = try JSONEncoder().encode(list)
             try encodedObjects.write(to: fileURL, options: [.atomicWrite])
-            print(fileURL.absoluteString)
             return true
         }
         return false
