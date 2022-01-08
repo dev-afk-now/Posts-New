@@ -38,7 +38,7 @@ final class JSONService {
         return users.first{ $0.username == user.username }
     }
     
-    func getAllUsers() -> [UserForm] {
+    private func getAllUsers() -> [UserForm] {
         var users = [UserForm]()
         let storage: LocalAccountStorage?
         do {

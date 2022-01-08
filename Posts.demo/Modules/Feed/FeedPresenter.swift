@@ -9,14 +9,15 @@ import Foundation
 
 protocol FeedPresenter {
     var postsCount: Int { get }
-    var displayMode: FeedDisplayMode { get }
+    var currentDisplayMode: FeedDisplayMode { get }
+    var displayModeOptionCount: Int { get }
+    var displayModeOptionNames: [String] { get }
     func getPostForCell(by index: Int) -> PostCellModel
     func switchPreviewState(by index: Int)
     func viewDidLoad()
     func showDetail(by index: Int)
     func showFilter()
     func searchPostForTitle(_ searchWord: String)
-    func breakSearch()
     func logOut()
     func changeDisplayMode(index: Int)
 }
@@ -70,6 +71,7 @@ final class FeedPresenterImplementation {
         self.router = router
     }
     
+    // MARK: - Private methods -
     private func sortedItems(_ items: [PostCellModel],
                              by option: FilterViewController.SortOption) -> [PostCellModel] {
         switch option {
@@ -81,7 +83,7 @@ final class FeedPresenterImplementation {
             return items.sorted { $0.likesCount < $1.likesCount }
         case .popularityDescending:
             return items.sorted { $0.likesCount > $1.likesCount }
-        case .none:
+        default:
             return setPostsOrderByDefault(items: items)
         }
     }
@@ -97,10 +99,22 @@ final class FeedPresenterImplementation {
     
 }
 
-// MARK: - FeedPresenterImplementation -
+// MARK: - FeedPresenterImplementation extensions -
 
 extension FeedPresenterImplementation: FeedPresenter {
-    var displayMode: FeedDisplayMode {
+    var displayModeOptionCount: Int {
+        return FeedDisplayMode.allCases.count
+    }
+    
+    var displayModeOptionNames: [String] {
+        let arr =  FeedDisplayMode.allCases.map{
+            String(describing: $0).capitalized
+        }
+        print(arr)
+        return arr
+    }
+    
+    var currentDisplayMode: FeedDisplayMode {
         return viewDisplayMode
     }
     
@@ -112,7 +126,7 @@ extension FeedPresenterImplementation: FeedPresenter {
     
     func logOut() {
         KeychainService.shared.clear()
-        router.showLoginScreen()
+        router.showRegistrationScreen()
     }
     
     func showDetail(by index: Int) {
@@ -169,7 +183,8 @@ extension FeedPresenterImplementation: FeedPresenter {
     
     private func executeSearch() {
         if searchText.isEmpty {
-            breakSearch()
+            breakSearch(of: searchTask)
+            return
         }
         
         if searchText.count < 2 {
@@ -186,8 +201,8 @@ extension FeedPresenterImplementation: FeedPresenter {
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: workItem)
     }
     
-    func breakSearch() {
-        searchTask?.cancel()
+    private func breakSearch(of dispatchWorkItem: DispatchWorkItem?) {
+        dispatchWorkItem?.cancel()
         searchText = ""
         dataSource = postList
         view?.updateView()
@@ -200,15 +215,6 @@ extension FeedPresenterImplementation: FilterViewControllerDelegate {
     func onSortOptionChanged(_ option: FilterViewController.SortOption) {
         selectedSortOption = option
         view?.updateView()
-    }
-}
-
-extension Date {
-    static func stringFromInt(timestamp: Int) -> String {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MM/dd/yyyy"
-        let time = Date(timeIntervalSince1970: TimeInterval(timestamp))
-        return formatter.string(from: time)
     }
 }
 

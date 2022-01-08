@@ -37,7 +37,7 @@ class PostCell: UITableViewCell, TableCellRegistrable, TableCellReusable {
         self.headlineLabel.text = postState.title
         self.descriptionLabel.text = postState.text
         self.likesLabel.text = postState.likes
-        self.timestampLabel.text = Date.stringFromInt(timestamp: postState.timestamp)
+        self.timestampLabel.text = Date.dateStringFromTimestamp(postState.timestamp)
         self.descriptionLabel.numberOfLines = postState.isShowingFullPreview ? 0 : collapsedStateNumberOfLines
         self.showFullPreviewButton.setTitle(
             postState.isShowingFullPreview ? buttonTitleIfExpanded : buttonTitleIfNotExpanded,

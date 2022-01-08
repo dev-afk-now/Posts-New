@@ -19,7 +19,7 @@ class DynamicFeedViewController: UIViewController {
     // MARK: - Private properties -
     
     private let gridLayout = GridLayout()
-    private var galleryLayout = GalleryFlowLayout()
+    private let galleryLayout = GalleryFlowLayout()
     
     private lazy var logOutButton: UIBarButtonItem = {
         let button = UIBarButtonItem(
@@ -70,6 +70,7 @@ class DynamicFeedViewController: UIViewController {
     
     private lazy var pickerView: UIPickerView = {
         var picker = UIPickerView()
+        picker.isHidden = true
         picker.delegate = self
         picker.dataSource = self
         var toolBar = UIToolbar()
@@ -147,10 +148,14 @@ class DynamicFeedViewController: UIViewController {
         return searchBar
     }()
     
-    private lazy var customTabView: CustomTabView = {
+    private lazy var customTabView: CustomPageMenu = {
         let itemSize = CGSize(width: UIScreen.main.bounds.width / 3,
                               height: 60)
-        let view = CustomTabView(items: [], in: itemSize)
+        let view = CustomPageMenu(
+            items: presenter.displayModeOptionNames,
+            with: itemSize)
+        view.delegate = self
+        view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
     
@@ -215,14 +220,13 @@ class DynamicFeedViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        view.addSubview(pickerView)
         view.addSubview(mockPickerTextField)
         view.addSubview(collectionView)
         view.addSubview(customTabView)
         view.addSubview(tableView)
         
         NSLayoutConstraint.activate([
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: customTabView.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
@@ -256,7 +260,7 @@ class DynamicFeedViewController: UIViewController {
         navigationItem.rightBarButtonItem = sortButton
     }
     
-    private func search(with searchText: String) {
+    private func search(for searchText: String) {
         presenter.searchPostForTitle(searchText)
     }
     
@@ -273,6 +277,7 @@ class DynamicFeedViewController: UIViewController {
     }
     
     @objc private func openModeSelector() {
+        pickerView.isHidden = false
         mockPickerTextField.becomeFirstResponder()
     }
     
@@ -298,7 +303,7 @@ extension DynamicFeedViewController: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        switch presenter.displayMode {
+        switch presenter.currentDisplayMode {
         case .grid:
             let cell = ShortCollectionCell.cell(in: collectionView,
                                                 for: indexPath)
@@ -415,7 +420,7 @@ extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
 extension DynamicFeedViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar,
                    textDidChange searchText: String) {
-        search(with: searchText)
+        search(for: searchText)
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
@@ -439,18 +444,24 @@ extension DynamicFeedViewController: PostCellDelegate {
 extension DynamicFeedViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView,
                     numberOfRowsInComponent component: Int) -> Int {
-        return FeedDisplayMode.allCases.count
+        return presenter.displayModeOptionNames.count
     }
 }
 
 extension DynamicFeedViewController: UIPickerViewDataSource {
     func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        1
+        return 1
     }
-    
+
     func pickerView(_ pickerView: UIPickerView,
                     titleForRow row: Int,
                     forComponent component: Int) -> String? {
-        String(describing: FeedDisplayMode.allCases[row])
+            presenter.displayModeOptionNames[row]
+    }
+}
+
+extension DynamicFeedViewController: CustomPageMenuDelegate {
+    func menuItemSelected(at index: Int) {
+        presenter.changeDisplayMode(index: index)
     }
 }

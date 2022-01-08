@@ -1,5 +1,5 @@
 //
-//  TabBarCollectionCell.swift
+//  PageMenuCell.swift
 //  CustomMenuBar
 //
 //  Created by devmac on 05.01.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class TabBarCollectionCell: UICollectionViewCell {
+class PageMenuCell: BaseCollectionViewCell {
     
     // MARK: - Private properties -
     private var isInSelectedState = false
@@ -16,7 +16,7 @@ class TabBarCollectionCell: UICollectionViewCell {
         let label = UILabel()
         label.textColor = .gray
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.font = UIFont(name: "Helvetica Neue Bold", size: 18)
+        label.font = .applicatonFont(.bold, size: 18)
         label.textAlignment = .center
         return label
     }()
@@ -43,12 +43,18 @@ class TabBarCollectionCell: UICollectionViewCell {
     
     // MARK: - Private methods -
     private func setupConstraints() {
+        let verticalInset: CGFloat = self.bounds.height / 5
+        let horizontalInset: CGFloat = self.bounds.height / 5
         self.addSubview(titleLabel)
         NSLayoutConstraint.activate([
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 16),
-            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor, constant: -16),
-            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor,
+                                            constant: verticalInset),
+            titleLabel.leadingAnchor.constraint(equalTo: self.leadingAnchor,
+                                                constant: horizontalInset),
+            titleLabel.trailingAnchor.constraint(equalTo: self.trailingAnchor,
+                                                 constant: -horizontalInset),
+            titleLabel.bottomAnchor.constraint(equalTo: self.bottomAnchor,
+                                               constant: -verticalInset),
             titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             titleLabel.centerYAnchor.constraint(equalTo: self.centerYAnchor)
         ])

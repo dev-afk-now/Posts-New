@@ -7,21 +7,22 @@
 
 import UIKit
 
-protocol CustomTabViewDelegate: AnyObject {
-    func tabItemSelected(_ item: String)
+protocol CustomPageMenuDelegate: AnyObject {
+    func menuItemSelected(at index: Int)
 }
 
-class CustomTabView: UIView {
+class CustomPageMenu: UIView {
     
     // MARK: - Private properties -
     
-    weak var delegate: CustomTabViewDelegate?
+    weak var delegate: CustomPageMenuDelegate?
     private var items = [String]()
     private var itemSize: CGSize = .zero
     private var selectedItemIndex: Int = 0 {
-        didSet(newValue) {
-            delegate?.tabItemSelected(items[newValue])
+        didSet {
+            delegate?.menuItemSelected(at: selectedItemIndex)
             setSelectionIndicatorPosition()
+            collectionView.reloadData()
         }
     }
     private let selectionIndicatorHeight: CGFloat = 2
@@ -41,16 +42,15 @@ class CustomTabView: UIView {
             height: itemSize.height
         )
         flowLayout.minimumLineSpacing = 0
-        let view = UICollectionView(frame: .zero,
+        let collection = UICollectionView(frame: .zero,
                                     collectionViewLayout: flowLayout)
-        view.delegate = self
-        view.dataSource = self
-        view.showsHorizontalScrollIndicator = false
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.register(TabBarCollectionCell.self,
-                      forCellWithReuseIdentifier: "TabBarCell")
-        view.backgroundColor = .white
-        return view
+        collection.delegate = self
+        collection.dataSource = self
+        collection.showsHorizontalScrollIndicator = false
+        collection.translatesAutoresizingMaskIntoConstraints = false
+        PageMenuCell.register(in: collection)
+        collection.backgroundColor = .white
+        return collection
     }()
     
     private lazy var selectionIndicatorBar: UIView = {
@@ -64,7 +64,7 @@ class CustomTabView: UIView {
     
     // MARK: - Init -
     
-    init(items: [String], in itemSize: CGSize) {
+    init(items: [String], with itemSize: CGSize) {
         super.init(frame: .zero)
         self.items = items
         self.itemSize = itemSize
@@ -125,19 +125,21 @@ class CustomTabView: UIView {
     }
     
     private func setSelectionIndicatorPosition() {
-        UIView.animate(withDuration: 0.05) { [unowned self] in
+        UIView.animate(withDuration: 0.25) { [unowned self] in
             guard selectionIndicator != nil else {
                 return
             }
             let layoutAttributes = collectionView.layoutAttributesForItem(at: IndexPath(
                 row: selectedItemIndex,
-                section: .zero)
-            )
-            let center = collectionView.convert(layoutAttributes?.center ?? CGPoint(x: 0, y: 0),
-                                                to: self)
+                section: .zero
+            ))
+            let center = collectionView.convert(
+                layoutAttributes?.center ?? CGPoint(x: 0, y: 0),
+                to: self)
             
-            selectionIndicator.center = CGPoint(x: center.x,
-                                                y: collectionView.frame.maxY - selectionIndicatorHeight / 2)
+            selectionIndicator.center = CGPoint(
+                x: center.x,
+                y: collectionView.frame.maxY - selectionIndicatorHeight / 2)
             layoutIfNeeded()
         }
     }
@@ -145,7 +147,7 @@ class CustomTabView: UIView {
 
 // MARK: - CollectionViewDelegate -
 
-extension CustomTabView: UICollectionViewDelegate,
+extension CustomPageMenu: UICollectionViewDelegate,
                          UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
@@ -156,12 +158,13 @@ extension CustomTabView: UICollectionViewDelegate,
         setSelectionIndicatorPosition()
     }
     
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
+        1
+    }
+    
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "TabBarCell",
-                                                            for: indexPath) as? TabBarCollectionCell else {
-            return UICollectionViewCell()
-        }
+        let cell = PageMenuCell.cell(in: collectionView, for: indexPath)
         cell.setTitle(items[indexPath.row])
         cell.switchSelectedState(selectedItemIndex == indexPath.row)
         return cell
@@ -169,21 +172,17 @@ extension CustomTabView: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        guard let cell = collectionView.cellForItem(at: indexPath) as? TabBarCollectionCell else {
-            return
-        }
-        guard let cellToRemove = collectionView.cellForItem(at: IndexPath(
-            row: selectedItemIndex,
-            section: .zero)) as? TabBarCollectionCell else {
-                return
-            }
+        let cellToRemove = PageMenuCell.cell(in: collectionView,
+                                                     for: IndexPath(
+                                                        row: selectedItemIndex,
+                                                        section: indexPath.section))
+        cellToRemove.switchSelectedState(false)
+        let selectedCell = PageMenuCell.cell(in: collectionView,
+                                             for: indexPath)
+        selectedCell.switchSelectedState(true)
+        selectedItemIndex = indexPath.row
         collectionView.scrollToItem(at: indexPath,
                                     at: .centeredHorizontally,
                                     animated: true)
-        collectionView.performBatchUpdates {
-            cellToRemove.switchSelectedState(false)
-            cell.switchSelectedState(true)
-            selectedItemIndex = indexPath.row
-        }
     }
 }

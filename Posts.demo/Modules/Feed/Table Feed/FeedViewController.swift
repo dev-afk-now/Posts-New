@@ -196,7 +196,6 @@ extension FeedViewController: UISearchBarDelegate {
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         searchBar.text = ""
-        presenter.breakSearch()
     }
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {

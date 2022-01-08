@@ -10,7 +10,7 @@ import UIKit
 class GridLayout: UICollectionViewFlowLayout {
     override init() {
         super.init()
-        let horizontalInset: CGFloat = 16
+        let horizontalInset: CGFloat = 5
         let verticalInset: CGFloat = 16
         let numberOfColumns: CGFloat = 2
         let screenWidth = UIScreen.main.bounds.width
@@ -19,7 +19,7 @@ class GridLayout: UICollectionViewFlowLayout {
                                          bottom: verticalInset,
                                          right: horizontalInset)
         let insetsSum = self.sectionInset.left + self.sectionInset.right
-        let widthForItem = (screenWidth / numberOfColumns) - insetsSum
+        let widthForItem = screenWidth / numberOfColumns - insetsSum
         self.itemSize = CGSize(
             width: widthForItem,
             height: 200

@@ -10,7 +10,7 @@ import UIKit
 protocol FeedRouter {
     func showFilterScreen(_ delegate: FilterViewControllerDelegate)
     func showDetailScreen(id: Int)
-    func showLoginScreen()
+    func showRegistrationScreen()
 }
 
 final class FeedRouterImplementation {
@@ -22,7 +22,7 @@ final class FeedRouterImplementation {
 }
 
 extension FeedRouterImplementation: FeedRouter {
-    func showLoginScreen() {
+    func showRegistrationScreen() {
         let module = SignUpConfigurator.create()
         UIViewController.swapCurrentViewController(with: module,
                                                    isReversed: true)
