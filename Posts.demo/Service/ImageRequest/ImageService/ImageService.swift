@@ -9,7 +9,6 @@ import UIKit
 
 protocol ImageService {
     func fetchImages(_ urls: [URL?], completion: @escaping([URL?]) -> Void)
-    
 }
 
 final class ImageServiceImplementation {

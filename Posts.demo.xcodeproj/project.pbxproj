@@ -14,6 +14,8 @@
 		41B3ABB12784DF2600B29361 /* BaseCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 41B3ABB02784DF2600B29361 /* BaseCollectionViewCell.swift */; };
 		D50CD47E2771F662008BF8AB /* SortOption.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47D2771F662008BF8AB /* SortOption.swift */; };
 		D50CD48027720352008BF8AB /* ViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50CD47F27720352008BF8AB /* ViewItem.swift */; };
+		D50EB15227872DC4009907FE /* CustomTabBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50EB15027872DC4009907FE /* CustomTabBar.swift */; };
+		D50EB15327872DC4009907FE /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = D50EB15127872DC4009907FE /* TabBarItem.swift */; };
 		D51A1AFA277486A700E29EA8 /* DetailRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A1AF9277486A700E29EA8 /* DetailRepository.swift */; };
 		D51A1AFD2774908D00E29EA8 /* DetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A1AFC2774908D00E29EA8 /* DetailModel.swift */; };
 		D51A1B0C2774B05A00E29EA8 /* DetailPersistentModel+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = D51A1B0A2774B05A00E29EA8 /* DetailPersistentModel+CoreDataClass.swift */; };
@@ -94,6 +96,8 @@
 		41B3ABB02784DF2600B29361 /* BaseCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseCollectionViewCell.swift; sourceTree = "<group>"; };
 		D50CD47D2771F662008BF8AB /* SortOption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortOption.swift; sourceTree = "<group>"; };
 		D50CD47F27720352008BF8AB /* ViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewItem.swift; sourceTree = "<group>"; };
+		D50EB15027872DC4009907FE /* CustomTabBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTabBar.swift; sourceTree = "<group>"; };
+		D50EB15127872DC4009907FE /* TabBarItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		D51A1AF9277486A700E29EA8 /* DetailRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRepository.swift; sourceTree = "<group>"; };
 		D51A1AFC2774908D00E29EA8 /* DetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailModel.swift; sourceTree = "<group>"; };
 		D51A1B0A2774B05A00E29EA8 /* DetailPersistentModel+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DetailPersistentModel+CoreDataClass.swift"; sourceTree = "<group>"; };
@@ -186,6 +190,23 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D50EB14E27872D74009907FE /* DeveloperTools */ = {
+			isa = PBXGroup;
+			children = (
+				D50EB14F27872DC4009907FE /* CustomTabsView */,
+			);
+			path = DeveloperTools;
+			sourceTree = "<group>";
+		};
+		D50EB14F27872DC4009907FE /* CustomTabsView */ = {
+			isa = PBXGroup;
+			children = (
+				D50EB15027872DC4009907FE /* CustomTabBar.swift */,
+				D50EB15127872DC4009907FE /* TabBarItem.swift */,
+			);
+			path = CustomTabsView;
 			sourceTree = "<group>";
 		};
 		D51A1AF82774865700E29EA8 /* DetailRepository */ = {
@@ -532,6 +553,7 @@
 		D7651EA427102B10007374FE /* Posts.demo */ = {
 			isa = PBXGroup;
 			children = (
+				D50EB14E27872D74009907FE /* DeveloperTools */,
 				D5738C45276895E400535AE6 /* Extensions */,
 				D7651EA527102B10007374FE /* AppDelegate.swift */,
 				D72A1F9327147ACC0016FB27 /* Service */,
@@ -687,12 +709,14 @@
 				D54BE3FD2760FAC10076C370 /* HomeViewController.swift in Sources */,
 				D523F22D2771D741004DBADF /* ConcretePost.swift in Sources */,
 				D5F50EB32773651F00F8609F /* TableCellRegistrable.swift in Sources */,
+				D50EB15327872DC4009907FE /* TabBarItem.swift in Sources */,
 				D523F2262771D6E8004DBADF /* String+isAlphanumeric.swift in Sources */,
 				D783D1DE271F04B200E09F06 /* FilterRouter.swift in Sources */,
 				D72A1F8227141D3A0016FB27 /* FilterViewController.swift in Sources */,
 				D52C70B4276CC2CC00A65202 /* PostsRepository.swift in Sources */,
 				D52C70AD276C93DF00A65202 /* PostPersistent.xcdatamodeld in Sources */,
 				D75D5AE0274FCC9800B71B61 /* HashService.swift in Sources */,
+				D50EB15227872DC4009907FE /* CustomTabBar.swift in Sources */,
 				D51A1B0C2774B05A00E29EA8 /* DetailPersistentModel+CoreDataClass.swift in Sources */,
 				D51EA41A277EF73E00018AC7 /* DetailPersistentAdapter.swift in Sources */,
 				41B3ABB12784DF2600B29361 /* BaseCollectionViewCell.swift in Sources */,
