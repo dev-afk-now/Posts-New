@@ -17,12 +17,10 @@ class CustomTabBar: UIView {
     
     weak var delegate: CustomTabBarDelegate?
     private var items = [String]()
-    private var itemSize: CGSize = .zero
+    private var itemSize: CGSize = CGSize(width: 100, height: 50)
     private var selectedItemIndex: Int = 0 {
         didSet {
-            delegate?.menuItemSelected(at: selectedItemIndex)
-            setSelectionIndicatorPosition()
-            collectionView.reloadData()
+            handleItemSelection()
         }
     }
     private let selectionIndicatorHeight: CGFloat = 2
@@ -30,7 +28,6 @@ class CustomTabBar: UIView {
     private lazy var containerView: UIView = {
         var view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.clipsToBounds = true
         return view
     }()
     
@@ -113,19 +110,15 @@ class CustomTabBar: UIView {
     private func setupSelectionIndicator() {
         selectionIndicator = UIView(frame: CGRect(x: 0,
                                                   y: collectionView.frame.maxY,
-                                                  width: widthForItem(),
+                                                  width: itemSize.width,
                                                   height: selectionIndicatorHeight))
         containerView.addSubview(selectionIndicator)
         selectionIndicator.translatesAutoresizingMaskIntoConstraints = false
         selectionIndicator.backgroundColor = .black
     }
     
-    private func widthForItem() -> CGFloat {
-        return itemSize.width
-    }
-    
     private func setSelectionIndicatorPosition() {
-        UIView.animate(withDuration: 0.25) { [unowned self] in
+        UIView.animate(withDuration: 0.15) { [unowned self] in
             guard selectionIndicator != nil else {
                 return
             }
@@ -142,6 +135,12 @@ class CustomTabBar: UIView {
                 y: collectionView.frame.maxY - selectionIndicatorHeight / 2)
             layoutIfNeeded()
         }
+    }
+    
+    private func handleItemSelection() {
+        delegate?.menuItemSelected(at: selectedItemIndex)
+        setSelectionIndicatorPosition()
+        collectionView.reloadData()
     }
 }
 
