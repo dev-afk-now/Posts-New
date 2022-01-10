@@ -125,7 +125,7 @@ class CustomPageMenu: UIView {
     }
     
     private func setSelectionIndicatorPosition() {
-        UIView.animate(withDuration: 0.25) { [unowned self] in
+        UIView.animate(withDuration: 0.15) { [unowned self] in
             guard selectionIndicator != nil else {
                 return
             }

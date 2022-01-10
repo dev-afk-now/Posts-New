@@ -32,20 +32,6 @@ class DynamicFeedViewController: UIViewController {
         return button
     }()
     
-    private lazy var displayModeButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "rectangle.on.rectangle"),
-                                     style: .plain,
-                                     target: self,
-                                     action: #selector(openModeSelector))
-        button.tintColor = .white
-        return button
-    }()
-    
-    private lazy var mockPickerTextField: UITextField = {
-        let field = UITextField()
-        return field
-    }()
-    
     private lazy var tableView: UITableView = {
         let tableView = UITableView()
         tableView.backgroundColor = .red
@@ -66,37 +52,6 @@ class DynamicFeedViewController: UIViewController {
         collection.keyboardDismissMode = .interactive
         collection.translatesAutoresizingMaskIntoConstraints = false
         return collection
-    }()
-    
-    private lazy var pickerView: UIPickerView = {
-        var picker = UIPickerView()
-        picker.isHidden = true
-        picker.delegate = self
-        picker.dataSource = self
-        var toolBar = UIToolbar()
-        toolBar.barStyle = .default
-        toolBar.isTranslucent = true
-        toolBar.sizeToFit()
-
-
-        let doneButton = UIBarButtonItem(title: "Done",
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(doneModeSelector))
-        let spaceButton = UIBarButtonItem(barButtonSystemItem: .flexibleSpace,
-                                          target: nil,
-                                          action: nil)
-        let cancelButton = UIBarButtonItem(title: "Cancel",
-                                           style: .plain,
-                                           target: self,
-                                           action: #selector(cancelModeSelector))
-
-        toolBar.setItems([cancelButton, spaceButton, doneButton], animated: true)
-        toolBar.isUserInteractionEnabled = true
-
-        mockPickerTextField.inputView = picker
-        mockPickerTextField.inputAccessoryView = toolBar
-        return picker
     }()
     
     private lazy var bottomGradientView: UIView = {
@@ -220,7 +175,6 @@ class DynamicFeedViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        view.addSubview(mockPickerTextField)
         view.addSubview(collectionView)
         view.addSubview(customTabView)
         view.addSubview(tableView)
@@ -255,7 +209,7 @@ class DynamicFeedViewController: UIViewController {
     }
     
     private func setupNavigationBar() {
-        navigationItem.leftBarButtonItems = [logOutButton, displayModeButton]
+        navigationItem.leftBarButtonItem = logOutButton
         navigationItem.titleView = titleLabel
         navigationItem.rightBarButtonItem = sortButton
     }
@@ -265,21 +219,6 @@ class DynamicFeedViewController: UIViewController {
     }
     
     // MARK: - Actions -
-    
-    @objc private func cancelModeSelector() {
-        mockPickerTextField.resignFirstResponder()
-    }
-    
-    @objc private func doneModeSelector() {
-        let selectedIndex = pickerView.selectedRow(inComponent: 0)
-        presenter.changeDisplayMode(index: selectedIndex)
-        mockPickerTextField.resignFirstResponder()
-    }
-    
-    @objc private func openModeSelector() {
-        pickerView.isHidden = false
-        mockPickerTextField.becomeFirstResponder()
-    }
     
     @objc private func logOutButtonTapped() {
         presenter.logOut()
@@ -385,9 +324,14 @@ extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
     
     func showUnreachableServiceError() {}
     
+    private func reloadCollection() {
+        self.collectionView.reloadData()
+        self.collectionView.setContentOffset(.zero, animated: true)
+    }
+    
     func updateView() {
         DispatchQueue.main.async { [unowned self] in
-            self.collectionView.reloadData()
+            reloadCollection()
             self.tableView.reloadData()
             self.collectionView.collectionViewLayout.invalidateLayout()
         }
@@ -409,7 +353,7 @@ extension DynamicFeedViewController: DynamicFeedViewControllerProtocol {
             collectionView.isHidden = false
             collectionView.collectionViewLayout =
                 (mode == .grid ? gridLayout : galleryLayout)
-            collectionView.reloadData()
+            reloadCollection()
             collectionView.collectionViewLayout.invalidateLayout()
         }
     }
@@ -439,26 +383,7 @@ extension DynamicFeedViewController: PostCellDelegate {
     }
 }
 
-// MARK: - PickerView Delegate -
-
-extension DynamicFeedViewController: UIPickerViewDelegate {
-    func pickerView(_ pickerView: UIPickerView,
-                    numberOfRowsInComponent component: Int) -> Int {
-        return presenter.displayModeOptionNames.count
-    }
-}
-
-extension DynamicFeedViewController: UIPickerViewDataSource {
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView,
-                    titleForRow row: Int,
-                    forComponent component: Int) -> String? {
-            presenter.displayModeOptionNames[row]
-    }
-}
+// MARK: - CustomPageMenuDelegate -
 
 extension DynamicFeedViewController: CustomPageMenuDelegate {
     func menuItemSelected(at index: Int) {
