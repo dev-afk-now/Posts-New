@@ -1,5 +1,5 @@
 //
-//  CustomBarView.swift
+//  CustomBar.swift
 //  CustomMenuBar
 //
 //  Created by devmac on 05.01.2022.
@@ -7,15 +7,15 @@
 
 import UIKit
 
-protocol CustomPageMenuDelegate: AnyObject {
+protocol CustomTabBarDelegate: AnyObject {
     func menuItemSelected(at index: Int)
 }
 
-class CustomPageMenu: UIView {
+class CustomTabBar: UIView {
     
     // MARK: - Private properties -
     
-    weak var delegate: CustomPageMenuDelegate?
+    weak var delegate: CustomTabBarDelegate?
     private var items = [String]()
     private var itemSize: CGSize = .zero
     private var selectedItemIndex: Int = 0 {
@@ -48,7 +48,7 @@ class CustomPageMenu: UIView {
         collection.dataSource = self
         collection.showsHorizontalScrollIndicator = false
         collection.translatesAutoresizingMaskIntoConstraints = false
-        PageMenuCell.register(in: collection)
+        TabBarItem.register(in: collection)
         collection.backgroundColor = .white
         return collection
     }()
@@ -147,7 +147,7 @@ class CustomPageMenu: UIView {
 
 // MARK: - CollectionViewDelegate -
 
-extension CustomPageMenu: UICollectionViewDelegate,
+extension CustomTabBar: UICollectionViewDelegate,
                          UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView,
                         numberOfItemsInSection section: Int) -> Int {
@@ -164,7 +164,7 @@ extension CustomPageMenu: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = PageMenuCell.cell(in: collectionView, for: indexPath)
+        let cell = TabBarItem.cell(in: collectionView, for: indexPath)
         cell.setTitle(items[indexPath.row])
         cell.switchSelectedState(selectedItemIndex == indexPath.row)
         return cell
@@ -172,12 +172,12 @@ extension CustomPageMenu: UICollectionViewDelegate,
     
     func collectionView(_ collectionView: UICollectionView,
                         didSelectItemAt indexPath: IndexPath) {
-        let cellToRemove = PageMenuCell.cell(in: collectionView,
+        let cellToRemove = TabBarItem.cell(in: collectionView,
                                                      for: IndexPath(
                                                         row: selectedItemIndex,
                                                         section: indexPath.section))
         cellToRemove.switchSelectedState(false)
-        let selectedCell = PageMenuCell.cell(in: collectionView,
+        let selectedCell = TabBarItem.cell(in: collectionView,
                                              for: indexPath)
         selectedCell.switchSelectedState(true)
         selectedItemIndex = indexPath.row

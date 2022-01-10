@@ -43,8 +43,13 @@ class SignUpViewController: UIViewController {
     private lazy var loginTextField: FormTextField = {
         let field = FormTextField(type: .username)
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.backgroundColor = .lightGray
-        field.tintColor = .black
+        field.backgroundColor = .white
+        field.attributedPlaceholder = NSAttributedString(
+            string: "Имя пользователя",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+        )
+        field.textColor = .black
+        field.configureBorder(width: 0.5, with: .lightGray)
         field.delegate = self
         return field
     }()
@@ -52,8 +57,13 @@ class SignUpViewController: UIViewController {
     private lazy var passwordTextField: FormTextField = {
         let field = FormTextField(type: .password)
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.backgroundColor = .lightGray
-        field.tintColor = .black
+        field.backgroundColor = .white
+        field.attributedPlaceholder = NSAttributedString(
+            string: "Пароль",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+        )
+        field.textColor = .black
+        field.configureBorder(width: 0.5, with: .lightGray)
         field.delegate = self
         return field
     }()
@@ -61,8 +71,13 @@ class SignUpViewController: UIViewController {
     private lazy var repeatPasswordTextField: FormTextField = {
         let field = FormTextField(type: .confirmPassword)
         field.translatesAutoresizingMaskIntoConstraints = false
-        field.backgroundColor = .lightGray
-        field.tintColor = .black
+        field.backgroundColor = .white
+        field.attributedPlaceholder = NSAttributedString(
+            string: "Подтвердите пароль",
+            attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray]
+        )
+        field.textColor = .black
+        field.configureBorder(width: 0.5, with: .lightGray)
         field.delegate = self
         return field
     }()

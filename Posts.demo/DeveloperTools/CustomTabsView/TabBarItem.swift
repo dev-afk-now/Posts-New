@@ -1,5 +1,5 @@
 //
-//  PageMenuCell.swift
+//  TabBarItem.swift
 //  CustomMenuBar
 //
 //  Created by devmac on 05.01.2022.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class PageMenuCell: BaseCollectionViewCell {
+class TabBarItem: BaseCollectionViewCell {
     
     // MARK: - Private properties -
     private var isInSelectedState = false

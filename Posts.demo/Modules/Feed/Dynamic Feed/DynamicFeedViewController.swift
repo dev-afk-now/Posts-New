@@ -148,10 +148,10 @@ class DynamicFeedViewController: UIViewController {
         return searchBar
     }()
     
-    private lazy var customTabView: CustomPageMenu = {
+    private lazy var customTabView: CustomTabBar = {
         let itemSize = CGSize(width: UIScreen.main.bounds.width / 3,
                               height: 60)
-        let view = CustomPageMenu(
+        let view = CustomTabBar(
             items: presenter.displayModeOptionNames,
             with: itemSize)
         view.delegate = self
@@ -444,7 +444,7 @@ extension DynamicFeedViewController: PostCellDelegate {
 extension DynamicFeedViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView,
                     numberOfRowsInComponent component: Int) -> Int {
-        return presenter.displayModeOptionNames.count
+        return presenter.displayModeOptionCount
     }
 }
 
@@ -460,7 +460,7 @@ extension DynamicFeedViewController: UIPickerViewDataSource {
     }
 }
 
-extension DynamicFeedViewController: CustomPageMenuDelegate {
+extension DynamicFeedViewController: CustomTabBarDelegate {
     func menuItemSelected(at index: Int) {
         presenter.changeDisplayMode(index: index)
     }
